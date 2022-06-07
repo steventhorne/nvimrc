@@ -19,18 +19,17 @@ vim.cmd([[
 return packer.startup(function()
   use 'wbthomason/packer.nvim'
 
-  require('plugins/ale').load(use)
-  require('plugins/autopairs').load(use)
+  require('plugins/code-dark').load(use)
   require('plugins/comment').load(use)
+  require('plugins/copilot').load(use)
+  require('plugins/fugitive').load(use)
   require('plugins/gitsigns').load(use)
-  require('plugins/indent-blankline').load(use)
+  require('plugins/lightspeed').load(use)
+  require('plugins/lsp').load(use)
+  require('plugins/lualine').load(use)
+  require('plugins/move').load(use)
   require('plugins/nerdtree').load(use)
   require('plugins/telescope').load(use)
-  require('plugins/vim-code-dark').load(use)
-  require('plugins/vim-fugitive').load(use)
-  require('plugins/vim-move').load(use)
-  require('plugins/vim-surround').load(use)
-  --require('plugins/lsp').load(use)
 
   if packer_bootstrap then
     packer.sync()

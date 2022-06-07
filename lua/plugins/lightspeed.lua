@@ -1,7 +1,6 @@
 local function load(use)
   use {
-    'tpope/vim-surround',
-    ft = {'html', 'xml'}
+    'ggandor/lightspeed.nvim',
   }
 end
 

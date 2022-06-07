@@ -53,6 +53,7 @@ vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
 vim.wo.number = true
-vim.wo.signcolumn = 'auto'
+vim.wo.signcolumn = 'yes'
 vim.wo.wrap = false
+vim.go.startofline = true
 

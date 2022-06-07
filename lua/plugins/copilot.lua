@@ -1,9 +1,10 @@
 local function load(use)
   use {
-    'lukas-reineke/indent-blankline.nvim'
+    'github/copilot.vim'
   }
 end
 
 return {
   load = load
 }
+
