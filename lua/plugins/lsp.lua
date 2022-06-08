@@ -33,7 +33,14 @@ local function load(use)
             fallback()
           end
         end
-      end
+      end,
+      ["<S-Tab>"] = function(fallback)
+        if cmp.visible() then
+            cmp.select_prev_item()
+            return
+        end
+        fallback()
+      end,
     }),
     snippet = {
     },
