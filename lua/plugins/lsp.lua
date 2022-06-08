@@ -18,12 +18,13 @@ local function load(use)
   vim.g.copilot_tab_fallback = ''
 
   cmp.setup({
-    mapping = {
+    mapping = cmp.mapping.preset.insert({
+      ['<C-e>'] = cmp.mapping.abort(),
       ["<Tab>"] = function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
-        elseif vim.fn["vsnip#available"](1) > 0 then
-          -- handle vsnip
+        -- elseif vim.fn["vsnip#available"](1) > 0 then
+        --   handle vsnip
         else
           local copilot_keys = vim.fn["copilot#Accept"]()
           if copilot_keys ~= "" then
@@ -33,7 +34,7 @@ local function load(use)
           end
         end
       end
-    },
+    }),
     snippet = {
     },
     window = {
