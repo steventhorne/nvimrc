@@ -18,7 +18,7 @@ vim.o.laststatus = 2
 vim.o.ruler = true
 vim.o.wildmenu = true
 
-vim.o.scrolloff = true
+vim.o.scrolloff = 2
 vim.o.sidescrolloff = 5
 
 vim.cmd([[ set display+=lastline ]])
@@ -56,4 +56,6 @@ vim.wo.number = true
 vim.wo.signcolumn = 'yes'
 vim.wo.wrap = false
 vim.go.startofline = true
+
+vim.cmd([[ let g:rust_recommended_style=0 ]])
 
