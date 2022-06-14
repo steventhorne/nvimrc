@@ -6,8 +6,8 @@ local function configure()
     args = { vim.fn.stdpath('data') .. '/dap/vscode-node-debug2/out/src/nodeDebug.js' },
   }
 
-  vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
-  vim.fn.sign_define('DapBreakpointCondition', {text='⛔', texthl='', linehl='', numhl=''})
+  vim.fn.sign_define('DapBreakpoint', {text='', texthl='DiagnosticError', linehl='', numhl=''})
+  vim.fn.sign_define('DapBreakpointCondition', {text='', texthl='DiagnosticError', linehl='', numhl=''})
 
   local map_key = require('utils').map_key
   map_key('n', '<F5>', '<cmd>lua require\'dap\'.continue()<cr>')

@@ -1,3 +1,15 @@
+local function copilot_keys()
+  local suggestion = vim.fn["copilot#GetDisplayedSuggestion"]()
+  if suggestion.text ~= '' then
+    local copilot_keys = vim.fn["copilot#Accept"]()
+    if copilot_keys ~= '' then
+      vim.api.nvim_feedkeys(copilot_keys, "i", true)
+      return true
+    end
+  end
+  return false
+end
+
 local function load(use)
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/cmp-nvim-lsp'
@@ -10,15 +22,11 @@ local function load(use)
   local lspconfig = require('lspconfig')
   local cmp = require('cmp')
 
-  local function custom_on_attach(client)
-    print('Attaching to ' .. client.name)
-  end
-
   vim.g.copilot_no_tab_map = true
   vim.g.copilot_assume_mapped = true
   vim.g.copilot_tab_fallback = ''
 
-  cmp.setup({
+  local cmp_config = {
     mapping = cmp.mapping.preset.insert({
       ['C-Space'] = cmp.mapping.complete(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
@@ -26,17 +34,13 @@ local function load(use)
       ["<Tab>"] = function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
+        elseif copilot_keys() then
         elseif vim.fn["vsnip#available"](1) > 0 then
           if vim.fn["vsnip#jumpable"](1) > 0 then
             vim.fn.feedkeys(string.format('%c%c%c(vsnip-jump-next)', 0x80, 253, 83))
           end
         else
-          local copilot_keys = vim.fn["copilot#Accept"]()
-          if copilot_keys ~= "" then
-            vim.api.nvim_feedkeys(copilot_keys, "i", true)
-          else
-            fallback()
-          end
+          fallback()
         end
       end,
       ["<S-Tab>"] = function(fallback)
@@ -64,7 +68,9 @@ local function load(use)
     }, {
       { name = 'buffer' },
     })
-  })
+  }
+
+  cmp.setup(cmp_config);
 
   cmp.setup.cmdline('/', {
     mapping = cmp.mapping.preset.cmdline(),
@@ -82,7 +88,7 @@ local function load(use)
     })
   })
 
-  local opts = {
+  local rust_tools_config = {
     tools = {
       autoSetHints = true,
       hover_with_actions = true,
@@ -103,13 +109,18 @@ local function load(use)
     },
   }
 
-  require('rust-tools').setup(opts)
+  require('rust-tools').setup(rust_tools_config)
 
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   local servers = { 'tsserver' }
   lspconfig.tsserver.setup {
     capabilities = capabilities,
   }
+
+  vim.fn.sign_define('DiagnosticSignError', {text='', texthl='DiagnosticError', linehl='', numhl=''})
+  vim.fn.sign_define('DiagnosticSignWarn', {text='', texthl='DiagnosticWarn', linehl='', numhl=''})
+  vim.fn.sign_define('DiagnosticSignHint', {text='', texthl='DiagnosticHint', linehl='', numhl=''})
+  vim.fn.sign_define('DiagnosticSignInfo', {text='', texthl='DiagnosticInfo', linehl='', numhl=''})
 
   local map_key = require('utils').map_key
   map_key('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>')
