@@ -26,7 +26,7 @@ local function load(use)
   vim.g.copilot_assume_mapped = true
   vim.g.copilot_tab_fallback = ''
 
-  local cmp_config = {
+  local cmp_opts = {
     mapping = cmp.mapping.preset.insert({
       ['C-Space'] = cmp.mapping.complete(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
@@ -70,7 +70,7 @@ local function load(use)
     })
   }
 
-  cmp.setup(cmp_config);
+  cmp.setup(cmp_opts);
 
   cmp.setup.cmdline('/', {
     mapping = cmp.mapping.preset.cmdline(),
@@ -88,7 +88,7 @@ local function load(use)
     })
   })
 
-  local rust_tools_config = {
+  local rust_tools_opts = {
     tools = {
       autoSetHints = true,
       hover_with_actions = true,
@@ -109,13 +109,15 @@ local function load(use)
     },
   }
 
-  require('rust-tools').setup(rust_tools_config)
+  require('rust-tools').setup(rust_tools_opts)
 
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   local servers = { 'tsserver' }
   lspconfig.tsserver.setup {
     capabilities = capabilities,
   }
+
+  vim.diagnostic.config({severity_sort=true})
 
   vim.fn.sign_define('DiagnosticSignError', {text='', texthl='DiagnosticError', linehl='', numhl=''})
   vim.fn.sign_define('DiagnosticSignWarn', {text='', texthl='DiagnosticWarn', linehl='', numhl=''})
