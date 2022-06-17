@@ -1,9 +1,9 @@
-vim.o.syntax = 'on'
+vim.o.syntax = "on"
 
 vim.bo.autoindent = true
 vim.bo.smartindent = true
 vim.cmd([[ set backspace=indent,eol,start ]])
-vim.o.completeopt='menuone,noinsert,noselect'
+vim.o.completeopt="menuone,noinsert,noselect"
 vim.o.smarttab = true
 
 vim.cmd([[ set nrformats-=octal ]])
@@ -44,7 +44,7 @@ vim.o.smartcase = true
 vim.o.showmode = false
 vim.bo.swapfile = false
 vim.o.backup = false
-vim.o.undodir = vim.fn.stdpath('config') .. '/undodir'
+vim.o.undodir = vim.fn.stdpath("config") .. "/undodir"
 vim.o.undofile = true
 vim.o.hidden = true
 
@@ -53,7 +53,7 @@ vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
 vim.wo.number = true
-vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = "yes"
 vim.wo.wrap = false
 vim.go.startofline = true
 
