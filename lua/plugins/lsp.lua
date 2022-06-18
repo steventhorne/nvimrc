@@ -122,6 +122,9 @@ local function load(use)
     -- end,
     cmd = { "E:\\Programs\\OmniSharp\\OmniSharp.exe", "--languageserver", "--hostPID", tostring(pid) },
   })
+  lspconfig.html.setup({
+    capabilities = capabilities,
+  })
 
   vim.diagnostic.config({ severity_sort=true })
 
