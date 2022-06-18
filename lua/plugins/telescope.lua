@@ -1,11 +1,14 @@
 local function load(use)
   use({
     "nvim-telescope/telescope.nvim",
-    requires = { { "nvim-lua/plenary.nvim" } },
+    requires = {
+      { "nvim-lua/plenary.nvim" },
+    },
     config = function()
       local actions = require("telescope.actions")
       local actions_set = require("telescope.actions.set")
-      local attach_mappings = function(_)
+      local attach_mappings = function(_, map)
+        map("n", "q", actions.close)
         actions_set.select:enhance({
           post = function()
             vim.cmd(":normal! zx")
@@ -31,13 +34,13 @@ local function load(use)
         },
         extensions = {
           ["ui-select"] = {
-            require("telescope.themes").get_dropdown {}
+            require("telescope.themes").get_dropdown({})
           }
         },
         pickers = {
           buffers = {
             attach_mappings = function(_, map)
-              attach_mappings(_)
+              attach_mappings(_, map)
               map("n", "d", actions.delete_buffer)
               return true
             end,
@@ -46,16 +49,17 @@ local function load(use)
             preview_title = "",
           },
           find_files = default_picker_opts,
-          git_files = default_picker_opts,
-          grep_string = default_picker_opts,
           live_grep = default_picker_opts,
-          oldfiles = default_picker_opts,
+          git_files = default_picker_opts,
+          git_status = default_picker_opts,
+          treesitter = default_picker_opts,
         }
       })
 
       require("telescope").load_extension("ui-select")
 
       require("utils").map_key('', "<LEADER>nf", ":Telescope find_files<CR>")
+      require("utils").map_key('', "<LEADER>nF", ":Telescope live_grep<CR>")
       require("utils").map_key('', "<LEADER>ng", ":Telescope git_files<CR>")
       require("utils").map_key('', "<LEADER>ns", ":Telescope git_status<CR>")
       require("utils").map_key('', "<LEADER>nt", ":Telescope treesitter<CR>")
