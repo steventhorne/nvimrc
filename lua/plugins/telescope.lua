@@ -20,6 +20,9 @@ local function load(use)
 
       local default_picker_opts = {
         attach_mappings = attach_mappings,
+        layout_config = {
+          preview_width = 0.4,
+        },
         prompt_title = "",
         results_title = "",
         preview_title = "",
@@ -29,12 +32,16 @@ local function load(use)
         defaults = {
           layout_config = {
             width = 0.9,
-            preview_width = 0.4,
           },
         },
         extensions = {
           ["ui-select"] = {
-            require("telescope.themes").get_dropdown({})
+            require("telescope.themes").get_dropdown({
+              attach_mappings = attach_mappings,
+              prompt_title = "",
+              results_title = "",
+              preview_title = "",
+            })
           }
         },
         pickers = {
@@ -44,6 +51,7 @@ local function load(use)
               map("n", "d", actions.delete_buffer)
               return true
             end,
+            preview_width = 0.4,
             prompt_title = "",
             results_title = "",
             preview_title = "",

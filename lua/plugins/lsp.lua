@@ -1,4 +1,4 @@
-local function copilot_keys()
+local function check_copilot()
   local suggestion = vim.fn["copilot#GetDisplayedSuggestion"]()
   if suggestion.text ~= "" then
     local copilot_keys = vim.fn["copilot#Accept"]()
@@ -34,7 +34,7 @@ local function load(use)
       ["<TAB>"] = function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
-        elseif copilot_keys() then
+        elseif check_copilot() then
         elseif vim.fn["vsnip#available"](1) > 0 then
           if vim.fn["vsnip#jumpable"](1) > 0 then
             vim.fn.feedkeys(string.format("%c%c%c(vsnip-jump-next)", 0x80, 253, 83))
@@ -112,6 +112,7 @@ local function load(use)
   require("rust-tools").setup(rust_tools_opts)
 
   local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  local pid = vim.fn.getpid()
   lspconfig.tsserver.setup({
     capabilities = capabilities,
   })
@@ -124,6 +125,26 @@ local function load(use)
   })
   lspconfig.html.setup({
     capabilities = capabilities,
+  })
+  lspconfig.sumneko_lua.setup({
+    capabilities = capabilities,
+    cmd = { "E:\\Programs\\LuaLanguageServer\\bin\\lua-language-server.exe" },
+    settings = {
+      Lua = {
+        runtime = {
+          version = "LuaJIT",
+        },
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file("", true),
+        },
+        telemetry = {
+          enabled = false,
+        },
+      },
+    },
   })
 
   vim.diagnostic.config({ severity_sort=true })
