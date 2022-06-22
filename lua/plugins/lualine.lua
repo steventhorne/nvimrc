@@ -8,6 +8,11 @@ local function load(use)
           theme = "codedark",
           globalstatus = true,
         },
+        extensions = {
+          "nerdtree",
+          "fugitive",
+          "quickfix",
+        },
       }
     end,
   })
@@ -16,4 +21,3 @@ end
 return {
   load = load
 }
-
