@@ -33,6 +33,9 @@ local function load(use)
           layout_config = {
             width = 0.9,
           },
+          path_display = {
+            truncate = 30,
+          },
         },
         extensions = {
           ["ui-select"] = {
