@@ -4,7 +4,6 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 end
 
 local packer = require("packer")
-local map_key = require("utils").map_key
 
 vim.cmd [[packadd packer.nvim]]
 
@@ -15,7 +14,7 @@ vim.cmd([[
   augroup end
 ]])
 
-return packer.startup(function()
+return packer.startup(function(use)
   use "wbthomason/packer.nvim"
 
   local plugins = {
