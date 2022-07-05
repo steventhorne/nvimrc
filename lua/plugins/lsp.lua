@@ -113,9 +113,27 @@ local function load(use)
 
   local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
   local pid = vim.fn.getpid()
+  local configPath = vim.fn.stdpath("config")
+  local nodeModulesPath = configPath.."/node_modules"
+
+  local angularlsCmd = { "node", nodeModulesPath.."/@angular/language-server/index.js", "--stdio", "--tsProbeLocations", nodeModulesPath, "--ngProbeLocations", nodeModulesPath }
+  lspconfig.angularls.setup({
+    cmd = angularlsCmd,
+    on_new_config = function(new_config, new_root_dir)
+      new_config.cmd = angularlsCmd
+    end
+  })
+
   lspconfig.tsserver.setup({
     capabilities = capabilities,
+    cmd = { "node", nodeModulesPath.."/typescript-language-server/lib/cli.js", "--stdio" },
   })
+
+  lspconfig.html.setup({
+    capabilities = capabilities,
+    cmd = { "node", nodeModulesPath.."/vscode-langservers-extracted/bin/vscode-html-language-server", "--stdio" },
+  })
+
   lspconfig.omnisharp.setup({
     capabilities = capabilities,
     -- on_attach = function(_, bufnr)
@@ -123,9 +141,7 @@ local function load(use)
     -- end,
     cmd = { "E:\\Programs\\OmniSharp\\OmniSharp.exe", "--languageserver", "--hostPID", tostring(pid) },
   })
-  lspconfig.html.setup({
-    capabilities = capabilities,
-  })
+
   lspconfig.sumneko_lua.setup({
     capabilities = capabilities,
     cmd = { "E:\\Programs\\LuaLanguageServer\\bin\\lua-language-server.exe" },
