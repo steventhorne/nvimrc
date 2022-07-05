@@ -57,5 +57,7 @@ vim.wo.signcolumn = "yes"
 vim.wo.wrap = false
 vim.go.startofline = true
 
+vim.cmd([[ set diffopt+=algorithm:patience ]])
+
 vim.cmd([[ let g:rust_recommended_style=0 ]])
 
