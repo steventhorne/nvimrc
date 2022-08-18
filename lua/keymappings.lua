@@ -25,20 +25,6 @@ map_key("i", "kj", "<ESC>")
 map_key("i", "JK", "<ESC>")
 map_key("i", "KJ", "<ESC>")
 
-function toggleTerminal()
-  local buf_num = vim.t.terminal_buffer
-  if buf_num ~= nil then
-    vim.t.terminal_buffer = nil
-    vim.api.nvim_buf_delete(buf_num, { force = true })
-  else
-    vim.cmd([[ :bot new ]])
-    vim.cmd([[ :terminal ]])
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("10<C-W>_", true, false, true), "n", false)
-    vim.api.nvim_feedkeys("i", "n", false)
-    vim.t.terminal_buffer = vim.api.nvim_buf_get_number(0)
-  end
-end
-
 vim.cmd([[
   function! ToggleTerminal()
     let termname = "terminal_bottom"
@@ -54,6 +40,7 @@ vim.cmd([[
     elseif buf > 0
       :exe "bot sp"
       :exe "buffer " . termname
+      :exe nobl
       call feedkeys("10\<C-W>_")
     else
       :exe "bot split"
