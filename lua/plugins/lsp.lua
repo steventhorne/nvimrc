@@ -16,10 +16,13 @@ local function load(use)
   use("hrsh7th/cmp-buffer")
   use("hrsh7th/cmp-path")
   use("hrsh7th/cmp-cmdline")
+  use("rcarriga/cmp-dap")
   use("hrsh7th/nvim-cmp")
+  use("ray-x/lsp_signature.nvim")
   use("simrat39/rust-tools.nvim")
 
   local lspconfig = require("lspconfig")
+  local util = require("lspconfig.util")
   local cmp = require("cmp")
 
   vim.g.copilot_no_tab_map = true
@@ -71,6 +74,11 @@ local function load(use)
   }
 
   cmp.setup(cmp_opts);
+  cmp.setup.filetype({ "dap-repl" }, {
+    sources = {
+      { name = "dap" },
+    },
+  })
 
   cmp.setup.cmdline("/", {
     mapping = cmp.mapping.preset.cmdline(),
@@ -87,6 +95,9 @@ local function load(use)
       { name = "cmdline" },
     })
   })
+
+  local lsp_signature_opts = {}
+  require("lsp_signature").setup(lsp_signature_opts)
 
   local rust_tools_opts = {
     tools = {
@@ -111,15 +122,37 @@ local function load(use)
 
   require("rust-tools").setup(rust_tools_opts)
 
-  local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  local capabilities = {
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = true,
+        }
+      }
+    }
+  }
+  capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+
   local pid = vim.fn.getpid()
   local configPath = vim.fn.stdpath("config")
   local nodeModulesPath = configPath.."/node_modules"
 
-  local angularlsCmd = { "node", nodeModulesPath.."/@angular/language-server/index.js", "--stdio", "--tsProbeLocations", nodeModulesPath, "--ngProbeLocations", nodeModulesPath }
+  local angularlsCmd = {
+    "node",
+    nodeModulesPath.."/@angular/language-server/index.js",
+    "--stdio",
+    "--tsProbeLocations",
+    nodeModulesPath,
+    "--ngProbeLocations",
+    nodeModulesPath,
+    "--includeCompletionsWithSnippetText",
+    "--includeAutomaticOptionalChainCompletions",
+  }
   lspconfig.angularls.setup({
     cmd = angularlsCmd,
-    on_new_config = function(new_config, new_root_dir)
+    capabilities = capabilities,
+    root_dir = util.root_pattern("angular.json"),
+    on_new_config = function(new_config)
       new_config.cmd = angularlsCmd
     end
   })
@@ -132,6 +165,16 @@ local function load(use)
   lspconfig.html.setup({
     capabilities = capabilities,
     cmd = { "node", nodeModulesPath.."/vscode-langservers-extracted/bin/vscode-html-language-server", "--stdio" },
+  })
+
+  lspconfig.cssls.setup({
+    capabilities = capabilities,
+    cmd = { "node", nodeModulesPath.."/vscode-langservers-extracted/bin/vscode-css-language-server", "--stdio" },
+  })
+
+  lspconfig.svelte.setup({
+    capabilities = capabilities,
+    cmd = { "node", nodeModulesPath.."/svelte-language-server/bin/server.js", "--stdio" },
   })
 
   lspconfig.omnisharp.setup({
@@ -155,6 +198,8 @@ local function load(use)
         },
         workspace = {
           library = vim.api.nvim_get_runtime_file("", true),
+          maxPreload = 2000,
+          preloadFileSize = 1000
         },
         telemetry = {
           enabled = false,

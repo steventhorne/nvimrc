@@ -64,6 +64,10 @@ local function load(use)
           git_files = default_picker_opts,
           git_status = default_picker_opts,
           treesitter = default_picker_opts,
+          lsp_definitions = default_picker_opts,
+          lsp_references = default_picker_opts,
+          lsp_implementations = default_picker_opts,
+          dap = default_picker_opts,
         }
       })
 
@@ -82,6 +86,13 @@ local function load(use)
     "nvim-telescope/telescope-ui-select.nvim",
     config = function()
       require("telescope").load_extension("ui-select")
+    end
+  })
+
+  use({
+    "nvim-telescope/telescope-dap.nvim",
+    config = function()
+      require("telescope").load_extension("dap")
     end
   })
 end

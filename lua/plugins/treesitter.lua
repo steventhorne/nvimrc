@@ -1,10 +1,9 @@
 local function load(use)
   use({
     "nvim-treesitter/nvim-treesitter",
-    { "nvim-treesitter/nvim-treesitter-angular", opt = false },
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "c", "lua", "typescript", "javascript", "html", "rust", "c_sharp" },
+        ensure_installed = { "c", "lua", "typescript", "javascript", "html", "rust", "c_sharp", "svelte" },
         highlight = {
           enable = true,
 
