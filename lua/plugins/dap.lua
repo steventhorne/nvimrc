@@ -17,6 +17,8 @@ local function toggle_hover()
 end
 
 local function configure()
+  require("nvim-dap-virtual-text").setup({})
+
   local dap = require("dap")
   dap.adapters.node2 = {
     type = "executable",
@@ -70,23 +72,8 @@ local function configure()
   dap.configurations.typescript = js_config
 end
 
-local function load(use)
-  use({
-    "mfussenegger/nvim-dap",
-    config = configure,
-  })
-
-  use({
-    "theHamsta/nvim-dap-virtual-text",
-    config = function ()
-      require("nvim-dap-virtual-text").setup({})
-    end,
-  })
-end
-
 return {
-  load = load,
   toggle_sidebar = toggle_sidebar,
   toggle_hover = toggle_hover,
+  config = configure,
 }
-

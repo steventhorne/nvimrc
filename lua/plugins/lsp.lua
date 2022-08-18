@@ -1,100 +1,6 @@
-local function check_copilot()
-  local suggestion = vim.fn["copilot#GetDisplayedSuggestion"]()
-  if suggestion.text ~= "" then
-    local copilot_keys = vim.fn["copilot#Accept"]()
-    if copilot_keys ~= "" then
-      vim.api.nvim_feedkeys(copilot_keys, "i", true)
-      return true
-    end
-  end
-  return false
-end
-
-local function load(use)
-  use("neovim/nvim-lspconfig")
-  use("hrsh7th/cmp-nvim-lsp")
-  use("hrsh7th/cmp-buffer")
-  use("hrsh7th/cmp-path")
-  use("hrsh7th/cmp-cmdline")
-  use("rcarriga/cmp-dap")
-  use("hrsh7th/nvim-cmp")
-  use("ray-x/lsp_signature.nvim")
-  use("simrat39/rust-tools.nvim")
-
+local function configure()
   local lspconfig = require("lspconfig")
   local util = require("lspconfig.util")
-  local cmp = require("cmp")
-
-  vim.g.copilot_no_tab_map = true
-  vim.g.copilot_assume_mapped = true
-  vim.g.copilot_tab_fallback = ""
-
-  local cmp_opts = {
-    mapping = cmp.mapping.preset.insert({
-      ["<C-Space>"] = cmp.mapping.complete(),
-      ["<CR>"] = cmp.mapping.confirm({ select = true }),
-      ["<C-E>"] = cmp.mapping.abort(),
-      ["<TAB>"] = function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif check_copilot() then
-        elseif vim.fn["vsnip#available"](1) > 0 then
-          if vim.fn["vsnip#jumpable"](1) > 0 then
-            vim.fn.feedkeys(string.format("%c%c%c(vsnip-jump-next)", 0x80, 253, 83))
-          end
-        else
-          fallback()
-        end
-      end,
-      ["<S-TAB>"] = function(fallback)
-        if cmp.visible() then
-            cmp.select_prev_item()
-            return
-        elseif vim.fn["vsnip#available"](1) > 0 then
-          if vim.fn["vsnip#jumpable"](1) > 0 then
-            vim.fn.feedkeys(string.format("%c%c%c(vsnip-jump-prev)", 0x80, 253, 83))
-          end
-        end
-        fallback()
-      end,
-    }),
-    snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body)
-      end,
-    },
-    window = {
-    },
-    sources = cmp.config.sources({
-      { name = "nvim_lsp" },
-      { name = "vsnip" },
-    }, {
-      { name = "buffer" },
-    })
-  }
-
-  cmp.setup(cmp_opts);
-  cmp.setup.filetype({ "dap-repl" }, {
-    sources = {
-      { name = "dap" },
-    },
-  })
-
-  cmp.setup.cmdline("/", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = "buffer" },
-    }
-  })
-
-  cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = "path" },
-    }, {
-      { name = "cmdline" },
-    })
-  })
 
   local lsp_signature_opts = {}
   require("lsp_signature").setup(lsp_signature_opts)
@@ -102,7 +8,7 @@ local function load(use)
   local rust_tools_opts = {
     tools = {
       autoSetHints = true,
-      hover_with_actions = true,
+      -- hover_with_actions = true, -- https://github.com/simrat39/rust-tools.nvim#setup
       inlay_hints = {
         show_parameter_hints = false,
         parameter_hints_prefix = "",
@@ -116,7 +22,7 @@ local function load(use)
             command = "clippy",
           },
         }
-      }
+      },
     },
   }
 
@@ -233,6 +139,5 @@ local function load(use)
 end
 
 return {
-  load = load
+  config = configure
 }
-
