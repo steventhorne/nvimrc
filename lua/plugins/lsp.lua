@@ -31,7 +31,7 @@ local function load(use)
 
   local cmp_opts = {
     mapping = cmp.mapping.preset.insert({
-      ["C-Space"] = cmp.mapping.complete(),
+      ["<C-Space>"] = cmp.mapping.complete(),
       ["<CR>"] = cmp.mapping.confirm({ select = true }),
       ["<C-E>"] = cmp.mapping.abort(),
       ["<TAB>"] = function(fallback)
