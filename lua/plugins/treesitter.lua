@@ -8,7 +8,8 @@ local function configure()
       "html",
       "rust",
       "c_sharp",
-      "svelte"
+      "svelte",
+      "astro",
     },
     highlight = {
       enable = true,

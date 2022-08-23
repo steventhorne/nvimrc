@@ -88,6 +88,12 @@ local function configure()
     cmd = { "node", nodeModulesPath.."/svelte-language-server/bin/server.js", "--stdio" },
   })
 
+  lspconfig.astro.setup({
+    capabilities = capabilities,
+    cmd = { "node", nodeModulesPath.."/@astrojs/language-server/bin/nodeServer.js", "--stdio" },
+    root_dir = util.root_pattern("package.json"),
+  })
+
   lspconfig.omnisharp.setup({
     capabilities = capabilities,
     -- on_attach = function(_, bufnr)

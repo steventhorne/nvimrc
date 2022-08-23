@@ -61,3 +61,6 @@ vim.cmd([[ set diffopt+=algorithm:patience ]])
 
 vim.cmd([[ let g:rust_recommended_style=0 ]])
 
+vim.cmd([[
+  au! BufRead,BufNewFile *.astro set filetype=astro
+]])
