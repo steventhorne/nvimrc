@@ -2,7 +2,12 @@ local function configure()
   local lspconfig = require("lspconfig")
   local util = require("lspconfig.util")
 
-  local lsp_signature_opts = {}
+  local lsp_signature_opts = {
+    floating_window = false,
+    floating_window_off_y = -2,
+    close_timeout = 2000,
+    hint_enable = false,
+  }
   require("lsp_signature").setup(lsp_signature_opts)
 
   local rust_tools_opts = {
