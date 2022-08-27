@@ -4,8 +4,6 @@ local function configure()
   local dap = require("dap")
   local attached = false
 
-  local status_colors = { saved = "#6a9955", modified = "#d7ba7d" }
-
   dap.listeners.after["event_initialized"]["me"] = function()
     attached = true
   end
@@ -17,10 +15,15 @@ local function configure()
   function custom_fname:init(options)
     custom_fname.super.init(self, options)
     self.status_colors = {
-      saved = highlight.create_component_highlight_group(
-        {bg = status_colors.saved, fg = "#000000"}, "filename_status_saved", self.options),
-      modified = highlight.create_component_highlight_group(
-        {bg = status_colors.modified, fg = "#000000"}, "filename_status_modified", self.options),
+      modified = {
+        name = "lualine_b_replace",
+        fn = nil,
+        no_mode = true,
+        link = true,
+        section = self.options.self.section,
+        options = options,
+        no_default = nil
+      }
     }
   end
 
@@ -32,7 +35,9 @@ local function configure()
       status = sig.label
     else
       status = custom_fname.super.update_status(self)
-      status = highlight.component_format_highlight(vim.bo.modified and self.status_colors.modified or self.status_colors.saved) .. status
+      if vim.bo.modified and self.status_colors.modified then
+        status = highlight.component_format_highlight(self.status_colors.modified) .. status
+      end
     end
     if attached then
       status = status .. " "
@@ -44,15 +49,19 @@ local function configure()
     options = {
       icons_enabled = true,
       theme = "codedark",
-      component_separators = { left = '', right = ''},
-      section_separators = { left = '', right = ''},
+      component_separators = { left = '|', right = '|'},
+      section_separators = { left = '', right = ''},
       disabled_filetypes = {},
       always_divide_middle = true,
       globalstatus = true,
     },
     sections = {
       lualine_a = {'mode'},
-      lualine_b = {'branch', 'diff', 'diagnostics'},
+      lualine_b = {
+        'branch',
+        'diff',
+        'diagnostics'
+      },
       lualine_c = {
         {
           custom_fname,
@@ -64,7 +73,7 @@ local function configure()
             readonly = ' ',
             unnamed = '[No Name]',
           }
-        }
+        },
       },
       lualine_x = {'encoding', 'fileformat', 'filetype'},
       lualine_y = {'progress'},
