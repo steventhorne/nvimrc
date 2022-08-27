@@ -1,15 +1,15 @@
 local function configure()
   require("nvim-treesitter.configs").setup({
     ensure_installed = {
-      "c",
-      "lua",
-      "typescript",
-      "javascript",
-      "html",
-      "rust",
-      "c_sharp",
-      "svelte",
       "astro",
+      "c_sharp",
+      "html",
+      "javascript",
+      "lua",
+      "markdown",
+      "rust",
+      "svelte",
+      "typescript",
     },
     highlight = {
       enable = true,
