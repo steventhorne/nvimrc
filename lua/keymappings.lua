@@ -4,6 +4,9 @@ local map_key = require("utils").map_key
 map_key("n", "<SPACE>", "<NOP>")
 vim.g.mapleader = " "
 
+-- disable mouse
+vim.cmd([[ set mouse= ]])
+
 -- movement mappings
 map_key("", "<UP>", "<NOP>")
 map_key("", "<DOWN>", "<NOP>")
@@ -18,8 +21,6 @@ map_key("", "<C-L>", "<C-W>l")
 map_key("", "<LEADER><CR>", ":noh<CR>")
 
 -- escape mappings
-map_key("i", "jj", "<ESC>")
-map_key("i", "JJ", "<ESC>")
 map_key("i", "jk", "<ESC>")
 map_key("i", "kj", "<ESC>")
 map_key("i", "JK", "<ESC>")
