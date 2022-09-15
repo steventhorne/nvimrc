@@ -8,7 +8,7 @@ local function configure()
   vim.cmd([[ let NERDTreeMarkBookmarks = 0 ]])
   vim.cmd([[ let NERDTreeQuitOnOpen = 3 ]])
   vim.cmd([[ let NERDTreeShowBookmarks = 1 ]])
-  require("utils").map_key("n", "<LEADER>nn", ":NERDTreeToggle<CR>")
+  require("sthorne.utils").map_key("n", "<LEADER>nn", ":NERDTreeToggle<CR>")
 end
 
 return {

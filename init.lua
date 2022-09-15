@@ -1,4 +1,3 @@
-require("settings")
-require("keymappings")
-require("plugins")
-
+require("sthorne.settings")
+require("sthorne.keymappings")
+require("sthorne.plugins")

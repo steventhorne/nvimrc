@@ -18,11 +18,11 @@ local function get_root_dir(patterns, use_cwd_as_fallback)
 
   while true do
     for _, pattern in ipairs(patterns) do
-      for _, p in ipairs(vim.fn.glob(bufdir .. "/" .. pattern, true, true)) do
+      for _, _ in ipairs(vim.fn.glob(bufdir .. "/" .. pattern, true, true)) do
         return bufdir
       end
     end
-    if bufdir == cwd then
+    if string.upper(bufdir) == string.upper(cwd) then
       break
     end
     bufdir = vim.fs.dirname(bufdir)
@@ -39,4 +39,3 @@ return {
   map_key = map_key,
   get_root_dir = get_root_dir,
 }
-

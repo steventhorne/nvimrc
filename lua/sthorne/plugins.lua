@@ -1,21 +1,19 @@
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  packer_bootstrap = vim.fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+local ensure_packer = function()
+  local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
+    vim.cmd([[ packadd packer.nvim ]])
+    return true
+  end
+  return false
 end
+
+local packer_bootstrap = ensure_packer()
 
 local packer = require("packer")
 
-vim.cmd [[packadd packer.nvim]]
-
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-]])
-
 local function getConfig(path)
-  return require("plugins/" .. path).config
+  return require("sthorne.plugins/" .. path).config
 end
 
 return packer.startup(function(use)
@@ -57,6 +55,11 @@ return packer.startup(function(use)
       { "simrat39/rust-tools.nvim" },
     },
     config = getConfig("lsp")
+  })
+
+  use({
+    "j-hui/fidget.nvim",
+    config = function() require("fidget").setup() end
   })
 
   use({

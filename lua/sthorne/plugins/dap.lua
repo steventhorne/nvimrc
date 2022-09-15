@@ -29,7 +29,7 @@ local function configure()
   vim.fn.sign_define("DapBreakpoint", { text="", texthl="DiagnosticError", linehl="", numhl="" })
   vim.fn.sign_define("DapBreakpointCondition", { text="", texthl="DiagnosticError", linehl="", numhl="" })
 
-  local map_key = require("utils").map_key
+  local map_key = require("sthorne.utils").map_key
   map_key("n", "<F5>", "<CMD>lua require\"dap\".continue()<CR>")
   map_key("n", "<F6>",  "<CMD>lua require\"plugins.dap\".toggle_sidebar()<CR>")
   map_key("n", "<F7>", "<CMD>lua require\"plugins.dap\".toggle_hover()<CR>")

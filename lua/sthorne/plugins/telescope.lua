@@ -24,6 +24,7 @@ local function configure()
     prompt_title = "",
     results_title = "",
     preview_title = "",
+    show_line = false,
   }
 
   require("telescope").setup({
@@ -61,7 +62,7 @@ local function configure()
       live_grep = default_picker_opts,
       git_files = default_picker_opts,
       git_status = default_picker_opts,
-      treesitter = default_picker_opts,
+      lsp_document_symbols = default_picker_opts,
       lsp_definitions = default_picker_opts,
       lsp_references = default_picker_opts,
       lsp_implementations = default_picker_opts,
@@ -69,12 +70,13 @@ local function configure()
     }
   })
 
-  require("utils").map_key('', "<LEADER>nf", ":Telescope find_files<CR>")
-  require("utils").map_key('', "<LEADER>nF", ":Telescope live_grep<CR>")
-  require("utils").map_key('', "<LEADER>ng", ":Telescope git_files<CR>")
-  require("utils").map_key('', "<LEADER>ns", ":Telescope git_status<CR>")
-  require("utils").map_key('', "<LEADER>nt", ":Telescope treesitter<CR>")
-  require("utils").map_key('', "<LEADER>nb", ":Telescope buffers<CR>")
+  local map_key = require("sthorne.utils").map_key
+  map_key('', "<LEADER>nf", ":Telescope find_files<CR>")
+  map_key('', "<LEADER>nF", ":Telescope live_grep<CR>")
+  map_key('', "<LEADER>ng", ":Telescope git_files<CR>")
+  map_key('', "<LEADER>ns", ":Telescope git_status<CR>")
+  map_key('', "<LEADER>nt", ":Telescope lsp_document_symbols<CR>")
+  map_key('', "<LEADER>nb", ":Telescope buffers<CR>")
 end
 
 return {

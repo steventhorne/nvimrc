@@ -1,4 +1,4 @@
-local map_key = require("utils").map_key
+local map_key = require("sthorne.utils").map_key
 
 -- leader mappings
 map_key("n", "<SPACE>", "<NOP>")
@@ -41,12 +41,12 @@ vim.cmd([[
     elseif buf > 0
       :exe "bot sp"
       :exe "buffer " . termname
-      :exe nobl
       call feedkeys("10\<C-W>_")
     else
       :exe "bot split"
       :terminal
       :exe "f " termname
+      set nobuflisted
       call feedkeys("10\<C-W>_")
     endif
   endfunction
@@ -98,4 +98,3 @@ if vim.fn.exists("g:gonvim_running") > 0 then
   map_key("n", "gw", "v:count > 0 ? '<ESC>:GonvimWorkspaceSwitch ' .. v:count .. '<CR>' : '<ESC>:GonvimWorkspaceNext<CR>'", { noremap = true, silent = true, expr = true })
   map_key("n", "gW", ":GonvimWorkspacePrevious<CR>")
 end
-
