@@ -12,11 +12,13 @@ local function configure()
     attached = false
   end
 
+  vim.api.nvim_set_hl(0, "lualine_c_diagnostics_error_normal", { fg = "#de5d68" })
+
   function custom_fname:init(options)
     custom_fname.super.init(self, options)
     self.status_colors = {
       modified = {
-        name = "lualine_b_replace",
+        name = "lualine_c_diagnostics_error_normal",
         fn = nil,
         no_mode = true,
         link = true,
@@ -28,10 +30,12 @@ local function configure()
   end
 
   function custom_fname:update_status()
-    if not pcall(require, "lsp_signature") then return end
-    local sig = require("lsp_signature").status_line()
+    local sig = { label = "" }
+    -- if pcall(require, "lsp_signature") then
+    --   sig = require("lsp_signature").status_line()
+    -- end
     local status
-    if sig.label ~= "" then
+    if string.sub(vim.api.nvim_get_mode().mode, 1, 1) == "i" and sig.label ~= "" then
       status = sig.label
     else
       status = custom_fname.super.update_status(self)
