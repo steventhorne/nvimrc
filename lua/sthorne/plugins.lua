@@ -96,6 +96,7 @@ return packer.startup(function(use)
   use({
     "nvim-telescope/telescope.nvim",
     requires = {
+      { "nvim-telescope/telescope-fzf-native.nvim", run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
       { "nvim-lua/plenary.nvim" },
       { "nvim-telescope/telescope-ui-select.nvim" },
       { "nvim-telescope/telescope-dap.nvim" },

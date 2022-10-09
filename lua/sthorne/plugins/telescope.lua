@@ -44,6 +44,12 @@ local function configure()
           results_title = "",
           preview_title = "",
         })
+      },
+      fzf = {
+        fuzzy = true,
+        override_generic_sorter = true,
+        override_file_sorter = true,
+        case_mode = "smart_case",
       }
     },
     pickers = {
@@ -69,6 +75,8 @@ local function configure()
       dap = default_picker_opts,
     }
   })
+
+  require("telescope").load_extension("fzf")
 
   local map_key = require("sthorne.utils").map_key
   map_key('', "<LEADER>nf", ":Telescope find_files<CR>")
