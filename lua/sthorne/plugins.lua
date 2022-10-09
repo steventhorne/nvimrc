@@ -105,6 +105,9 @@ return packer.startup(function(use)
 
   use({
     "nvim-treesitter/nvim-treesitter",
+    requires = {
+      { "nvim-treesitter/playground", after="nvim-treesitter" },
+    },
     config = getConfig("treesitter")
   })
 
