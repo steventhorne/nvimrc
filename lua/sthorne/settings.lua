@@ -53,11 +53,13 @@ vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
 vim.wo.number = true
+vim.wo.relativenumber = true
+vim.wo.cursorline = true
 vim.wo.signcolumn = "yes"
 vim.wo.wrap = false
 vim.go.startofline = true
 
-vim.cmd([[ set diffopt+=algorithm:patience ]])
+vim.cmd([[ set diffopt=filler,iwhite,vertical,internal,algorithm:patience,indent-heuristic,algorithm:histogram ]])
 
 vim.cmd([[ let g:rust_recommended_style=0 ]])
 
