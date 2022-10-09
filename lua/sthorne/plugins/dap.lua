@@ -30,16 +30,16 @@ local function configure()
   vim.fn.sign_define("DapBreakpointCondition", { text="", texthl="DiagnosticError", linehl="", numhl="" })
 
   local map_key = require("sthorne.utils").map_key
-  map_key("n", "<F5>", "<CMD>lua require\"dap\".continue()<CR>")
-  map_key("n", "<F6>",  "<CMD>lua require\"plugins.dap\".toggle_sidebar()<CR>")
-  map_key("n", "<F7>", "<CMD>lua require\"plugins.dap\".toggle_hover()<CR>")
-  map_key("n", "<F8>", "<CMD>lua require\"dap\".repl.toggle()<CR>")
-  map_key("n", "<F9>", "<CMD>lua require\"dap\".toggle_breakpoint()<CR>")
-  map_key("n", "<S-F9>", "<CMD>lua require\"dap\".clear_breakpoints()<CR>")
-  map_key("n", "<C-F9>", "<CMD>lua require\"dap\".list_breakpoints()<CR>")
-  map_key("n", "<F10>", "<CMD>lua require\"dap\".step_over()<CR>")
-  map_key("n", "<F11>", "<CMD>lua require\"dap\".step_into()<CR>")
-  map_key("n", "<F12>", "<CMD>lua require\"dap\".step_out()<CR>")
+  map_key("n", "<F5>", "<CMD>lua require(\"dap\").continue()<CR>")
+  map_key("n", "<F6>",  "<CMD>lua require(\"sthorne.plugins.dap\").toggle_sidebar()<CR>")
+  map_key("n", "<F7>", "<CMD>lua require(\"sthorne.plugins.dap\").toggle_hover()<CR>")
+  map_key("n", "<F8>", "<CMD>lua require(\"dap\").repl.toggle()<CR>")
+  map_key("n", "<F9>", "<CMD>lua require(\"dap\").toggle_breakpoint()<CR>")
+  map_key("n", "<S-F9>", "<CMD>lua require(\"dap\").clear_breakpoints()<CR>")
+  map_key("n", "<C-F9>", "<CMD>lua require(\"dap\").list_breakpoints()<CR>")
+  map_key("n", "<F10>", "<CMD>lua require(\"dap\").step_over()<CR>")
+  map_key("n", "<F11>", "<CMD>lua require(\"dap\").step_into()<CR>")
+  map_key("n", "<F12>", "<CMD>lua require(\"dap\").step_out()<CR>")
 
   local js_config = {
     {
