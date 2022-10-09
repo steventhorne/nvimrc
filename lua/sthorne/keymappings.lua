@@ -95,6 +95,8 @@ map_key("t", "<C-L>", "<C-\\><C-N><C-W>l")
 
 -- goneovim mappings
 if vim.fn.exists("g:gonvim_running") > 0 then
-  map_key("n", "gw", "v:count > 0 ? '<ESC>:GonvimWorkspaceSwitch ' .. v:count .. '<CR>' : '<ESC>:GonvimWorkspaceNext<CR>'", { noremap = true, silent = true, expr = true })
+  map_key("n", "gw",
+    "v:count > 0 ? '<ESC>:GonvimWorkspaceSwitch ' .. v:count .. '<CR>' : '<ESC>:GonvimWorkspaceNext<CR>'",
+    { noremap = true, silent = true, expr = true })
   map_key("n", "gW", ":GonvimWorkspacePrevious<CR>")
 end

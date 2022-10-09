@@ -20,8 +20,8 @@ return packer.startup(function(use)
   use("wbthomason/packer.nvim")
 
   use({
-    "tomasiser/vim-code-dark",
-    config = getConfig("code-dark")
+    "navarasu/onedark.nvim",
+    config = getConfig("onedark")
   })
 
   use({
