@@ -14,6 +14,7 @@ end
 local function get_root_dir(patterns, use_cwd_as_fallback)
   use_cwd_as_fallback = use_cwd_as_fallback or false
   local cwd = vim.fn.getcwd()
+  local prevbufdir = ""
   local bufdir = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
 
   while true do
@@ -22,9 +23,10 @@ local function get_root_dir(patterns, use_cwd_as_fallback)
         return bufdir
       end
     end
-    if string.upper(bufdir) == string.upper(cwd) then
+    if prevbufdir == bufdir or string.upper(bufdir) == string.upper(cwd) then
       break
     end
+    prevbufdir = bufdir
     bufdir = vim.fs.dirname(bufdir)
   end
 
