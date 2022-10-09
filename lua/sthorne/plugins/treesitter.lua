@@ -20,10 +20,6 @@ local function configure()
 
   vim.wo.foldmethod = "expr"
   vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
-
-  vim.cmd([[
-    autocmd BufRead * normal zR
-  ]])
 end
 
 return {

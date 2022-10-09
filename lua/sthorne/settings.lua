@@ -65,4 +65,18 @@ vim.cmd([[
   au! BufRead,BufNewFile *.astro set filetype=astro
 ]])
 
+vim.cmd([[
+  augroup folds
+    autocmd!
+    autocmd BufRead * normal zR
+    autocmd InsertEnter * let w:oldfm = &l:foldmethod | setlocal foldmethod=manual
+    autocmd InsertLeave *
+      \ if exists('w:oldfm') |
+      \   let &l:foldmethod = w:oldfm |
+      \   unlet w:oldfm |
+      \ endif |
+      \ normal! zv
+  augroup END
+]])
+
 vim.cmd([[ set clipboard=unnamedplus ]])
