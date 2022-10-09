@@ -39,7 +39,10 @@ return packer.startup(function(use)
     config = getConfig("dap")
   })
 
-  use({ "tpope/vim-fugitive" })
+  use({
+    "tpope/vim-fugitive",
+    config = getConfig("fugitive")
+  })
 
   use({
     "lewis6991/gitsigns.nvim",
