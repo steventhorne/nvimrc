@@ -12,6 +12,7 @@ local function map_key(mode, key, result, opts)
 end
 
 local function capitalize_drive_letter(path)
+  if not vim.fn.has("win32") then return path end
   local has_drive_letter = string.match(path, "^%a:")
   if has_drive_letter then
     local drive_letter = string.sub(path, 1, 1)
