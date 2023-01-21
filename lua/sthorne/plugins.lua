@@ -10,13 +10,11 @@ end
 
 local packer_bootstrap = ensure_packer()
 
-local packer = require("packer")
-
 local function getConfig(path)
   return require("sthorne.plugins/" .. path).config
 end
 
-return packer.startup(function(use)
+return require("packer").startup(function(use)
   use("wbthomason/packer.nvim")
 
   use({
@@ -40,6 +38,11 @@ return packer.startup(function(use)
   })
 
   use({
+    "mhartington/formatter.nvim",
+    config = getConfig("formatter")
+  })
+
+  use({
     "tpope/vim-fugitive",
     config = getConfig("fugitive")
   })
@@ -60,10 +63,10 @@ return packer.startup(function(use)
     config = getConfig("lsp")
   })
 
-  use({
-    "j-hui/fidget.nvim",
-    config = function() require("fidget").setup() end
-  })
+  -- use({
+  --   "j-hui/fidget.nvim",
+  --   config = function() require("fidget").setup() end
+  -- })
 
   use({
     "hrsh7th/nvim-cmp",
@@ -75,6 +78,7 @@ return packer.startup(function(use)
       { "rcarriga/cmp-dap", after="nvim-cmp" },
       { "hrsh7th/cmp-vsnip", after="nvim-cmp" },
       { "hrsh7th/vim-vsnip", after="nvim-cmp" },
+      { "hrsh7th/vim-vsnip-integ", after="nvim-cmp" },
     },
     config = getConfig("cmp")
   })
@@ -82,6 +86,11 @@ return packer.startup(function(use)
   use({
     "nvim-lualine/lualine.nvim",
     config = getConfig("lualine")
+  })
+
+  use({
+    "williamboman/mason.nvim",
+    config = getConfig("mason")
   })
 
   use({ "matze/vim-move" })
@@ -113,6 +122,6 @@ return packer.startup(function(use)
   })
 
   if packer_bootstrap then
-    packer.sync()
+    require("packer").sync()
   end
 end)

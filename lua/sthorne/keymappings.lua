@@ -20,6 +20,9 @@ map_key("", "<C-L>", "<C-W>l")
 -- clear search highlighting
 map_key("", "<LEADER><CR>", ":noh<CR>")
 
+-- OS clipboard
+map_key("x", "Y", '"+y')
+
 -- escape mappings
 map_key("i", "jk", "<ESC>")
 map_key("i", "kj", "<ESC>")

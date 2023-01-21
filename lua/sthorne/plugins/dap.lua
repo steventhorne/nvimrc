@@ -18,28 +18,15 @@ end
 
 local function configure()
   require("nvim-dap-virtual-text").setup({})
-
+  local masonPackages = vim.fn.stdpath("data").."/mason/packages"
   local dap = require("dap")
-  dap.adapters.node2 = {
+
+  -- node
+  local node2_adapter = {
     type = "executable",
     command = "node",
-    args = { vim.fn.stdpath("data") .. "/dap/vscode-node-debug2/out/src/nodeDebug.js" },
+    args = { masonPackages.."/node-debug2-adapter/out/src/nodeDebug.js" },
   }
-
-  vim.fn.sign_define("DapBreakpoint", { text="", texthl="DiagnosticError", linehl="", numhl="" })
-  vim.fn.sign_define("DapBreakpointCondition", { text="", texthl="DiagnosticError", linehl="", numhl="" })
-
-  local map_key = require("sthorne.utils").map_key
-  map_key("n", "<F5>", "<CMD>lua require(\"dap\").continue()<CR>")
-  map_key("n", "<F6>",  "<CMD>lua require(\"sthorne.plugins.dap\").toggle_sidebar()<CR>")
-  map_key("n", "<F7>", "<CMD>lua require(\"sthorne.plugins.dap\").toggle_hover()<CR>")
-  map_key("n", "<F8>", "<CMD>lua require(\"dap\").repl.toggle()<CR>")
-  map_key("n", "<F9>", "<CMD>lua require(\"dap\").toggle_breakpoint()<CR>")
-  map_key("n", "<S-F9>", "<CMD>lua require(\"dap\").clear_breakpoints()<CR>")
-  map_key("n", "<C-F9>", "<CMD>lua require(\"dap\").list_breakpoints()<CR>")
-  map_key("n", "<F10>", "<CMD>lua require(\"dap\").step_over()<CR>")
-  map_key("n", "<F11>", "<CMD>lua require(\"dap\").step_into()<CR>")
-  map_key("n", "<F12>", "<CMD>lua require(\"dap\").step_out()<CR>")
 
   local js_config = {
     {
@@ -68,8 +55,51 @@ local function configure()
     },
   }
 
+  -- .NET
+  local coreclr_adapter = {
+    type = "executable",
+    command = masonPackages.."/netcoredbg/netcoredbg/netcoredbg.exe",
+    args = { "--interpreter=vscode" },
+  }
+
+  local cs_config = {
+    {
+      type = "coreclr",
+      name = "Launch .NET Core",
+      request = "launch",
+      program = function()
+        return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
+      end,
+    },
+    {
+      name = "Attach to .NET Core",
+      type = "coreclr",
+      request = "attach",
+      processId = require("dap.utils").pick_process,
+    },
+  }
+
+  dap.adapters.node2 = node2_adapter
+  dap.adapters.coreclr = coreclr_adapter
+
   dap.configurations.javascript = js_config
   dap.configurations.typescript = js_config
+  dap.configurations.cs = cs_config
+
+  vim.fn.sign_define("DapBreakpoint", { text="", texthl="DiagnosticError", linehl="", numhl="" })
+  vim.fn.sign_define("DapBreakpointCondition", { text="", texthl="DiagnosticError", linehl="", numhl="" })
+
+  local map_key = require("sthorne.utils").map_key
+  map_key("n", "<F5>", "<CMD>lua require(\"dap\").continue()<CR>")
+  map_key("n", "<F6>",  "<CMD>lua require(\"sthorne.plugins.dap\").toggle_sidebar()<CR>")
+  map_key("n", "<F7>", "<CMD>lua require(\"sthorne.plugins.dap\").toggle_hover()<CR>")
+  map_key("n", "<F8>", "<CMD>lua require(\"dap\").repl.toggle()<CR>")
+  map_key("n", "<F9>", "<CMD>lua require(\"dap\").toggle_breakpoint()<CR>")
+  map_key("n", "<S-F9>", "<CMD>lua require(\"dap\").clear_breakpoints()<CR>")
+  map_key("n", "<C-F9>", "<CMD>lua require(\"dap\").list_breakpoints()<CR>")
+  map_key("n", "<F10>", "<CMD>lua require(\"dap\").step_over()<CR>")
+  map_key("n", "<F11>", "<CMD>lua require(\"dap\").step_into()<CR>")
+  map_key("n", "<F12>", "<CMD>lua require(\"dap\").step_out()<CR>")
 end
 
 return {
