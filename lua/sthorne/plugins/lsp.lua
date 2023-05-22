@@ -42,6 +42,14 @@ local function configure()
     },
   })
 
+  default_capabilities = vim.tbl_deep_extend("force", default_capabilities, {
+    workspace = {
+      didChangeWatchedFiles = {
+        dynamicRegistration = true,
+      },
+    },
+  })
+
   local pid = vim.fn.getpid()
   local configPath = vim.fn.stdpath("config")
   local nodeModulesPath = configPath.."/node_modules"
@@ -49,14 +57,15 @@ local function configure()
 
   local au_lsp = vim.api.nvim_create_augroup("LSP", { clear = true })
 
+  local angularNodeModulesPath = masonPackages.."/angular-language-server/node_modules"
   local angularlsCmd = {
     "node",
-    masonPackages.."/angular-language-server/node_modules/@angular/language-server/index.js",
+    angularNodeModulesPath.."/@angular/language-server/index.js",
     "--stdio",
     "--tsProbeLocations",
-    nodeModulesPath,
+    angularNodeModulesPath,
     "--ngProbeLocations",
-    nodeModulesPath,
+    angularNodeModulesPath.."/@angular/language-server/node_modules",
     "--includeCompletionsWithSnippetText",
     "--includeAutomaticOptionalChainCompletions",
   }
@@ -128,6 +137,16 @@ local function configure()
         end
       end
       vim.lsp.start(start_config)
+    end,
+  })
+
+  require("lspconfig").eslint.setup({
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue", "svelte", "astro", "html" },
+    on_attach = function(client, bufnr)
+      -- vim.api.nvim_create_autocmd("BufWritePre", {
+      --   buffer = bufnr,
+      --   command = "EslintFixAll",
+      -- })
     end,
   })
 
@@ -227,13 +246,90 @@ local function configure()
 
   -- TODO: Move OmniSharp.exe to config path and use vim.fn.has('win32') to determine which exe to use
   local omnisharp_cmd = {
-    masonPackages.."/omnisharp/OmniSharp.exe"
+    masonPackages.."/omnisharp/omnisharp.cmd"
   }
   require("lspconfig").omnisharp.setup({
     cmd = omnisharp_cmd,
+    capabilities = default_capabilities,
     root_dir = function (_, _)
       return require("sthorne.utils").get_root_dir({ "*.sln", "*.csproj" })
     end,
+    on_attach = function(client, _)
+      client.server_capabilities.semanticTokensProvider = {
+        full = vim.empty_dict(),
+        legend = {
+          tokenModifiers = { "static_symbol" },
+          tokenTypes = {
+            "comment",
+            "excluded_code",
+            "identifier",
+            "keyword",
+            "keyword_control",
+            "number",
+            "operator",
+            "operator_overloaded",
+            "preprocessor_keyword",
+            "string",
+            "whitespace",
+            "text",
+            "static_symbol",
+            "preprocessor_text",
+            "punctuation",
+            "string_verbatim",
+            "string_escape_character",
+            "class_name",
+            "delegate_name",
+            "enum_name",
+            "interface_name",
+            "module_name",
+            "struct_name",
+            "type_parameter_name",
+            "field_name",
+            "enum_member_name",
+            "constant_name",
+            "local_name",
+            "parameter_name",
+            "method_name",
+            "extension_method_name",
+            "property_name",
+            "event_name",
+            "namespace_name",
+            "label_name",
+            "xml_doc_comment_attribute_name",
+            "xml_doc_comment_attribute_quotes",
+            "xml_doc_comment_attribute_value",
+            "xml_doc_comment_cdata_section",
+            "xml_doc_comment_comment",
+            "xml_doc_comment_delimiter",
+            "xml_doc_comment_entity_reference",
+            "xml_doc_comment_name",
+            "xml_doc_comment_processing_instruction",
+            "xml_doc_comment_text",
+            "xml_literal_attribute_name",
+            "xml_literal_attribute_quotes",
+            "xml_literal_attribute_value",
+            "xml_literal_cdata_section",
+            "xml_literal_comment",
+            "xml_literal_delimiter",
+            "xml_literal_embedded_expression",
+            "xml_literal_entity_reference",
+            "xml_literal_name",
+            "xml_literal_processing_instruction",
+            "xml_literal_text",
+            "regex_comment",
+            "regex_character_class",
+            "regex_anchor",
+            "regex_quantifier",
+            "regex_grouping",
+            "regex_alternation",
+            "regex_text",
+            "regex_self_escaped_character",
+            "regex_other_escape",
+          },
+        },
+        range = true,
+      }
+    end
   })
   -- local omnisharp_filetypes = {
   --   "cs",
@@ -359,8 +455,8 @@ local function configure()
   map_key("n", "<LEADER>dh", "<CMD>lua vim.diagnostic.open_float()<CR>")
   map_key("n", "<LEADER>dj", "<CMD>lua vim.diagnostic.goto_next()<CR>")
   map_key("n", "<LEADER>dk", "<CMD>lua vim.diagnostic.goto_prev()<CR>")
-  map_key("n", "<LEADER>dJ", "<CMD>lua vim.diagnostic.goto_next{ severity = { min = vim.diagnostic.severity.WARN } }<CR>")
-  map_key("n", "<LEADER>dK", "<CMD>lua vim.diagnostic.goto_prev{ severity = { min = vim.diagnostic.severity.WARN } }<CR>")
+  map_key("n", "<LEADER>dJ", "<CMD>lua vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } })<CR>")
+  map_key("n", "<LEADER>dK", "<CMD>lua vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } })<CR>")
 end
 
 return {

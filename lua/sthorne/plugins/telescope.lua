@@ -25,6 +25,7 @@ local function configure()
     results_title = "",
     preview_title = "",
     show_line = false,
+    show_untracked = true,
   }
 
   require("telescope").setup({
@@ -34,6 +35,10 @@ local function configure()
       },
       path_display = {
         truncate = 30,
+      },
+      file_ignore_patterns = {
+        "node_modules",
+        "%.meta",
       },
     },
     extensions = {

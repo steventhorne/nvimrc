@@ -38,11 +38,6 @@ return require("packer").startup(function(use)
   })
 
   use({
-    "mhartington/formatter.nvim",
-    config = getConfig("formatter")
-  })
-
-  use({
     "tpope/vim-fugitive",
     config = getConfig("fugitive")
   })
@@ -50,6 +45,11 @@ return require("packer").startup(function(use)
   use({
     "lewis6991/gitsigns.nvim",
     config = getConfig("gitsigns")
+  })
+
+  use({
+    "mfussenegger/nvim-lint",
+    config = getConfig("lint")
   })
 
   use({ "ggandor/lightspeed.nvim" })
