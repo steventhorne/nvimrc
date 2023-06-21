@@ -105,6 +105,12 @@ return require("packer").startup(function(use)
     config = getConfig("mason")
   })
 
+  use({
+    "mawkler/modicator.nvim",
+    after = "onedark.nvim",
+    config = getConfig("modicator")
+  })
+
   use({ "matze/vim-move" })
 
   use({

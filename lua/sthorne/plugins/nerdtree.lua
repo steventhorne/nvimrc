@@ -1,7 +1,7 @@
 local function configure()
   vim.cmd([[ let g:NERDTreeWinPos = "right" ]])
   vim.cmd([[ let NERDTreeStatusline = -1 ]])
-  vim.cmd([[ let NERDTreeDirArrowExpandable = " " ]])
+  vim.cmd([[ let NERDTreeDirArrowExpandable = " 󰉋" ]])
   vim.cmd([[ let NERDTreeDirArrowCollapsible = " " ]])
   vim.cmd([[ let NERDTreeMinimalUI = 1 ]])
   vim.cmd([[ let NERDTreeChDirMode = 2 ]])
