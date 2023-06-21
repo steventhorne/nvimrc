@@ -13,15 +13,9 @@ local configure = function()
       lua = require("formatter.filetypes.lua").stylua,
       svelte = require("formatter.filetypes.svelte").prettier,
       typescript = require("formatter.filetypes.typescript").prettier,
-      typescriptreact = require("formatter.filetypes.typescriptreact").prettier,
-      ["*"] = {
-        require("formatter.filetypes.any").remove_trailing_whitespace,
-      }
+      typescriptreact = require("formatter.filetypes.typescriptreact").prettier
     }
   })
-
-  local map_key = require("sthorne.utils").map_key
-  map_key("n", "<LEADER>f", ":Format<CR>")
 end
 
 return {

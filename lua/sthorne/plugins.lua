@@ -38,6 +38,11 @@ return require("packer").startup(function(use)
   })
 
   use({
+    "mhartington/formatter.nvim",
+    config = getConfig("formatter")
+  })
+
+  use({
     "tpope/vim-fugitive",
     config = getConfig("fugitive")
   })
@@ -57,7 +62,6 @@ return require("packer").startup(function(use)
   use({
     "neovim/nvim-lspconfig",
     requires = {
-      { "ray-x/lsp_signature.nvim" },
       { "simrat39/rust-tools.nvim" },
     },
     config = getConfig("lsp")
@@ -72,6 +76,7 @@ return require("packer").startup(function(use)
     "hrsh7th/nvim-cmp",
     requires = {
       { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-nvim-lsp-signature-help", after="nvim-cmp" },
       { "hrsh7th/cmp-buffer", after="nvim-cmp" },
       { "hrsh7th/cmp-path", after="nvim-cmp" },
       { "hrsh7th/cmp-cmdline", after="nvim-cmp" },
@@ -99,6 +104,8 @@ return require("packer").startup(function(use)
     "preservim/nerdtree",
     config = getConfig("nerdtree")
   })
+
+  use({ "Hoffs/omnisharp-extended-lsp.nvim" })
 
   use({ "tpope/vim-sleuth" })
 

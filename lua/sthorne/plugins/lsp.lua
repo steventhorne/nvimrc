@@ -1,12 +1,4 @@
 local function configure()
-  local lsp_signature_opts = {
-    floating_window = false,
-    close_timeout = 2000,
-    hint_enable = true,
-    hint_prefix = "",
-  }
-  require("lsp_signature").setup(lsp_signature_opts)
-
   local rust_tools_opts = {
     tools = {
       autoSetHints = true,
@@ -244,9 +236,10 @@ local function configure()
     end,
   })
 
-  -- TODO: Move OmniSharp.exe to config path and use vim.fn.has('win32') to determine which exe to use
+  vim.lsp.set_log_level("debug")
+
   local omnisharp_cmd = {
-    masonPackages.."/omnisharp/omnisharp.cmd"
+    masonPackages.."/omnisharp/omnisharp.cmd",
   }
   require("lspconfig").omnisharp.setup({
     cmd = omnisharp_cmd,
@@ -254,7 +247,8 @@ local function configure()
     root_dir = function (_, _)
       return require("sthorne.utils").get_root_dir({ "*.sln", "*.csproj" })
     end,
-    on_attach = function(client, _)
+    on_attach = function(client, bufnr)
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "<LEADER>ld", ":lua require('omnisharp_extended').lsp_definitions()<CR>", { noremap = true, silent = true })
       client.server_capabilities.semanticTokensProvider = {
         full = vim.empty_dict(),
         legend = {
