@@ -23,6 +23,11 @@ return require("packer").startup(function(use)
   })
 
   use({
+    "kevinhwang91/nvim-bqf",
+    ft = "qf"
+  })
+
+  use({
     "numToStr/Comment.nvim",
     config = getConfig("comment")
   })
@@ -36,6 +41,8 @@ return require("packer").startup(function(use)
     },
     config = getConfig("dap")
   })
+
+  use({ "elihunter173/dirbuf.nvim" })
 
   use({
     "mhartington/formatter.nvim",
