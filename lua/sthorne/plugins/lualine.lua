@@ -44,7 +44,7 @@ local function configure()
       end
     end
     if attached then
-      status = status .. " "
+      status = status .. " "
     end
     return status
   end
@@ -64,7 +64,7 @@ local function configure()
       lualine_b = {
         'branch',
         'diff',
-        'diagnostics'
+        'diagnostics',
       },
       lualine_c = {
         {
@@ -73,7 +73,7 @@ local function configure()
           path = 1,
           shorting_target = 40,
           symbols = {
-            modified = ' ',
+            modified = ' ',
             readonly = ' ',
             unnamed = '[No Name]',
           }
