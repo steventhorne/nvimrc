@@ -107,6 +107,8 @@ return require("packer").startup(function(use)
 
   use({ "Hoffs/omnisharp-extended-lsp.nvim" })
 
+  require("sthorne.plugins.qf")
+
   use({ "tpope/vim-sleuth" })
 
   use({
