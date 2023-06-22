@@ -236,8 +236,6 @@ local function configure()
     end,
   })
 
-  vim.lsp.set_log_level("debug")
-
   local omnisharp_cmd = {
     masonPackages.."/omnisharp/omnisharp.cmd",
   }
