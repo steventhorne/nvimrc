@@ -19,7 +19,7 @@ local function configure()
 
   local cmp_opts = {
     mapping = cmp.mapping.preset.insert({
-      ["<C-Space>"] = cmp.mapping.complete(),
+      ["<C-N>"] = cmp.mapping.complete(),
       ["<CR>"] = cmp.mapping.confirm({}),
       ["<C-E>"] = cmp.mapping.abort(),
       ["<TAB>"] = function(fallback)
