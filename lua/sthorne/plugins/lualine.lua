@@ -12,7 +12,7 @@ local function configure()
     attached = false
   end
 
-  vim.api.nvim_set_hl(0, "lualine_c_diagnostics_error_normal", { fg = "#de5d68" })
+  vim.api.nvim_set_hl(0, "lualine_c_diagnostics_error_normal", { fg = "#de5d68", bold = true })
 
   function custom_fname:init(options)
     custom_fname.super.init(self, options)
@@ -30,18 +30,10 @@ local function configure()
   end
 
   function custom_fname:update_status()
-    local sig = { label = "" }
-    -- if pcall(require, "lsp_signature") then
-    --   sig = require("lsp_signature").status_line()
-    -- end
-    local status
-    if string.sub(vim.api.nvim_get_mode().mode, 1, 1) == "i" and sig.label ~= "" then
-      status = sig.label
-    else
-      status = custom_fname.super.update_status(self)
-      if vim.bo.modified and self.status_colors.modified then
-        status = highlight.component_format_highlight(self.status_colors.modified) .. status
-      end
+    local status = custom_fname.super.update_status(self)
+    local modified = vim.bo.modified
+    if modified and self.status_colors.modified then
+      status = highlight.component_format_highlight(self.status_colors.modified) .. status
     end
     if attached then
       status = status .. " "
@@ -79,9 +71,9 @@ local function configure()
           }
         },
       },
-      lualine_x = {'encoding', 'fileformat', 'filetype'},
-      lualine_y = {'progress'},
-      lualine_z = {'location'}
+      lualine_x = {'filesize'},
+      lualine_y = {'filetype'},
+      lualine_z = {'progress', 'location'}
     },
     inactive_sections = {
       lualine_a = {},
