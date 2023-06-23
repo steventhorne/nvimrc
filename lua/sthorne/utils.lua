@@ -62,7 +62,21 @@ local function get_root_dir(patterns, use_cwd_as_fallback)
   return nil
 end
 
+local function dump(o)
+  if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end
+
 return {
   map_key = map_key,
   get_root_dir = get_root_dir,
+  dump = dump,
 }
