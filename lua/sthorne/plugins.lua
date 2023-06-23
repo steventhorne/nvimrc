@@ -129,6 +129,8 @@ return require("packer").startup(function(use)
     config = getConfig("surround")
   })
 
+  require("sthorne.plugins.tabline").setup()
+
   use({
     "nvim-telescope/telescope.nvim",
     requires = {
