@@ -1,3 +1,32 @@
+local default_picker_opts = {
+  attach_mappings = attach_mappings,
+  layout_config = {
+    preview_width = 0.4,
+  },
+  show_line = false,
+  show_untracked = true,
+}
+
+local function is_git_repo()
+  vim.fn.system("git rev-parse --is-inside-work-tree")
+
+  return vim.v.shell_error == 0
+end
+
+local function git_files_with_fallback(all)
+  local builtin = require("telescope.builtin")
+  local opts = vim.tbl_deep_extend("force", default_picker_opts, {
+    hidden = true,
+    no_ignore = all,
+    no_ignore_parent = all,
+  })
+  if is_git_repo() and not all then
+    builtin.git_files(opts)
+  else
+    builtin.find_files(opts)
+  end
+end
+
 local function configure()
   local actions = require("telescope.actions")
   local actions_set = require("telescope.actions.set")
@@ -15,18 +44,6 @@ local function configure()
     })
     return true
   end
-
-  local default_picker_opts = {
-    attach_mappings = attach_mappings,
-    layout_config = {
-      preview_width = 0.4,
-    },
-    prompt_title = "",
-    results_title = "",
-    preview_title = "",
-    show_line = false,
-    show_untracked = true,
-  }
 
   require("telescope").setup({
     defaults = {
@@ -84,14 +101,17 @@ local function configure()
   require("telescope").load_extension("fzf")
 
   local map_key = require("sthorne.utils").map_key
-  map_key('', "<LEADER>nf", ":Telescope find_files<CR>")
+  map_key('', "<LEADER>nf", ":Telescope current_buffer_fuzzy_find<CR>")
   map_key('', "<LEADER>nF", ":Telescope live_grep<CR>")
-  map_key('', "<LEADER>ng", ":Telescope git_files<CR>")
   map_key('', "<LEADER>ns", ":Telescope git_status<CR>")
   map_key('', "<LEADER>nt", ":Telescope lsp_document_symbols<CR>")
   map_key('', "<LEADER>nb", ":Telescope buffers<CR>")
+  map_key('', "<LEADER>ng", ":lua require(\"sthorne.plugins.telescope\").git_files_with_fallback(false)<CR>")
+  map_key('', "<LEADER>nG", ":lua require(\"sthorne.plugins.telescope\").git_files_with_fallback(true)<CR>")
+  map_key('', "<LEADER>nh", ":Telescope help_tags<CR>")
 end
 
 return {
-  config = configure
+  config = configure,
+  git_files_with_fallback = git_files_with_fallback,
 }
