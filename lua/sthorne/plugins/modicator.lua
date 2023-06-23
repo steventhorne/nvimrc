@@ -1,5 +1,9 @@
 local function configure()
-  require("modicator").setup()
+  require("modicator").setup({
+    highlights = {
+      defaults = { bold = true },
+    }
+  })
 end
 
 return {
