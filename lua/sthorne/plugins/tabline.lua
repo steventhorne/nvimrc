@@ -12,7 +12,7 @@ local function draw()
   local selected_tabnr = vim.api.nvim_get_current_tabpage()
   -- loop through tab_pages
   for tabi, tabnr in ipairs(tab_pages) do
-    if tabi == selected_tabnr then
+    if tabnr == selected_tabnr then
       s = s .. "%#TabLineSelAccent# %#TabLineSel#"
     else
       s = s .. "%#TabLine#"
@@ -21,7 +21,7 @@ local function draw()
     s = s .. "%" .. tabnr .. "T"
 
     s = s .. "   "
-    if tabi ~= selected_tabnr then
+    if tabnr ~= selected_tabnr then
       s = s .. " "
     end
     s = s .. draw_label(tabnr) .. "    "
