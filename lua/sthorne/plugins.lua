@@ -106,6 +106,18 @@ return require("packer").startup(function(use)
   })
 
   use({
+    "echasnovski/mini.starter",
+    branch = "stable",
+    config = getConfig("starter"),
+  })
+
+  use({
+    "echasnovski/mini.sessions",
+    branch = "stable",
+    config = getConfig("sessions"),
+  })
+
+  use({
     "mawkler/modicator.nvim",
     after = "onedark.nvim",
     config = getConfig("modicator")
@@ -113,10 +125,10 @@ return require("packer").startup(function(use)
 
   use({ "matze/vim-move" })
 
-  use({
-    "preservim/nerdtree",
-    config = getConfig("nerdtree")
-  })
+  -- use({
+  --   "preservim/nerdtree",
+  --   config = getConfig("nerdtree")
+  -- })
 
   use({ "Hoffs/omnisharp-extended-lsp.nvim" })
 
@@ -140,6 +152,11 @@ return require("packer").startup(function(use)
       { "nvim-telescope/telescope-dap.nvim" },
     },
     config = getConfig("telescope")
+  })
+
+  use({
+    "nvim-tree/nvim-tree.lua",
+    config = getConfig("tree")
   })
 
   use({
