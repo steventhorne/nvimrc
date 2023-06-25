@@ -70,11 +70,14 @@ local function configure()
   vim.api.nvim_create_autocmd("FileType", {
     group = au_lsp,
     pattern = angularls_filetypes,
-    callback = function()
+    callback = function(au_args)
+      local utils = require("sthorne.utils")
+      utils.map_key_buf(au_args.buf, "n", "<LEADER>lf", ":Format")
+
       if vim.fn.expand("%:e") == ".cshtml" then
         return
       end
-      local root_dir = require("sthorne.utils").get_root_dir({ "angular.json" })
+      local root_dir = utils.get_root_dir({ "angular.json" })
       if root_dir ~= nil then
         vim.b.angularls_enabled = true
         vim.lsp.start({
@@ -107,8 +110,11 @@ local function configure()
   vim.api.nvim_create_autocmd("FileType", {
     group = au_lsp,
     pattern = tsserver_filetypes,
-    callback = function()
-      local root_dir = require("sthorne.utils").get_root_dir({ "tsconfig.json", "package.json", "jsconfig.json" })
+    callback = function(au_args)
+      local utils = require("sthorne.utils")
+      utils.map_key_buf(au_args.buf, "n", "<LEADER>lf", ":Format")
+
+      local root_dir = utils.get_root_dir({ "tsconfig.json", "package.json", "jsconfig.json" })
       local start_config = {
         name = "tsserver",
         capabilities = default_capabilities,
@@ -153,8 +159,11 @@ local function configure()
   vim.api.nvim_create_autocmd("FileType", {
     group = au_lsp,
     pattern = html_filetypes,
-    callback = function()
-      local root_dir = require("sthorne.utils").get_root_dir({ "package.json", ".git" }, true)
+    callback = function(au_args)
+      local utils = require("sthorne.utils")
+      utils.map_key_buf(au_args.buf, "n", "<LEADER>lf", ":Format")
+
+      local root_dir = utils.get_root_dir({ "package.json", ".git" }, true)
       vim.lsp.start({
         name = "html",
         capabilities = default_capabilities,
@@ -178,8 +187,11 @@ local function configure()
   vim.api.nvim_create_autocmd("FileType", {
     group = au_lsp,
     pattern = css_filetypes,
-    callback = function()
-      local root_dir = require("sthorne.utils").get_root_dir({ "package.json", ".git" }, true)
+    callback = function(au_args)
+      local utils = require("sthorne.utils")
+      utils.map_key_buf(au_args.buf, "n", "<LEADER>lf", ":Format")
+
+      local root_dir = utils.get_root_dir({ "package.json", ".git" }, true)
       vim.lsp.start({
         name = "css",
         capabilities = default_capabilities,
@@ -323,73 +335,6 @@ local function configure()
       }
     end
   })
-  -- local omnisharp_filetypes = {
-  --   "cs",
-  --   "vb",
-  -- }
-  --
-  -- vim.api.nvim_create_autocmd("FileType", {
-  --   group = au_lsp,
-  --   pattern = omnisharp_filetypes,
-  --   callback = function()
-  --     print("OmniSharp configuring...")
-  --     local root_dir = require("sthorne.utils").get_root_dir({ "*.sln", "*.csproj" })
-  --     local omnisharp_config = {
-  --       name = "omnisharp",
-  --       capabilities = default_capabilities,
-  --       filetypes = omnisharp_filetypes,
-  --       root_dir = root_dir,
-  --       enable_editorconfig_support = true,
-  --       enable_ms_build_load_projects_on_demand = false,
-  --       enable_roslyn_analyzers = false,
-  --       organize_imports_on_format = false,
-  --       enable_import_completion = false,
-  --       sdk_include_prereleases = true,
-  --       analyze_open_documents_only = false,
-  --       init_options = {},
-  --     }
-  --
-  --     omnisharp_config.cmd = {
-  --       "E:\\Programs\\OmniSharp\\OmniSharp.exe",
-  --       "-z",
-  --       "-s", root_dir,
-  --       "--hostPID", tostring(pid),
-  --       "DotNet:enablePackageRestore=false",
-  --       "--encoding", "utf-8",
-  --       "--languageserver",
-  --     }
-  --
-  --     if omnisharp_config.enable_editorconfig_support then
-  --       table.insert(omnisharp_config.cmd, 'FormattingOptions:EnableEditorConfigSupport=true')
-  --     end
-  --
-  --     if omnisharp_config.organize_imports_on_format then
-  --       table.insert(omnisharp_config.cmd, 'FormattingOptions:OrganizeImports=true')
-  --     end
-  --
-  --     if omnisharp_config.enable_ms_build_load_projects_on_demand then
-  --       table.insert(omnisharp_config.cmd, 'MsBuild:LoadProjectsOnDemand=true')
-  --     end
-  --
-  --     if omnisharp_config.enable_roslyn_analyzers then
-  --       table.insert(omnisharp_config.cmd, 'RoslynExtensionsOptions:EnableAnalyzersSupport=true')
-  --     end
-  --
-  --     if omnisharp_config.enable_import_completion then
-  --       table.insert(omnisharp_config.cmd, 'RoslynExtensionsOptions:EnableImportCompletion=true')
-  --     end
-  --
-  --     if omnisharp_config.sdk_include_prereleases then
-  --       table.insert(omnisharp_config.cmd, 'Sdk:IncludePrereleases=true')
-  --     end
-  --
-  --     if omnisharp_config.analyze_open_documents_only then
-  --       table.insert(omnisharp_config.cmd, 'RoslynExtensionsOptions:AnalyzeOpenDocumentsOnly=true')
-  --     end
-  --     print("OmniSharp starting...")
-  --     vim.lsp.start(omnisharp_config)
-  --   end,
-  -- })
 
   -- TODO: Move lua-language-server.exe to config path and use vim.fn.has('win32') to determine which exe to use
   local lua_filetypes = {
