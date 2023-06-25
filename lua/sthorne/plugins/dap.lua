@@ -86,8 +86,10 @@ local function configure()
   dap.configurations.typescript = js_config
   dap.configurations.cs = cs_config
 
-  vim.fn.sign_define("DapBreakpoint", { text="", texthl="DiagnosticError", linehl="", numhl="" })
-  vim.fn.sign_define("DapBreakpointCondition", { text="", texthl="DiagnosticError", linehl="", numhl="" })
+  vim.fn.sign_define("DapBreakpoint", { text="", texthl="DiagnosticError", linehl="DiagnosticVirtualTextError", numhl="" })
+  vim.fn.sign_define("DapBreakpointCondition", { text="", texthl="DiagnosticError", linehl="DiagnosticVirtualTextError", numhl="" })
+  vim.fn.sign_define("DapBreakpointRejected", { text="", texthl="DiagnosticError", linehl="", numhl="" })
+  vim.fn.sign_define("DapStopped", { text="", texthl="DiagnosticError", linehl="DiagnosticVirtualTextWarn", numhl="" })
 
   local map_key = require("sthorne.utils").map_key
   map_key("n", "<F5>", "<CMD>lua require(\"dap\").continue()<CR>")
