@@ -77,6 +77,7 @@ end
 
 return {
   map_key = map_key,
+  map_key_buf = map_key_buf,
   get_root_dir = get_root_dir,
   dump = dump,
 }
