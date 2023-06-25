@@ -1,7 +1,7 @@
 return {
   config = function()
     require("onedark").setup({
-      style = "warmer",
+      style = "darker",
 
       -- colors = {
       --   bg_search = "$bg_visual",
