@@ -36,7 +36,7 @@ local function configure()
       status = highlight.component_format_highlight(self.status_colors.modified) .. status
     end
     if attached then
-      status = status .. " "
+      status = status .. " (Attached)"
     end
     return status
   end

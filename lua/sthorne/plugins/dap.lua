@@ -17,7 +17,12 @@ local function toggle_hover()
 end
 
 local function configure()
-  require("nvim-dap-virtual-text").setup({})
+  require("nvim-dap-virtual-text").setup({
+    highlight_new_as_changed = true,
+  })
+
+  require("dapui").setup({})
+
   local masonPackages = vim.fn.stdpath("data").."/mason/packages"
   local dap = require("dap")
 
@@ -64,18 +69,18 @@ local function configure()
 
   local cs_config = {
     {
+      name = "Attach to .NET Core",
+      type = "coreclr",
+      request = "attach",
+      processId = require("dap.utils").pick_process,
+    },
+    {
       type = "coreclr",
       name = "Launch .NET Core",
       request = "launch",
       program = function()
         return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
       end,
-    },
-    {
-      name = "Attach to .NET Core",
-      type = "coreclr",
-      request = "attach",
-      processId = require("dap.utils").pick_process,
     },
   }
 
@@ -93,9 +98,10 @@ local function configure()
 
   local map_key = require("sthorne.utils").map_key
   map_key("n", "<F5>", "<CMD>lua require(\"dap\").continue()<CR>")
-  map_key("n", "<F6>",  "<CMD>lua require(\"sthorne.plugins.dap\").toggle_sidebar()<CR>")
+  map_key("n", "<F6>",  "<CMD>lua require(\"dapui\").toggle()<CR>")
   map_key("n", "<F7>", "<CMD>lua require(\"sthorne.plugins.dap\").toggle_hover()<CR>")
-  map_key("n", "<F8>", "<CMD>lua require(\"dap\").repl.toggle()<CR>")
+  -- map_key("n", "<F6>",  "<CMD>lua require(\"sthorne.plugins.dap\").toggle_sidebar()<CR>")
+  -- map_key("n", "<F8>", "<CMD>lua require(\"dap\").repl.toggle()<CR>")
   map_key("n", "<F9>", "<CMD>lua require(\"dap\").toggle_breakpoint()<CR>")
   map_key("n", "<S-F9>", "<CMD>lua require(\"dap\").clear_breakpoints()<CR>")
   map_key("n", "<C-F9>", "<CMD>lua require(\"dap\").list_breakpoints()<CR>")
