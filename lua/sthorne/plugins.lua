@@ -131,11 +131,6 @@ return require("packer").startup(function(use)
 
   use("matze/vim-move")
 
-  -- use({
-  --   "preservim/nerdtree",
-  --   config = getConfig("nerdtree")
-  -- })
-
   use({ "Hoffs/omnisharp-extended-lsp.nvim" })
 
   require("sthorne.plugins.qf")
