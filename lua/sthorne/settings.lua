@@ -1,35 +1,28 @@
-vim.o.syntax = "on"
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.cursorline = true
 
-vim.bo.autoindent = true
-vim.bo.smartindent = true
-vim.cmd([[ set backspace=indent,eol,start ]])
-vim.o.completeopt="menuone,noinsert,noselect"
-vim.o.smarttab = true
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
 
-vim.cmd([[ set nrformats-=octal ]])
+vim.opt.smartindent = true
 
-vim.o.ttimeout = true
-vim.o.ttimeoutlen = 100
+vim.opt.wrap = false
 
-vim.o.incsearch = true
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = vim.fn.stdpath("config") .. "/undodir"
+vim.opt.undofile = true
 
-vim.o.laststatus = 2
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
 
-vim.o.ruler = true
-vim.o.wildmenu = true
+vim.opt.termguicolors = true
 
-vim.o.scrolloff = 2
-vim.o.sidescrolloff = 5
-
-vim.cmd([[ set display+=lastline ]])
-
-vim.cmd([[
-  if &encoding ==# 'latin1' && has('gui_running')
-    set encoding=utf-8
-  endif
-]])
-
-vim.o.autoread = true
+vim.opt.scrolloff = 2
+vim.opt.sidescrolloff = 5
 
 vim.cmd([[
   if &t_Co == 8 && $TERM !~# '^Eterm'
@@ -37,29 +30,12 @@ vim.cmd([[
   endif
 ]])
 
-vim.o.termguicolors = true
-vim.o.errorbells = false
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.showmode = false
-vim.bo.swapfile = false
-vim.o.backup = false
-vim.o.undodir = vim.fn.stdpath("config") .. "/undodir"
-vim.o.undofile = true
-vim.o.hidden = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.showmode = false
 
-vim.o.tabstop = 2
-vim.o.softtabstop = 2
-vim.o.shiftwidth = 2
-vim.o.expandtab = true
-vim.o.number = true
-vim.o.cursorline = true
-vim.wo.number = true
-vim.wo.relativenumber = true
-vim.wo.cursorline = true
-vim.wo.signcolumn = "yes"
-vim.wo.wrap = false
-vim.go.startofline = true
+vim.opt.signcolumn = "yes"
+vim.opt.startofline = true
 
 vim.cmd([[ set diffopt=filler,iwhite,vertical,internal,algorithm:patience,indent-heuristic,algorithm:histogram ]])
 
@@ -68,3 +44,7 @@ vim.cmd([[ let g:rust_recommended_style=0 ]])
 vim.cmd([[
   au! BufRead,BufNewFile *.astro set filetype=astro
 ]])
+
+if vim.fn.has("win32") then
+  vim.opt.shell = "powershell.exe"
+end

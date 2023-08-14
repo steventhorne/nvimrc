@@ -138,7 +138,13 @@ local function configure()
     end,
   })
 
+  local eslint_cmd = {
+    "node",
+    masonPackages.."/eslint-lsp/node_modules/vscode-langservers-extracted/bin/vscode-eslint-language-server",
+    "--stdio",
+  }
   require("lspconfig").eslint.setup({
+    cmd = eslint_cmd,
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue", "svelte", "astro", "html" },
     on_attach = function(client, bufnr)
       -- vim.api.nvim_create_autocmd("BufWritePre", {
@@ -233,6 +239,11 @@ local function configure()
     masonPackages.."/astro-language-server/node_modules/@astrojs/language-server/bin/nodeServer.js",
     "--stdio",
   }
+  local astro_init = {
+    typescript = {
+      tsdk = masonPackages.."/astro-language-server/node_modules/typescript/lib",
+    },
+  }
   vim.api.nvim_create_autocmd("FileType", {
     group = au_lsp,
     pattern = astro_filetypes,
@@ -244,6 +255,7 @@ local function configure()
         cmd = astro_cmd,
         filetypes = astro_filetypes,
         root_dir = root_dir,
+        init_options = astro_init,
       })
     end,
   })

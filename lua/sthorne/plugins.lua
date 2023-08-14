@@ -28,11 +28,16 @@ return require("packer").startup(function(use)
   })
 
   use({
+    "laytan/cloak.nvim",
+    config = getConfig("cloak")
+  })
+
+  use({
     "numToStr/Comment.nvim",
     config = getConfig("comment")
   })
 
-  use({ "github/copilot.vim" })
+  use("github/copilot.vim")
 
   use({
     "mfussenegger/nvim-dap",
@@ -65,7 +70,7 @@ return require("packer").startup(function(use)
     config = getConfig("lint")
   })
 
-  use({ "ggandor/lightspeed.nvim" })
+  use("ggandor/lightspeed.nvim")
 
   use({
     "neovim/nvim-lspconfig",
@@ -124,7 +129,7 @@ return require("packer").startup(function(use)
     config = getConfig("modicator")
   })
 
-  use({ "matze/vim-move" })
+  use("matze/vim-move")
 
   -- use({
   --   "preservim/nerdtree",
@@ -167,6 +172,8 @@ return require("packer").startup(function(use)
     },
     config = getConfig("treesitter")
   })
+
+  use("mbbill/undotree")
 
   if packer_bootstrap then
     require("packer").sync()
