@@ -13,8 +13,9 @@ local function configure()
       },
     },
   })
-  require("sthorne.utils").map_key("n", "<LEADER>nn", ":NvimTreeToggle<CR>")
-  require("sthorne.utils").map_key("n", "<LEADER>nN", ":NvimTreeFindFile<CR>")
+
+  vim.keymap.set("n", "<LEADER>nn", ":NvimTreeToggle<CR>")
+  vim.keymap.set("n", "<LEADER>nN", ":NvimTreeFindFile<CR>")
 end
 
 return {

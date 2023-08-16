@@ -1,30 +1,3 @@
-local function map_key(mode, key, result, opts)
-  opts = opts or {
-    noremap = true,
-    silent = true,
-  }
-  vim.api.nvim_set_keymap(
-    mode,
-    key,
-    result,
-    opts
-  )
-end
-
-local function map_key_buf(buffer, mode, key, result, opts)
-  opts = opts or {
-    noremap = true,
-    silent = true,
-  }
-  vim.api.nvim_buf_set_keymap(
-    buffer,
-    mode,
-    key,
-    result,
-    opts
-  )
-end
-
 local function capitalize_drive_letter(path)
   if not vim.fn.has("win32") then return path end
   local has_drive_letter = string.match(path, "^%a:")
@@ -76,8 +49,6 @@ local function dump(o)
 end
 
 return {
-  map_key = map_key,
-  map_key_buf = map_key_buf,
   get_root_dir = get_root_dir,
   dump = dump,
 }

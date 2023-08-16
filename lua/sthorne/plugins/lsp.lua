@@ -72,7 +72,7 @@ local function configure()
     pattern = angularls_filetypes,
     callback = function(au_args)
       local utils = require("sthorne.utils")
-      utils.map_key_buf(au_args.buf, "n", "<LEADER>lf", ":Format")
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf })
 
       if vim.fn.expand("%:e") == ".cshtml" then
         return
@@ -112,7 +112,7 @@ local function configure()
     pattern = tsserver_filetypes,
     callback = function(au_args)
       local utils = require("sthorne.utils")
-      utils.map_key_buf(au_args.buf, "n", "<LEADER>lf", ":Format")
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf })
 
       local root_dir = utils.get_root_dir({ "tsconfig.json", "package.json", "jsconfig.json" })
       local start_config = {
@@ -167,7 +167,7 @@ local function configure()
     pattern = html_filetypes,
     callback = function(au_args)
       local utils = require("sthorne.utils")
-      utils.map_key_buf(au_args.buf, "n", "<LEADER>lf", ":Format")
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf })
 
       local root_dir = utils.get_root_dir({ "package.json", ".git" }, true)
       vim.lsp.start({
@@ -195,7 +195,7 @@ local function configure()
     pattern = css_filetypes,
     callback = function(au_args)
       local utils = require("sthorne.utils")
-      utils.map_key_buf(au_args.buf, "n", "<LEADER>lf", ":Format")
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf })
 
       local root_dir = utils.get_root_dir({ "package.json", ".git" }, true)
       vim.lsp.start({
@@ -320,7 +320,7 @@ local function configure()
             runtime = { version = "LuaJIT" },
             diagnostics = { globals = { "vim" }, },
             workspace = {
-              library = vim.api.nvim_get_runtime_file("", true),
+              library = vim.env.VIMRUNTIME,
               maxPreload = 2000,
               preloadFileSize = 1000,
               checkThirdParty = false,
@@ -339,21 +339,20 @@ local function configure()
   vim.fn.sign_define("DiagnosticSignHint", { text="", texthl="DiagnosticHint", linehl="", numhl="" })
   vim.fn.sign_define("DiagnosticSignInfo", { text="", texthl="DiagnosticInfo", linehl="", numhl="" })
 
-  local map_key = require("sthorne.utils").map_key
-  map_key("n", "<LEADER>ld", ":Telescope lsp_definitions<CR>")
-  map_key("n", "<LEADER>lr", ":Telescope lsp_references<CR>")
-  map_key("n", "<LEADER>lh", "<CMD>lua vim.lsp.buf.hover()<CR>")
-  map_key("n", "<LEADER>li", ":Telescope lsp_implementations<CR>")
-  map_key("n", "<F2>", "<CMD>lua vim.lsp.buf.rename()<CR>")
-  map_key("n", "<LEADER>ls", "<CMD>lua vim.lsp.buf.signature_help()<CR>")
-  map_key("n", "<LEADER>lf", "<CMD>lua vim.lsp.buf.format()<CR>")
-  map_key("n", "<LEADER>la", "<CMD>lua vim.lsp.buf.code_action()<CR>")
+  vim.keymap.set("n", "<LEADER>ld", ":Telescope lsp_definitions<CR>")
+  vim.keymap.set("n", "<LEADER>lr", ":Telescope lsp_references<CR>")
+  vim.keymap.set("n", "<LEADER>lh", vim.lsp.buf.hover)
+  vim.keymap.set("n", "<LEADER>li", ":Telescope lsp_implementations<CR>")
+  vim.keymap.set("n", "<F2>", vim.lsp.buf.rename)
+  vim.keymap.set("n", "<LEADER>ls", vim.lsp.buf.signature_help)
+  vim.keymap.set("n", "<LEADER>lf", vim.lsp.buf.format)
+  vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action)
 
-  map_key("n", "<LEADER>dh", "<CMD>lua vim.diagnostic.open_float()<CR>")
-  map_key("n", "<LEADER>dj", "<CMD>lua vim.diagnostic.goto_next()<CR>")
-  map_key("n", "<LEADER>dk", "<CMD>lua vim.diagnostic.goto_prev()<CR>")
-  map_key("n", "<LEADER>dJ", "<CMD>lua vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } })<CR>")
-  map_key("n", "<LEADER>dK", "<CMD>lua vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } })<CR>")
+  vim.keymap.set("n", "<LEADER>dh", vim.diagnostic.open_float)
+  vim.keymap.set("n", "<LEADER>dj", vim.diagnostic.goto_next)
+  vim.keymap.set("n", "<LEADER>dk", vim.diagnostic.goto_prev)
+  vim.keymap.set("n", "<LEADER>dJ", function() vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } }) end)
+  vim.keymap.set("n", "<LEADER>dK", function() vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } }) end)
 end
 
 return {

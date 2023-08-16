@@ -1,33 +1,35 @@
-local map_key = require("sthorne.utils").map_key
-
 -- leader mappings
-map_key("n", "<SPACE>", "<NOP>")
+vim.keymap.set("", "<SPACE>", "<NOP>")
 vim.g.mapleader = " "
 
--- disable mouse
-vim.cmd([[ set mouse= ]])
-
 -- movement mappings
-map_key("", "<UP>", "<NOP>")
-map_key("", "<DOWN>", "<NOP>")
-map_key("", "<LEFT>", "<NOP>")
-map_key("", "<RIGHT>", "<NOP>")
-map_key("", "<C-J>", "<C-W>j")
-map_key("", "<C-K>", "<C-W>k")
-map_key("", "<C-H>", "<C-W>h")
-map_key("", "<C-L>", "<C-W>l")
+vim.keymap.set("", "<UP>", "<NOP>")
+vim.keymap.set("", "<DOWN>", "<NOP>")
+vim.keymap.set("", "<LEFT>", "<NOP>")
+vim.keymap.set("", "<RIGHT>", "<NOP>")
+vim.keymap.set("", "<C-J>", "<C-W>j")
+vim.keymap.set("", "<C-K>", "<C-W>k")
+vim.keymap.set("", "<C-H>", "<C-W>h")
+vim.keymap.set("", "<C-L>", "<C-W>l")
 
 -- clear search highlighting
-map_key("", "<LEADER><CR>", ":noh<CR>")
+vim.keymap.set("", "<LEADER><CR>", ":noh<CR>")
 
--- OS clipboard
-map_key("x", "Y", '"+y')
+-- yank/paste mappings
+-- yank to OS
+vim.keymap.set("", "y", '"+y')
+vim.keymap.set("n", "Y", '"+Y')
+-- paste from OS
+vim.keymap.set("n", "p", '"+p')
+vim.keymap.set("n", "P", '"+P')
+-- paste over selection without yanking
+vim.keymap.set("v", "p", '"_dP')
 
 -- escape mappings
-map_key("i", "jk", "<ESC>")
-map_key("i", "kj", "<ESC>")
-map_key("i", "JK", "<ESC>")
-map_key("i", "KJ", "<ESC>")
+vim.keymap.set("!", "jk", "<ESC>")
+vim.keymap.set("!", "kj", "<ESC>")
+vim.keymap.set("!", "JK", "<ESC>")
+vim.keymap.set("!", "KJ", "<ESC>")
 
 vim.cmd([[
   function! ToggleTerminal()
@@ -94,25 +96,17 @@ vim.cmd([[
 ]])
 
 -- terminal mappings
-map_key("", "<LEADER>;", ":call ToggleTerminal()<CR>")
-map_key("", "<LEADER>:", ":call ToggleTerminalSize()<CR>")
-map_key("t", "<ESC>", "<C-\\><C-N>")
-map_key("t", "jj", "<C-\\><C-N>")
-map_key("t", "JJ", "<C-\\><C-N>")
-map_key("t", "jk", "<C-\\><C-N>")
-map_key("t", "kj", "<C-\\><C-N>")
-map_key("t", "JK", "<C-\\><C-N>")
-map_key("t", "KJ", "<C-\\><C-N>")
-map_key("t", "<C-R>", "'<C-\\><C-N>\"'.nr2char(getchar()).'pi'", { noremap = true, silent = true, expr = true })
-map_key("t", "<C-J>", "<C-\\><C-N><C-W>j")
-map_key("t", "<C-K>", "<C-\\><C-N><C-W>k")
-map_key("t", "<C-H>", "<C-\\><C-N><C-W>h")
-map_key("t", "<C-L>", "<C-\\><C-N><C-W>l")
-
--- goneovim mappings
-if vim.fn.exists("g:gonvim_running") > 0 then
-  map_key("n", "gw",
-    "v:count > 0 ? '<ESC>:GonvimWorkspaceSwitch ' .. v:count .. '<CR>' : '<ESC>:GonvimWorkspaceNext<CR>'",
-    { noremap = true, silent = true, expr = true })
-  map_key("n", "gW", ":GonvimWorkspacePrevious<CR>")
-end
+vim.keymap.set("", "<LEADER>;", ":call ToggleTerminal()<CR>")
+vim.keymap.set("", "<LEADER>:", ":call ToggleTerminalSize()<CR>")
+vim.keymap.set("t", "<ESC>", "<C-\\><C-N>")
+vim.keymap.set("t", "jj", "<C-\\><C-N>")
+vim.keymap.set("t", "JJ", "<C-\\><C-N>")
+vim.keymap.set("t", "jk", "<C-\\><C-N>")
+vim.keymap.set("t", "kj", "<C-\\><C-N>")
+vim.keymap.set("t", "JK", "<C-\\><C-N>")
+vim.keymap.set("t", "KJ", "<C-\\><C-N>")
+vim.keymap.set("t", "<C-R>", "'<C-\\><C-N>\"'.nr2char(getchar()).'pi'", { noremap = true, silent = true, expr = true })
+vim.keymap.set("t", "<C-J>", "<C-\\><C-N><C-W>j")
+vim.keymap.set("t", "<C-K>", "<C-\\><C-N><C-W>k")
+vim.keymap.set("t", "<C-H>", "<C-\\><C-N><C-W>h")
+vim.keymap.set("t", "<C-L>", "<C-\\><C-N><C-W>l")

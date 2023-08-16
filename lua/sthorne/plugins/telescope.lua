@@ -100,15 +100,14 @@ local function configure()
 
   require("telescope").load_extension("fzf")
 
-  local map_key = require("sthorne.utils").map_key
-  map_key('', "<LEADER>nf", ":Telescope current_buffer_fuzzy_find<CR>")
-  map_key('', "<LEADER>nF", ":Telescope live_grep<CR>")
-  map_key('', "<LEADER>ns", ":Telescope git_status<CR>")
-  map_key('', "<LEADER>nt", ":Telescope lsp_document_symbols<CR>")
-  map_key('', "<LEADER>nb", ":Telescope buffers<CR>")
-  map_key('', "<LEADER>ng", ":lua require(\"sthorne.plugins.telescope\").git_files_with_fallback(false)<CR>")
-  map_key('', "<LEADER>nG", ":lua require(\"sthorne.plugins.telescope\").git_files_with_fallback(true)<CR>")
-  map_key('', "<LEADER>nh", ":Telescope help_tags<CR>")
+  vim.keymap.set('', "<LEADER>nf", ":Telescope current_buffer_fuzzy_find<CR>")
+  vim.keymap.set('', "<LEADER>nF", ":Telescope live_grep<CR>")
+  vim.keymap.set('', "<LEADER>ns", ":Telescope git_status<CR>")
+  vim.keymap.set('', "<LEADER>nt", ":Telescope lsp_document_symbols<CR>")
+  vim.keymap.set('', "<LEADER>nb", ":Telescope buffers<CR>")
+  vim.keymap.set('', "<LEADER>ng", function() require("sthorne.plugins.telescope").git_files_with_fallback(false) end)
+  vim.keymap.set('', "<LEADER>nG", function() require("sthorne.plugins.telescope").git_files_with_fallback(true) end)
+  vim.keymap.set('', "<LEADER>nh", ":Telescope help_tags<CR>")
 end
 
 return {
