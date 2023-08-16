@@ -2,6 +2,9 @@
 vim.keymap.set("", "<SPACE>", "<NOP>")
 vim.g.mapleader = " "
 
+-- disable Q EX mode
+vim.keymap.set("n", "Q", "<NOP>")
+
 -- movement mappings
 vim.keymap.set("", "<UP>", "<NOP>")
 vim.keymap.set("", "<DOWN>", "<NOP>")
