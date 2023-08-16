@@ -11,19 +11,24 @@ vim.keymap.set("", "<C-J>", "<C-W>j")
 vim.keymap.set("", "<C-K>", "<C-W>k")
 vim.keymap.set("", "<C-H>", "<C-W>h")
 vim.keymap.set("", "<C-L>", "<C-W>l")
+vim.keymap.set("n", "J", "mzJ`z", { noremap = true })
+vim.keymap.set("n", "<C-D>", "<C-D>zz", { noremap = true })
+vim.keymap.set("n", "<C-U>", "<C-U>zz", { noremap = true })
+vim.keymap.set("n", "n", "nzzzv", { noremap = true })
+vim.keymap.set("n", "N", "Nzzzv", { noremap = true })
 
 -- clear search highlighting
 vim.keymap.set("", "<LEADER><CR>", ":noh<CR>")
 
 -- yank/paste mappings
 -- yank to OS
-vim.keymap.set("", "y", '"+y')
-vim.keymap.set("n", "Y", '"+Y')
+vim.keymap.set({"n", "v"}, "y", '"+y', { noremap = true })
+vim.keymap.set({"n", "v"}, "Y", '"+Y', { noremap = true })
 -- paste from OS
-vim.keymap.set("n", "p", '"+p')
-vim.keymap.set("n", "P", '"+P')
+vim.keymap.set("n", "p", '"+p', { noremap = true })
+vim.keymap.set("n", "P", '"+P', { noremap = true })
 -- paste over selection without yanking
-vim.keymap.set("v", "p", '"_dP')
+vim.keymap.set("v", "p", '"_dP', { noremap = true })
 
 -- escape mappings
 vim.keymap.set("!", "jk", "<ESC>")
