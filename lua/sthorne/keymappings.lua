@@ -23,7 +23,7 @@ vim.keymap.set("n", "N", "Nzzzv", { noremap = true })
 -- clear search highlighting
 vim.keymap.set("", "<LEADER><CR>", ":noh<CR>")
 
--- yank/paste mappings
+-- yank/paste/delete mappings
 -- yank to OS
 vim.keymap.set({"n", "v"}, "y", '"+y', { noremap = true })
 vim.keymap.set({"n", "v"}, "Y", '"+Y', { noremap = true })
@@ -32,6 +32,9 @@ vim.keymap.set("n", "p", '"+p', { noremap = true })
 vim.keymap.set("n", "P", '"+P', { noremap = true })
 -- paste over selection without yanking
 vim.keymap.set("v", "p", '"_dP', { noremap = true })
+-- delete to OS
+vim.keymap.set({"n", "v"}, "d", '"+d', { noremap = true })
+vim.keymap.set({"n", "v"}, "D", '"+D', { noremap = true })
 
 -- escape mappings
 vim.keymap.set("!", "jk", "<ESC>")
