@@ -48,6 +48,6 @@ vim.cmd([[
   au! BufRead,BufNewFile *.astro set filetype=astro
 ]])
 
-if vim.fn.has("win32") then
+if vim.fn.has("win32") > 0
   vim.opt.shell = "powershell.exe"
 end

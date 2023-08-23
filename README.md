@@ -1,6 +1,11 @@
-# Installation
+# Prerequisites
 In order to use this repository, you will need to install and run [Neovim](https://neovim.io/) at least once.
 
+Telescope-fzf-native relies on [cmake](https://cmake.org/) to be installed.
+
+Icons used in this configuration rely on [nerd fonts](https://www.nerdfonts.com/).
+
+# Installation
 Clone or extract the files into the nvim folder in your `'runtimepath'` (for most users, this will mean `~/.config/nvim` on *nix systems and `%localappdata%/nvim` on Windows).
 If you have cloned/extracted the files correctly, you will now have this readme file directly inside of your nvim folder.
 
