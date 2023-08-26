@@ -18,23 +18,10 @@ local function configure()
     },
   })
 
-  vim.wo.foldmethod = "expr"
-  vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
-  vim.cmd([[ set foldtext=substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) ]])
-
-  vim.cmd([[
-    augroup folds
-      autocmd!
-      autocmd BufRead * normal zR
-      autocmd InsertEnter * let w:oldfm = &l:foldmethod | setlocal foldmethod=manual
-      autocmd InsertLeave *
-        \ if exists('w:oldfm') |
-        \   let &l:foldmethod = w:oldfm |
-        \   unlet w:oldfm |
-        \ endif |
-        \ normal! zv
-    augroup END
-  ]])
+  vim.opt.foldmethod = "expr"
+  vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+  vim.opt.foldenable = false
+  vim.opt.foldlevelstart = 99
 end
 
 return {
