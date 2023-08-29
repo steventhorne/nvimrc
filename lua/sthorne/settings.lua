@@ -51,3 +51,5 @@ vim.cmd([[
 if vim.fn.has("win32") > 0 then
   vim.opt.shell = "powershell.exe"
 end
+
+vim.api.nvim_create_user_command("Fresh", "%bd|e#|bd#|'\"", {})

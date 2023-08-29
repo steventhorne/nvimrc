@@ -72,7 +72,7 @@ local function configure()
     pattern = angularls_filetypes,
     callback = function(au_args)
       local utils = require("sthorne.utils")
-      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf })
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf, silent = true })
 
       if vim.fn.expand("%:e") == ".cshtml" then
         return
@@ -112,7 +112,7 @@ local function configure()
     pattern = tsserver_filetypes,
     callback = function(au_args)
       local utils = require("sthorne.utils")
-      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf })
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf, silent = true })
 
       local root_dir = utils.get_root_dir({ "tsconfig.json", "package.json", "jsconfig.json" })
       local start_config = {
@@ -167,7 +167,7 @@ local function configure()
     pattern = html_filetypes,
     callback = function(au_args)
       local utils = require("sthorne.utils")
-      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf })
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf, silent = true })
 
       local root_dir = utils.get_root_dir({ "package.json", ".git" }, true)
       vim.lsp.start({
@@ -195,7 +195,7 @@ local function configure()
     pattern = css_filetypes,
     callback = function(au_args)
       local utils = require("sthorne.utils")
-      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf })
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf, silent = true })
 
       local root_dir = utils.get_root_dir({ "package.json", ".git" }, true)
       vim.lsp.start({
@@ -339,20 +339,20 @@ local function configure()
   vim.fn.sign_define("DiagnosticSignHint", { text="", texthl="DiagnosticHint", linehl="", numhl="" })
   vim.fn.sign_define("DiagnosticSignInfo", { text="", texthl="DiagnosticInfo", linehl="", numhl="" })
 
-  vim.keymap.set("n", "<LEADER>ld", ":Telescope lsp_definitions<CR>")
-  vim.keymap.set("n", "<LEADER>lr", ":Telescope lsp_references<CR>")
-  vim.keymap.set("n", "<LEADER>lh", vim.lsp.buf.hover)
-  vim.keymap.set("n", "<LEADER>li", ":Telescope lsp_implementations<CR>")
-  vim.keymap.set("n", "<F2>", vim.lsp.buf.rename)
-  vim.keymap.set("n", "<LEADER>ls", vim.lsp.buf.signature_help)
-  vim.keymap.set("n", "<LEADER>lf", vim.lsp.buf.format)
-  vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action)
+  vim.keymap.set("n", "<LEADER>ld", ":Telescope lsp_definitions<CR>", { silent = true })
+  vim.keymap.set("n", "<LEADER>lr", ":Telescope lsp_references<CR>", { silent = true })
+  vim.keymap.set("n", "<LEADER>lh", vim.lsp.buf.hover, { silent = true })
+  vim.keymap.set("n", "<LEADER>li", ":Telescope lsp_implementations<CR>", { silent = true })
+  vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { silent = true })
+  vim.keymap.set("n", "<LEADER>ls", vim.lsp.buf.signature_help, { silent = true })
+  vim.keymap.set("n", "<LEADER>lf", vim.lsp.buf.format, { silent = true })
+  vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { silent = true })
 
-  vim.keymap.set("n", "<LEADER>dh", vim.diagnostic.open_float)
-  vim.keymap.set("n", "<LEADER>dj", vim.diagnostic.goto_next)
-  vim.keymap.set("n", "<LEADER>dk", vim.diagnostic.goto_prev)
-  vim.keymap.set("n", "<LEADER>dJ", function() vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } }) end)
-  vim.keymap.set("n", "<LEADER>dK", function() vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } }) end)
+  vim.keymap.set("n", "<LEADER>dh", vim.diagnostic.open_float, { silent = true })
+  vim.keymap.set("n", "<LEADER>dj", vim.diagnostic.goto_next, { silent = true })
+  vim.keymap.set("n", "<LEADER>dk", vim.diagnostic.goto_prev, { silent = true })
+  vim.keymap.set("n", "<LEADER>dJ", function() vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
+  vim.keymap.set("n", "<LEADER>dK", function() vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
 end
 
 return {

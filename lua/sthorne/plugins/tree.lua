@@ -14,8 +14,8 @@ local function configure()
     },
   })
 
-  vim.keymap.set("n", "<LEADER>nn", ":NvimTreeToggle<CR>")
-  vim.keymap.set("n", "<LEADER>nN", ":NvimTreeFindFile<CR>")
+  vim.keymap.set("n", "<LEADER>nn", ":NvimTreeToggle<CR>", { silent = true })
+  vim.keymap.set("n", "<LEADER>nN", ":NvimTreeFindFile<CR>", { silent = true })
 end
 
 return {
