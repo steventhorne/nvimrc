@@ -260,11 +260,39 @@ local function configure()
     end,
   })
 
-  local omnisharp_cmd = {
+  -- local csharp_filetypes = {
+  --   "cs"
+  -- }
+  -- local csharp_cmd = {
+  --   "csharp-ls"
+  -- }
+  -- vim.api.nvim_create_autocmd("FileType", {
+  --   group = au_lsp,
+  --   pattern = csharp_filetypes,
+  --   callback = function()
+  --     local root_dir = require("sthorne.utils").get_root_dir({ "*.sln", "*.csproj" })
+  --     vim.lsp.start({
+  --       name = "csharp-ls",
+  --       capabilities = default_capabilities,
+  --       cmd = csharp_cmd,
+  --       filetypes = csharp_filetypes,
+  --       root_dir = root_dir,
+  --       init_options = {
+  --         AutomaticWorkspaceInit = true,
+  --       }
+  --     })
+  --   end
+  -- })
+
+  local csharp_filetypes = {
+    "cs", "vb", "cshtml"
+  }
+  local csharp_cmd = {
     masonPackages.."/omnisharp/omnisharp.cmd",
   }
   require("lspconfig").omnisharp.setup({
-    cmd = omnisharp_cmd,
+    cmd = csharp_cmd,
+    filetypes = csharp_filetypes,
     capabilities = default_capabilities,
     root_dir = function (_, _)
       return require("sthorne.utils").get_root_dir({ "*.sln", "*.csproj" })

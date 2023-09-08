@@ -44,6 +44,7 @@ vim.cmd([[ set diffopt=filler,iwhite,vertical,internal,algorithm:patience,indent
 
 vim.cmd([[ let g:rust_recommended_style=0 ]])
 
+-- vim.cmd([[ au! BufRead,BufNewFile *.cshtml set filetype=cshtml syntax=html ]])
 vim.cmd([[ au! BufRead,BufNewFile *.astro set filetype=astro ]])
 vim.cmd([[ au! BufRead,BufNewFile *.tt set filetype=tintin ]])
 
