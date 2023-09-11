@@ -31,9 +31,6 @@ local function configure()
   local actions = require("telescope.actions")
   local actions_set = require("telescope.actions.set")
 
-  require("telescope").load_extension("ui-select")
-  require("telescope").load_extension("dap")
-
   local attach_mappings = function(_, map)
     map("n", "q", actions.close)
     actions_set.select:enhance({
@@ -98,7 +95,10 @@ local function configure()
     }
   })
 
+  require("telescope").load_extension("ui-select")
+  require("telescope").load_extension("dap")
   require("telescope").load_extension("fzf")
+  require("telescope").load_extension("flutter")
 
   vim.keymap.set('', "<LEADER>nf", ":Telescope current_buffer_fuzzy_find<CR>", { silent = true })
   vim.keymap.set('', "<LEADER>nF", ":Telescope live_grep<CR>", { silent = true })

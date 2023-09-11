@@ -51,6 +51,14 @@ return require("packer").startup(function(use)
   use({ "elihunter173/dirbuf.nvim" })
 
   use({
+    "akinsho/flutter-tools.nvim",
+    requires = {
+      { "nvim-lua/plenary.nvim" },
+    },
+    config = getConfig("flutter")
+  })
+
+  use({
     "mhartington/formatter.nvim",
     config = getConfig("formatter")
   })
