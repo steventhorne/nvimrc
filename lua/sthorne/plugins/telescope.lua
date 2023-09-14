@@ -1,27 +1,26 @@
-local default_picker_opts = {
-  attach_mappings = attach_mappings,
-  layout_config = {
-    preview_width = 0.4,
-  },
-  show_line = false,
-  show_untracked = true,
-}
+local is_inside_work_tree = {}
 
 local function is_git_repo()
-  vim.fn.system("git rev-parse --is-inside-work-tree")
+  local cwd = vim.loop.cwd()
+  if is_inside_work_tree[cwd] == nil then
+    local ok, err = vim.loop.fs_stat(cwd.."/.git")
+    is_inside_work_tree[cwd] = ok
+  end
 
-  return vim.v.shell_error == 0
+  return is_inside_work_tree[cwd]
 end
 
 local function git_files_with_fallback(all)
   local builtin = require("telescope.builtin")
-  local opts = vim.tbl_deep_extend("force", default_picker_opts, {
+  local opts = {
     hidden = true,
     no_ignore = all,
     no_ignore_parent = all,
-  })
+  }
+  print(is_git_repo())
+  print(all)
   if is_git_repo() and not all then
-    builtin.git_files(opts)
+    builtin.git_files()
   else
     builtin.find_files(opts)
   end
@@ -31,20 +30,11 @@ local function configure()
   local actions = require("telescope.actions")
   local actions_set = require("telescope.actions.set")
 
-  local attach_mappings = function(_, map)
-    map("n", "q", actions.close)
-    actions_set.select:enhance({
-      post = function()
-        vim.cmd(":normal! zx")
-        vim.cmd(":normal! zR")
-      end,
-    })
-    return true
-  end
-
   require("telescope").setup({
     defaults = {
+      results_title = false,
       layout_config = {
+        preview_width = 0.4,
         width = 0.9,
       },
       path_display = {
@@ -53,6 +43,14 @@ local function configure()
       file_ignore_patterns = {
         "node_modules",
         "%.meta",
+      },
+      mappings = {
+        n = {
+          ["q"] = require("telescope.actions").close,
+        },
+        i = {
+          ["<esc>"] = require("telescope.actions").close,
+        }
       },
     },
     extensions = {
@@ -83,15 +81,20 @@ local function configure()
         results_title = "",
         preview_title = "",
       },
-      find_files = default_picker_opts,
-      live_grep = default_picker_opts,
-      git_files = default_picker_opts,
-      git_status = default_picker_opts,
-      lsp_document_symbols = default_picker_opts,
-      lsp_definitions = default_picker_opts,
-      lsp_references = default_picker_opts,
-      lsp_implementations = default_picker_opts,
-      dap = default_picker_opts,
+      find_files = {},
+      live_grep = {},
+      git_files = {},
+      git_status = {
+        git_icons = {
+          added = "A",
+          changed = "M",
+          deleted = "D",
+        },
+      },
+      lsp_document_symbols = { show_line = false, },
+      lsp_definitions = { show_line = false, reuse_win = true, },
+      lsp_references = { show_line = false, },
+      lsp_implementations = { show_line = false, reuse_win = true, },
     }
   })
 
