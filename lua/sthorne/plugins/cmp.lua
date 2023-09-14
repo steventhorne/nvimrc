@@ -17,6 +17,8 @@ local function configure()
     return false
   end
 
+  local win_highlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None"
+
   local cmp_opts = {
     mapping = cmp.mapping.preset.insert({
       ["<C-N>"] = cmp.mapping.complete(),
@@ -52,6 +54,14 @@ local function configure()
       end,
     },
     window = {
+      completion = {
+        border = "rounded",
+        winhighlight = win_highlight,
+      },
+      documentation = {
+        border = "rounded",
+        winhighlight = win_highlight,
+      },
     },
     sources = cmp.config.sources({
       { name = "nvim_lsp" },
