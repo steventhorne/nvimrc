@@ -12,6 +12,9 @@ local function configure()
         quit_on_open = true,
       },
     },
+    git = {
+      enable = false,
+    },
   })
 
   vim.keymap.set("n", "<LEADER>nn", ":NvimTreeToggle<CR>", { silent = true })
