@@ -34,7 +34,6 @@ local function configure()
     defaults = {
       results_title = false,
       layout_config = {
-        preview_width = 0.4,
         width = 0.9,
       },
       path_display = {
@@ -56,7 +55,6 @@ local function configure()
     extensions = {
       ["ui-select"] = {
         require("telescope.themes").get_dropdown({
-          attach_mappings = attach_mappings,
           prompt_title = "",
           results_title = "",
           preview_title = "",
@@ -71,30 +69,45 @@ local function configure()
     },
     pickers = {
       buffers = {
-        attach_mappings = function(_, map)
-          attach_mappings(_, map)
-          map("n", "d", actions.delete_buffer)
-          return true
-        end,
+        mappings = {
+          n = {
+            ["d"] = actions.delete_buffer,
+          },
+        },
         preview_width = 0.4,
         prompt_title = "",
         results_title = "",
         preview_title = "",
       },
-      find_files = {},
-      live_grep = {},
-      git_files = {},
+      -- find_files = {},
+      -- live_grep = {},
+      -- git_files = {},
       git_status = {
+        preview_width = 0.4,
         git_icons = {
           added = "A",
           changed = "M",
           deleted = "D",
         },
       },
-      lsp_document_symbols = { show_line = false, },
-      lsp_definitions = { show_line = false, reuse_win = true, },
-      lsp_references = { show_line = false, },
-      lsp_implementations = { show_line = false, reuse_win = true, },
+      lsp_document_symbols = {
+        preview_width = 0.4,
+        show_line = false,
+      },
+      lsp_definitions = {
+        preview_width = 0.4,
+        show_line = false,
+        reuse_win = true,
+      },
+      lsp_references = {
+        preview_width = 0.4,
+        show_line = false,
+      },
+      lsp_implementations = {
+        preview_width = 0.4,
+        show_line = false,
+        reuse_win = true,
+      },
     }
   })
 
