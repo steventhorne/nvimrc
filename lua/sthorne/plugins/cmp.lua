@@ -5,6 +5,8 @@ local function configure()
   vim.g.copilot_assume_mapped = true
   vim.g.copilot_tab_fallback = ""
 
+  vim.keymap.set("i", "<C-E>", "<NOP>", { silent = true })
+
   local function check_copilot()
     local suggestion = vim.fn["copilot#GetDisplayedSuggestion"]()
     if suggestion.text ~= "" then
