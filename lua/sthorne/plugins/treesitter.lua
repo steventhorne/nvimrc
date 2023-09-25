@@ -4,6 +4,7 @@ local function configure()
       "astro",
       "comment",
       "c_sharp",
+      "go",
       "html",
       "javascript",
       "lua",
@@ -12,6 +13,7 @@ local function configure()
       "svelte",
       "typescript",
     },
+    sync_install = false,
     highlight = {
       enable = true,
       disable = {},

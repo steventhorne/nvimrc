@@ -46,7 +46,25 @@ local function configure()
   local nodeModulesPath = configPath.."/node_modules"
   local masonPackages = vim.fn.stdpath("data").."/mason/packages"
 
-  local au_lsp = vim.api.nvim_create_augroup("LSP", { clear = true })
+  local au_lsp = vim.api.nvim_create_augroup("Lsp", { clear = true })
+  local au_format_on_save = vim.api.nvim_create_augroup("LspFormatting", {})
+
+  local format_on_save = function(client, bufnr, use_lsp)
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = au_format_on_save, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = au_format_on_save,
+        buffer = bufnr,
+        callback = function()
+          if use_lsp then
+            vim.lsp.buf.format()
+          else
+            vim.cmd("Format")
+          end
+        end
+      })
+    end
+  end
 
   local angularNodeModulesPath = masonPackages.."/angular-language-server/node_modules"
   local angularlsCmd = {
@@ -334,7 +352,7 @@ local function configure()
     group = au_lsp,
     pattern = lua_filetypes,
     callback = function()
-      local root_dir = require("sthorne.utils").get_root_dir({ ".luarc.json", ".luacheckrc", "stylua.toml", ".git" })
+      local root_dir = require("sthorne.utils").get_root_dir({ ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", ".git" })
       vim.lsp.start({
         name = "lua",
         capabilities = default_capabilities,
@@ -342,12 +360,15 @@ local function configure()
         filetypes = lua_filetypes,
         root_dir = root_dir,
         single_file_support = true,
+        log_level = vim.lsp.protocol.MessageType.Warning,
         settings = {
           Lua = {
             runtime = { version = "LuaJIT" },
             diagnostics = { globals = { "vim" }, },
             workspace = {
-              library = vim.env.VIMRUNTIME,
+              library = {
+                vim.env.VIMRUNTIME,
+              },
               maxPreload = 2000,
               preloadFileSize = 1000,
               checkThirdParty = false,
@@ -357,6 +378,31 @@ local function configure()
         }
       })
     end,
+  })
+
+  local go_filetypes = {
+    "go", "gomod", "gowork", "gotmpl"
+  }
+  local go_cmd = {
+    masonPackages.."/gopls/gopls.exe"
+  }
+  vim.api.nvim_create_autocmd("FileType", {
+    group = au_lsp,
+    pattern = go_filetypes,
+    callback = function()
+      local root_dir = require("sthorne.utils").get_root_dir({ "go.work", "go.mod", ".git" })
+      vim.lsp.start({
+        name = "go",
+        capabilities = default_capabilities,
+        cmd = go_cmd,
+        filetypes = go_filetypes,
+        root_dir = root_dir,
+        single_file_support = true,
+        on_attach = function(client, bufnr)
+          format_on_save(client, bufnr, true)
+        end
+      })
+    end
   })
 
   vim.diagnostic.config({ severity_sort=true })
