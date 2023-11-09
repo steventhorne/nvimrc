@@ -141,6 +141,15 @@ return require("packer").startup(function(use)
 
   use({ "Hoffs/omnisharp-extended-lsp.nvim" })
 
+  use({
+    "nvim-neorg/neorg",
+    run = ":Neorg sync-parsers",
+    requires = "nvim-lua/plenary.nvim",
+    ft = "norg",
+    after = { "nvim-treesitter", "telescope.nvim" },
+    config = getConfig("neorg")
+  })
+
   require("sthorne.plugins.qf")
 
   use({ "tpope/vim-sleuth" })

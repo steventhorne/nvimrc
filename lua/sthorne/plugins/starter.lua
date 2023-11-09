@@ -2,7 +2,7 @@ local function configure()
   local starter = require("mini.starter")
   starter.setup({
     items = {
-      starter.sections.sessions(10, false),
+      starter.sections.sessions(15, false),
     },
     header = "",
     footer = "",

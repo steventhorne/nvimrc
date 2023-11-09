@@ -24,6 +24,7 @@ local function configure()
   require("dapui").setup({})
 
   local masonPackages = vim.fn.stdpath("data").."/mason/packages"
+  local masonBin = vim.fn.stdpath("data").."/mason/bin"
   local dap = require("dap")
 
   -- node
@@ -84,12 +85,33 @@ local function configure()
     },
   }
 
+  -- golang
+  local delve_adapter = {
+    type = "server",
+    port = "${port}",
+    executable = {
+      command = masonBin.."/dlv.cmd",
+      args = {"dap", "-l", "127.0.0.1:${port}"},
+    },
+  }
+
+  local go_config = {
+    {
+      name = "Attach to golang",
+      type = "delve",
+      request = "attach",
+      processId = require("dap.utils").pick_process,
+    },
+  }
+
   dap.adapters.node2 = node2_adapter
   dap.adapters.coreclr = coreclr_adapter
+  dap.adapters.delve = delve_adapter
 
   dap.configurations.javascript = js_config
   dap.configurations.typescript = js_config
   dap.configurations.cs = cs_config
+  dap.configurations.go = go_config
 
   vim.fn.sign_define("DapBreakpoint", { text="", texthl="DiagnosticError", linehl="DiagnosticVirtualTextError", numhl="" })
   vim.fn.sign_define("DapBreakpointCondition", { text="", texthl="DiagnosticError", linehl="DiagnosticVirtualTextError", numhl="" })

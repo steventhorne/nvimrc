@@ -1,5 +1,7 @@
 local function configure()
-  require("mini.sessions").setup()
+  require("mini.sessions").setup({
+
+  })
 end
 
 return {
