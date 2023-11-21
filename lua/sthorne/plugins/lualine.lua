@@ -12,8 +12,6 @@ local function configure()
     attached = false
   end
 
-  vim.api.nvim_set_hl(0, "lualine_c_diagnostics_error_normal", { fg = "#de5d68", bold = true })
-
   function custom_fname:init(options)
     custom_fname.super.init(self, options)
     self.status_colors = {
@@ -89,6 +87,8 @@ local function configure()
       "quickfix",
     },
   }
+
+  vim.api.nvim_set_hl(0, "lualine_c_diagnostics_error_normal", { fg = "#de5d68", bold = true })
 end
 
 return {
