@@ -6,6 +6,7 @@ local function configure()
       ["core.integrations.nvim-cmp"] = {},
       ["core.concealer"] = { config = { icon_preset = "diamond" } },
       ["core.export"] = {},
+      ["core.export.markdown"] = {},
       ["core.keybinds"] = {
         config = {
           default_keybinds = true,
