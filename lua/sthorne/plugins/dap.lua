@@ -86,7 +86,7 @@ local function configure()
   }
 
   -- golang
-  local delve_adapter = {
+  local go_adapter = {
     type = "server",
     port = "${port}",
     executable = {
@@ -97,8 +97,8 @@ local function configure()
 
   local go_config = {
     {
-      name = "Attach to golang",
-      type = "delve",
+      name = "Attach to Go",
+      type = "go",
       request = "attach",
       processId = require("dap.utils").pick_process,
     },
@@ -106,7 +106,7 @@ local function configure()
 
   dap.adapters.node2 = node2_adapter
   dap.adapters.coreclr = coreclr_adapter
-  dap.adapters.delve = delve_adapter
+  dap.adapters.go = go_adapter
 
   dap.configurations.javascript = js_config
   dap.configurations.typescript = js_config
