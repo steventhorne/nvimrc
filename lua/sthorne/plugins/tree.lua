@@ -2,7 +2,7 @@ local function configure()
   require("nvim-tree").setup({
     sync_root_with_cwd = true,
     view = {
-      width = 30,
+      width = 50,
       side = "right",
       number = true,
       relativenumber = true,
@@ -14,6 +14,9 @@ local function configure()
     },
     git = {
       enable = false,
+    },
+    diagnostics = {
+      enable = true,
     },
   })
 

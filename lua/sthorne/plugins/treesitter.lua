@@ -12,6 +12,7 @@ local function configure()
       "rust",
       "svelte",
       "typescript",
+      "vimdoc",
     },
     sync_install = false,
     highlight = {

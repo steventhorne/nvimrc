@@ -32,6 +32,9 @@ local function configure()
 
   require("telescope").setup({
     defaults = {
+      preview = {
+        filesize_limit = 0.2, -- MB
+      },
       results_title = false,
       layout_config = {
         width = 0.9,

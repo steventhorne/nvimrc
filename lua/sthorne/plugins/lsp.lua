@@ -45,6 +45,7 @@ local function configure()
   local configPath = vim.fn.stdpath("config")
   local nodeModulesPath = configPath.."/node_modules"
   local masonPackages = vim.fn.stdpath("data").."/mason/packages"
+  local masonBin = vim.fn.stdpath("data").."/mason/bin"
 
   local au_lsp = vim.api.nvim_create_augroup("Lsp", { clear = true })
   local au_format_on_save = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -68,8 +69,7 @@ local function configure()
 
   local angularNodeModulesPath = masonPackages.."/angular-language-server/node_modules"
   local angularlsCmd = {
-    "node",
-    angularNodeModulesPath.."/@angular/language-server/index.js",
+    masonBin.."/ngserver.cmd",
     "--stdio",
     "--tsProbeLocations",
     angularNodeModulesPath,
@@ -120,57 +120,69 @@ local function configure()
     "typescript.tsx",
   }
   local tsserver_cmd = {
-    "node",
-    masonPackages.."/typescript-language-server/node_modules/typescript-language-server/lib/cli.mjs",
+    masonBin.."/typescript-language-server.cmd",
     "--stdio"
   }
-  vim.api.nvim_create_autocmd("FileType", {
-    group = au_lsp,
-    pattern = tsserver_filetypes,
-    callback = function(au_args)
-      local utils = require("sthorne.utils")
-      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf, silent = true })
+  -- vim.api.nvim_create_autocmd("FileType", {
+  --   group = au_lsp,
+  --   pattern = tsserver_filetypes,
+  --   callback = function(au_args)
+  --     local utils = require("sthorne.utils")
+  --     vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf, silent = true })
+  --
+  --     local root_dir = utils.get_root_dir({ "tsconfig.json", "package.json", "jsconfig.json" })
+  --     local start_config = {
+  --       name = "tsserver3",
+  --       capabilities = default_capabilities,
+  --       init_options = {
+  --         hostInfo = "neovim",
+  --         preferences = {
+  --           importModuleSpecifierPreference = "relative",
+  --         },
+  --       },
+  --       cmd = tsserver_cmd,
+  --       filetypes = tsserver_filetypes,
+  --       root_dir = root_dir,
+  --       autostart = true,
+  --       single_file_support = true,
+  --     }
+  --     if vim.b.angularls_enabled then
+  --       start_config.on_attach = function(client, _)
+  --         client.server_capabilities.referencesProvider = false
+  --         client.server_capabilities.renameProvider = false
+  --       end
+  --     end
+  --     vim.lsp.start(start_config)
+  --   end,
+  -- })
 
-      local root_dir = utils.get_root_dir({ "tsconfig.json", "package.json", "jsconfig.json" })
-      local start_config = {
-        name = "tsserver",
-        capabilities = default_capabilities,
-        init_options = {
-          hostInfo = "neovim",
-          preferences = {
-            importModuleSpecifierPreference = "relative",
-          },
-        },
-        cmd = tsserver_cmd,
-        filetypes = tsserver_filetypes,
-        root_dir = root_dir,
-      }
-      if vim.b.angularls_enabled then
-        start_config.on_attach = function(client, _)
-          client.server_capabilities.referencesProvider = false
-          client.server_capabilities.renameProvider = false
-        end
-      end
-      vim.lsp.start(start_config)
-    end,
-  })
-
-  local eslint_cmd = {
-    "node",
-    masonPackages.."/eslint-lsp/node_modules/vscode-langservers-extracted/bin/vscode-eslint-language-server",
-    "--stdio",
-  }
-  require("lspconfig").eslint.setup({
-    cmd = eslint_cmd,
-    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue", "svelte", "astro", "html" },
+  require("lspconfig").tsserver.setup({
+    cmd = tsserver_cmd,
+    capabilities = default_capabilities,
     on_attach = function(client, bufnr)
-      -- vim.api.nvim_create_autocmd("BufWritePre", {
-      --   buffer = bufnr,
-      --   command = "EslintFixAll",
-      -- })
+      if vim.b.angularls_enabled then
+        client.server_capabilities.referencesProvider = false
+        client.server_capabilities.renameProvider = false
+      end
     end,
   })
 
+  -- local eslint_cmd = {
+  --   "node",
+  --   masonPackages.."/eslint-lsp/node_modules/vscode-langservers-extracted/bin/vscode-eslint-language-server",
+  --   "--stdio",
+  -- }
+  -- require("lspconfig").eslint.setup({
+  --   cmd = eslint_cmd,
+  --   filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue", "svelte", "astro", "html" },
+  --   on_attach = function(client, bufnr)
+  --     -- vim.api.nvim_create_autocmd("BufWritePre", {
+  --     --   buffer = bufnr,
+  --     --   command = "EslintFixAll",
+  --     -- })
+  --   end,
+  -- })
+  --
   local html_filetypes = {
     "html",
   }
@@ -277,35 +289,11 @@ local function configure()
     end,
   })
 
-  -- local csharp_filetypes = {
-  --   "cs"
-  -- }
-  -- local csharp_cmd = {
-  --   "csharp-ls"
-  -- }
-  -- vim.api.nvim_create_autocmd("FileType", {
-  --   group = au_lsp,
-  --   pattern = csharp_filetypes,
-  --   callback = function()
-  --     local root_dir = require("sthorne.utils").get_root_dir({ "*.sln", "*.csproj" })
-  --     vim.lsp.start({
-  --       name = "csharp-ls",
-  --       capabilities = default_capabilities,
-  --       cmd = csharp_cmd,
-  --       filetypes = csharp_filetypes,
-  --       root_dir = root_dir,
-  --       init_options = {
-  --         AutomaticWorkspaceInit = true,
-  --       }
-  --     })
-  --   end
-  -- })
-
   local csharp_filetypes = {
     "cs", "vb", "cshtml"
   }
   local csharp_cmd = {
-    masonPackages.."/omnisharp/omnisharp.cmd",
+    masonBin.."/omnisharp.cmd",
   }
   require("lspconfig").omnisharp.setup({
     cmd = csharp_cmd,
@@ -341,50 +329,42 @@ local function configure()
     end
   })
 
-  -- TODO: Move lua-language-server.exe to config path and use vim.fn.has('win32') to determine which exe to use
-  local lua_filetypes = {
-    "lua",
-  }
-  local lua_cmd = {
-    masonPackages.."/lua-language-server/extension/server/bin/lua-language-server.exe"
-  }
-  vim.api.nvim_create_autocmd("FileType", {
-    group = au_lsp,
-    pattern = lua_filetypes,
-    callback = function()
-      local root_dir = require("sthorne.utils").get_root_dir({ ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", ".git" })
-      vim.lsp.start({
-        name = "lua",
-        capabilities = default_capabilities,
-        cmd = lua_cmd,
-        filetypes = lua_filetypes,
-        root_dir = root_dir,
-        single_file_support = true,
-        log_level = vim.lsp.protocol.MessageType.Warning,
-        settings = {
+  require('lspconfig').lua_ls.setup({
+    on_init = function(client)
+      local path = client.workspace_folders[1].name
+      if not vim.loop.fs_stat(path..'/.luarc.json') and not vim.loop.fs_stat(path..'/.luarc.jsonc') then
+        client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
           Lua = {
-            runtime = { version = "LuaJIT" },
-            diagnostics = { globals = { "vim" }, },
-            workspace = {
-              library = {
-                vim.env.VIMRUNTIME,
-              },
-              maxPreload = 2000,
-              preloadFileSize = 1000,
-              checkThirdParty = false,
+            runtime = {
+              -- Tell the language server which version of Lua you're using
+              -- (most likely LuaJIT in the case of Neovim)
+              version = 'LuaJIT'
             },
-            telemetry = { enabled = false, },
-          },
-        }
-      })
-    end,
+            -- Make the server aware of Neovim runtime files
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME
+                -- Depending on the usage, you might want to add additional paths here.
+                -- E.g.: For using `vim.*` functions, add vim.env.VIMRUNTIME/lua.
+                -- "${3rd}/luv/library"
+                -- "${3rd}/busted/library",
+              }
+              -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+              -- library = vim.api.nvim_get_runtime_file("", true)
+            }
+          }
+        })
+      end
+      return true
+    end
   })
 
   local go_filetypes = {
     "go", "gomod", "gowork", "gotmpl"
   }
   local go_cmd = {
-    masonPackages.."/gopls/gopls.exe"
+    masonBin.."/gopls.cmd",
   }
   vim.api.nvim_create_autocmd("FileType", {
     group = au_lsp,
@@ -394,6 +374,11 @@ local function configure()
       vim.lsp.start({
         name = "go",
         capabilities = default_capabilities,
+        settings = {
+          gopls = {
+            staticcheck = true,
+          },
+        },
         cmd = go_cmd,
         filetypes = go_filetypes,
         root_dir = root_dir,
@@ -404,6 +389,38 @@ local function configure()
       })
     end
   })
+
+  -- require("lspconfig").gopls.setup({
+  --   capabilities = default_capabilities,
+  --   settings = {
+  --     gopls = {
+  --       staticcheck = true,
+  --     },
+  --   },
+  --   on_attach = function(client, bufnr)
+  --     if client.supports_method("textDocument/formatting") then
+  --       vim.api.nvim_clear_autocmds({ group = au_format_on_save, buffer = bufnr })
+  --       vim.api.nvim_create_autocmd("BufWritePre", {
+  --         group = au_format_on_save,
+  --         buffer = bufnr,
+  --         callback = function()
+  --           local params = vim.lsp.util.make_range_params()
+  --           params.context = {only = {"source.organizeImports"}}
+  --           local result = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params, 3000)
+  --           for cid, res in pairs(result or {}) do
+  --             for _, r in pairs(res.result or {}) do
+  --               if r.edit then
+  --                 local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+  --                 vim.lsp.util.apply_workspace_edit(r.edit, enc)
+  --               end
+  --             end
+  --           end
+  --           vim.lsp.buf.format({async = false})
+  --         end
+  --       })
+  --     end
+  --   end
+  -- })
 
   vim.diagnostic.config({ severity_sort=true })
 
