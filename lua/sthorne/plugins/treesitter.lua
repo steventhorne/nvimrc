@@ -2,14 +2,15 @@ local function configure()
   require("nvim-treesitter.configs").setup({
     ensure_installed = {
       "astro",
-      "comment",
       "c_sharp",
+      "comment",
+      "css",
       "go",
       "html",
       "javascript",
+      "jsdoc",
       "lua",
       "markdown",
-      "rust",
       "svelte",
       "typescript",
       "vimdoc",

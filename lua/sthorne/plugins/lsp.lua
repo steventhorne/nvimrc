@@ -1,28 +1,4 @@
 local function configure()
-  local rust_tools_opts = {
-    tools = {
-      autoSetHints = true,
-      -- hover_with_actions = true, -- https://github.com/simrat39/rust-tools.nvim#setup
-      inlay_hints = {
-        auto = true,
-        show_parameter_hints = false,
-        parameter_hints_prefix = "",
-        other_hints_prefix = ": ",
-      },
-    },
-    server = {
-      settings = {
-        ["rust-analyzer"] = {
-          checkOnSave = {
-            command = "clippy",
-          },
-        }
-      },
-    },
-  }
-
-  require("rust-tools").setup(rust_tools_opts)
-
   local default_capabilities = require("cmp_nvim_lsp").default_capabilities({
     textDocument = {
       completion = {
@@ -31,9 +7,6 @@ local function configure()
         },
       },
     },
-  })
-
-  default_capabilities = vim.tbl_deep_extend("force", default_capabilities, {
     workspace = {
       didChangeWatchedFiles = {
         dynamicRegistration = true,
@@ -41,9 +14,7 @@ local function configure()
     },
   })
 
-  local pid = vim.fn.getpid()
   local configPath = vim.fn.stdpath("config")
-  local nodeModulesPath = configPath.."/node_modules"
   local masonPackages = vim.fn.stdpath("data").."/mason/packages"
   local masonBin = vim.fn.stdpath("data").."/mason/bin"
 
@@ -111,192 +82,74 @@ local function configure()
     end,
   })
 
-  local tsserver_filetypes = {
-    "javascript",
-    "javascriptreact",
-    "javascript.jsx",
-    "typescript",
-    "typescriptreact",
-    "typescript.tsx",
-  }
-  local tsserver_cmd = {
-    masonBin.."/typescript-language-server.cmd",
-    "--stdio"
-  }
-  -- vim.api.nvim_create_autocmd("FileType", {
-  --   group = au_lsp,
-  --   pattern = tsserver_filetypes,
-  --   callback = function(au_args)
-  --     local utils = require("sthorne.utils")
-  --     vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf, silent = true })
-  --
-  --     local root_dir = utils.get_root_dir({ "tsconfig.json", "package.json", "jsconfig.json" })
-  --     local start_config = {
-  --       name = "tsserver3",
-  --       capabilities = default_capabilities,
-  --       init_options = {
-  --         hostInfo = "neovim",
-  --         preferences = {
-  --           importModuleSpecifierPreference = "relative",
-  --         },
-  --       },
-  --       cmd = tsserver_cmd,
-  --       filetypes = tsserver_filetypes,
-  --       root_dir = root_dir,
-  --       autostart = true,
-  --       single_file_support = true,
-  --     }
-  --     if vim.b.angularls_enabled then
-  --       start_config.on_attach = function(client, _)
-  --         client.server_capabilities.referencesProvider = false
-  --         client.server_capabilities.renameProvider = false
-  --       end
-  --     end
-  --     vim.lsp.start(start_config)
-  --   end,
-  -- })
-
   require("lspconfig").tsserver.setup({
-    cmd = tsserver_cmd,
+    cmd = {
+      masonBin.."/typescript-language-server.cmd",
+      "--stdio"
+    },
     capabilities = default_capabilities,
     on_attach = function(client, bufnr)
       if vim.b.angularls_enabled then
+        vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = bufnr, silent = true })
         client.server_capabilities.referencesProvider = false
         client.server_capabilities.renameProvider = false
       end
     end,
   })
 
-  -- local eslint_cmd = {
-  --   "node",
-  --   masonPackages.."/eslint-lsp/node_modules/vscode-langservers-extracted/bin/vscode-eslint-language-server",
-  --   "--stdio",
-  -- }
-  -- require("lspconfig").eslint.setup({
-  --   cmd = eslint_cmd,
-  --   filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue", "svelte", "astro", "html" },
-  --   on_attach = function(client, bufnr)
-  --     -- vim.api.nvim_create_autocmd("BufWritePre", {
-  --     --   buffer = bufnr,
-  --     --   command = "EslintFixAll",
-  --     -- })
-  --   end,
-  -- })
-  --
-  local html_filetypes = {
-    "html",
-  }
-  local html_cmd = {
-    "node",
-    masonPackages.."/html-lsp/node_modules/vscode-langservers-extracted/bin/vscode-html-language-server",
-    "--stdio",
-  }
-  vim.api.nvim_create_autocmd("FileType", {
-    group = au_lsp,
-    pattern = html_filetypes,
-    callback = function(au_args)
-      local utils = require("sthorne.utils")
-      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf, silent = true })
-
-      local root_dir = utils.get_root_dir({ "package.json", ".git" }, true)
-      vim.lsp.start({
-        name = "html",
-        capabilities = default_capabilities,
-        cmd = html_cmd,
-        filetypes = html_filetypes,
-        root_dir = root_dir,
-      })
-    end,
-  })
-
-  local css_filetypes = {
-    "css",
-    "less",
-    "scss",
-  }
-  local css_cmd = {
-    "node",
-    masonPackages.."/css-lsp/node_modules/vscode-langservers-extracted/bin/vscode-css-language-server",
-    "--stdio",
-  }
-  vim.api.nvim_create_autocmd("FileType", {
-    group = au_lsp,
-    pattern = css_filetypes,
-    callback = function(au_args)
-      local utils = require("sthorne.utils")
-      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf, silent = true })
-
-      local root_dir = utils.get_root_dir({ "package.json", ".git" }, true)
-      vim.lsp.start({
-        name = "css",
-        capabilities = default_capabilities,
-        cmd = css_cmd,
-        filetypes = css_filetypes,
-        root_dir = root_dir,
-      })
-    end,
-  })
-
-  local svelte_filetypes = {
-    "svelte",
-  }
-  local svelte_cmd = {
-    "node",
-    masonPackages.."/svelte-language-server/node_modules/svelte-language-server/bin/server.js",
-    "--stdio",
-  }
-  vim.api.nvim_create_autocmd("FileType", {
-    group = au_lsp,
-    pattern = svelte_filetypes,
-    callback = function()
-      local root_dir = require("sthorne.utils").get_root_dir({ "package.json", ".git" })
-      vim.lsp.start({
-        name = "svelte",
-        capabilities = default_capabilities,
-        cmd = svelte_cmd,
-        filetypes = svelte_filetypes,
-        root_dir = root_dir,
-      })
-    end,
-  })
-
-  local astro_filetypes = {
-    "astro",
-  }
-  local astro_cmd = {
-    "node",
-    masonPackages.."/astro-language-server/node_modules/@astrojs/language-server/bin/nodeServer.js",
-    "--stdio",
-  }
-  local astro_init = {
-    typescript = {
-      tsdk = masonPackages.."/astro-language-server/node_modules/typescript/lib",
+  require("lspconfig").html.setup({
+    cmd = {
+      masonBin.."/vscode-html-language-server.cmd",
+      "--stdio",
     },
-  }
-  vim.api.nvim_create_autocmd("FileType", {
-    group = au_lsp,
-    pattern = astro_filetypes,
-    callback = function()
-      local root_dir = require("sthorne.utils").get_root_dir({ "package.json", "tsconfig.json", "jsconfig.json", ".git" })
-      vim.lsp.start({
-        name = "astro",
-        capabilities = default_capabilities,
-        cmd = astro_cmd,
-        filetypes = astro_filetypes,
-        root_dir = root_dir,
-        init_options = astro_init,
-      })
-    end,
+    capabilities = default_capabilities,
+    on_attach = function(client, bufnr)
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = bufnr, silent = true })
+    end
   })
 
-  local csharp_filetypes = {
-    "cs", "vb", "cshtml"
-  }
-  local csharp_cmd = {
-    masonBin.."/omnisharp.cmd",
-  }
+  require("lspconfig").cssls.setup({
+    cmd = {
+      masonBin.."/vscode-css-language-server.cmd",
+      "--stdio",
+    },
+    capabilities = default_capabilities,
+    on_attach = function(client, bufnr)
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = bufnr, silent = true })
+    end
+  })
+
+  require("lspconfig").svelte.setup({
+    cmd = {
+      masonBin.."/svelteserver.cmd",
+      "--stdio",
+    },
+    capabilities = default_capabilities,
+    on_attach = function(client, bufnr)
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = bufnr, silent = true })
+    end
+  })
+
+  require("lspconfig").astro.setup({
+    cmd = {
+      masonBin.."/astro-ls.cmd",
+      "--stdio",
+    },
+    capabilities = default_capabilities,
+    init_options = {
+      typescript = {
+        tsdk = masonPackages.."/astro-language-server/node_modules/typescript/lib",
+      },
+    },
+    on_attach = function(client, bufnr)
+      vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = bufnr, silent = true })
+    end
+  })
+
   require("lspconfig").omnisharp.setup({
-    cmd = csharp_cmd,
+    cmd = {
+      masonBin.."/omnisharp.cmd",
+    },
     filetypes = csharp_filetypes,
     capabilities = default_capabilities,
     root_dir = function (_, _)
@@ -330,6 +183,9 @@ local function configure()
   })
 
   require('lspconfig').lua_ls.setup({
+    cmd = {
+      masonBin.."/lua-language-server.cmd",
+    },
     on_init = function(client)
       local path = client.workspace_folders[1].name
       if not vim.loop.fs_stat(path..'/.luarc.json') and not vim.loop.fs_stat(path..'/.luarc.jsonc') then
@@ -360,67 +216,41 @@ local function configure()
     end
   })
 
-  local go_filetypes = {
-    "go", "gomod", "gowork", "gotmpl"
-  }
-  local go_cmd = {
-    masonBin.."/gopls.cmd",
-  }
-  vim.api.nvim_create_autocmd("FileType", {
-    group = au_lsp,
-    pattern = go_filetypes,
-    callback = function()
-      local root_dir = require("sthorne.utils").get_root_dir({ "go.work", "go.mod", ".git" })
-      vim.lsp.start({
-        name = "go",
-        capabilities = default_capabilities,
-        settings = {
-          gopls = {
-            staticcheck = true,
-          },
-        },
-        cmd = go_cmd,
-        filetypes = go_filetypes,
-        root_dir = root_dir,
-        single_file_support = true,
-        on_attach = function(client, bufnr)
-          format_on_save(client, bufnr, true)
-        end
-      })
+  require("lspconfig").gopls.setup({
+    cmd = {
+      masonBin.."/gopls.cmd",
+    },
+    capabilities = default_capabilities,
+    settings = {
+      gopls = {
+        staticcheck = true,
+      },
+    },
+    root_dir = require("lspconfig.util").root_pattern({ "go.work", "go.mod", ".git" }),
+    on_attach = function(client, bufnr)
+      if client.supports_method("textDocument/formatting") then
+        vim.api.nvim_clear_autocmds({ group = au_format_on_save, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          group = au_format_on_save,
+          buffer = bufnr,
+          callback = function()
+            local params = vim.lsp.util.make_range_params()
+            params.context = {only = {"source.organizeImports"}}
+            local result = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params, 3000)
+            for cid, res in pairs(result or {}) do
+              for _, r in pairs(res.result or {}) do
+                if r.edit then
+                  local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+                  vim.lsp.util.apply_workspace_edit(r.edit, enc)
+                end
+              end
+            end
+            vim.lsp.buf.format({async = false})
+          end
+        })
+      end
     end
   })
-
-  -- require("lspconfig").gopls.setup({
-  --   capabilities = default_capabilities,
-  --   settings = {
-  --     gopls = {
-  --       staticcheck = true,
-  --     },
-  --   },
-  --   on_attach = function(client, bufnr)
-  --     if client.supports_method("textDocument/formatting") then
-  --       vim.api.nvim_clear_autocmds({ group = au_format_on_save, buffer = bufnr })
-  --       vim.api.nvim_create_autocmd("BufWritePre", {
-  --         group = au_format_on_save,
-  --         buffer = bufnr,
-  --         callback = function()
-  --           local params = vim.lsp.util.make_range_params()
-  --           params.context = {only = {"source.organizeImports"}}
-  --           local result = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params, 3000)
-  --           for cid, res in pairs(result or {}) do
-  --             for _, r in pairs(res.result or {}) do
-  --               if r.edit then
-  --                 local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
-  --                 vim.lsp.util.apply_workspace_edit(r.edit, enc)
-  --               end
-  --             end
-  --           end
-  --           vim.lsp.buf.format({async = false})
-  --         end
-  --       })
-  --     end
-  --   end
-  -- })
 
   vim.diagnostic.config({ severity_sort=true })
 

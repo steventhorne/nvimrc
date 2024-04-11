@@ -43,6 +43,7 @@ return require("packer").startup(function(use)
     "mfussenegger/nvim-dap",
     requires = {
       { "theHamsta/nvim-dap-virtual-text", },
+      { "nvim-neotest/nvim-nio" },
       { "rcarriga/nvim-dap-ui" },
     },
     config = getConfig("dap")
