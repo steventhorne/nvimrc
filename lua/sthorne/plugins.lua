@@ -33,6 +33,11 @@ return require("packer").startup(function(use)
   })
 
   use({
+    "norcalli/nvim-colorizer.lua",
+    config = getConfig("colorizer")
+  })
+
+  use({
     "numToStr/Comment.nvim",
     config = getConfig("comment")
   })
