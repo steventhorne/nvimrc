@@ -71,7 +71,11 @@ local function configure()
       { name = "nvim_lsp_signature_help" },
     }, {
       { name = "buffer" },
-    })
+    }),
+    completion = {
+      completeopt = "menu,menuone,noselect",
+    },
+    preselect = cmp.PreselectMode.None,
   }
 
   cmp.setup(cmp_opts);
