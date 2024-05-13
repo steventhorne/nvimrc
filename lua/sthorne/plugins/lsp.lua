@@ -16,18 +16,9 @@ local function configure()
 
   local configPath = vim.fn.stdpath("config")
   local masonPackages = vim.fn.stdpath("data").."/mason/packages"
-  local masonBin = vim.fn.stdpath("data").."/mason/bin"
 
   local au_lsp = vim.api.nvim_create_augroup("Lsp", { clear = true })
   local au_format_on_save = vim.api.nvim_create_augroup("LspFormatting", {})
-
-  local get_mason_cmd = function(name)
-    local is_windows = vim.fn.has("win64") == 1 or vim.fn.has("win32") == 1 or vim.fn.has("win16") == 1
-    if is_windows then
-      name = name..".cmd"
-    end
-    return masonBin.."/"..name
-  end
 
   local format_on_save = function(client, bufnr, use_lsp)
     if client.supports_method("textDocument/formatting") then
@@ -48,7 +39,7 @@ local function configure()
 
   local angularNodeModulesPath = masonPackages.."/angular-language-server/node_modules"
   local angularlsCmd = {
-    get_mason_cmd("ngserver"),
+    require("sthorne.utils").get_mason_cmd("ngserver"),
     "--stdio",
     "--tsProbeLocations",
     angularNodeModulesPath,
@@ -92,7 +83,7 @@ local function configure()
 
   require("lspconfig").tsserver.setup({
     cmd = {
-      get_mason_cmd("typescript-language-server"),
+      require("sthorne.utils").get_mason_cmd("typescript-language-server"),
       "--stdio"
     },
     capabilities = default_capabilities,
@@ -107,7 +98,7 @@ local function configure()
 
   require("lspconfig").html.setup({
     cmd = {
-      get_mason_cmd("vscode-html-language-server"),
+      require("sthorne.utils").get_mason_cmd("vscode-html-language-server"),
       "--stdio",
     },
     capabilities = default_capabilities,
@@ -118,7 +109,7 @@ local function configure()
 
   require("lspconfig").cssls.setup({
     cmd = {
-      get_mason_cmd("vscode-css-language-server"),
+      require("sthorne.utils").get_mason_cmd("vscode-css-language-server"),
       "--stdio",
     },
     capabilities = default_capabilities,
@@ -129,7 +120,7 @@ local function configure()
 
   require("lspconfig").svelte.setup({
     cmd = {
-      get_mason_cmd("svelteserver"),
+      require("sthorne.utils").get_mason_cmd("svelteserver"),
       "--stdio",
     },
     capabilities = default_capabilities,
@@ -140,7 +131,7 @@ local function configure()
 
   require("lspconfig").astro.setup({
     cmd = {
-      get_mason_cmd("astro-ls"),
+      require("sthorne.utils").get_mason_cmd("astro-ls"),
       "--stdio",
     },
     capabilities = default_capabilities,
@@ -156,7 +147,7 @@ local function configure()
 
   require("lspconfig").omnisharp.setup({
     cmd = {
-      get_mason_cmd("omnisharp"),
+      require("sthorne.utils").get_mason_cmd("omnisharp"),
     },
     filetypes = csharp_filetypes,
     capabilities = default_capabilities,
@@ -192,7 +183,7 @@ local function configure()
 
   require('lspconfig').lua_ls.setup({
     cmd = {
-      get_mason_cmd("lua-language-server"),
+      require("sthorne.utils").get_mason_cmd("lua-language-server"),
     },
     on_init = function(client)
       local path = client.workspace_folders[1].name
@@ -226,7 +217,7 @@ local function configure()
 
   require("lspconfig").gopls.setup({
     cmd = {
-      get_mason_cmd("gopls"),
+      require("sthorne.utils").get_mason_cmd("gopls"),
     },
     capabilities = default_capabilities,
     settings = {

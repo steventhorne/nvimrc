@@ -26,6 +26,7 @@ local function configure()
   local masonPackages = vim.fn.stdpath("data").."/mason/packages"
   local masonBin = vim.fn.stdpath("data").."/mason/bin"
   local dap = require("dap")
+  local utils = require("sthorne.utils")
 
   -- node
   local node2_adapter = {
@@ -64,7 +65,7 @@ local function configure()
   -- .NET
   local coreclr_adapter = {
     type = "executable",
-    command = masonPackages.."/netcoredbg/netcoredbg/netcoredbg.exe",
+    command = utils.get_mason_cmd("netcoredbg"),
     args = { "--interpreter=vscode" },
   }
 
@@ -90,7 +91,7 @@ local function configure()
     type = "server",
     port = "${port}",
     executable = {
-      command = masonBin.."/dlv.cmd",
+      command = utils.get_mason_cmd("dlv"),
       args = {"dap", "-l", "127.0.0.1:${port}"},
     },
   }

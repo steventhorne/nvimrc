@@ -4,6 +4,7 @@ local function configure()
   vim.g.copilot_no_tab_map = true
   vim.g.copilot_assume_mapped = true
   vim.g.copilot_tab_fallback = ""
+  vim.g.vsnip_snippet_dir = vim.fn.stdpath("config").."/snippets"
 
   vim.keymap.set("i", "<C-E>", "<NOP>", { silent = true })
 

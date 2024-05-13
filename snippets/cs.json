@@ -1,0 +1,10 @@
+{
+  "DataMember": {
+    "prefix": ["datamember", "dm"],
+    "body": [
+      "[DataMember(Name = \"$1\")]",
+      "public $2 $3 { get; set; }"
+    ],
+    "description": "DataMemberAttribute template."
+  }
+}
