@@ -119,6 +119,15 @@ return require("packer").startup(function(use)
   })
 
   use({
+    "epwalsh/obsidian.nvim",
+    tag = "*", -- Use the latest release
+    requires = {
+      { "nvim-lua/plenary.nvim" },
+    },
+    config = getConfig("obsidian")
+  })
+
+  use({
     "nvim-lualine/lualine.nvim",
     config = getConfig("lualine")
   })
