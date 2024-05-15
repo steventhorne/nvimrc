@@ -17,8 +17,6 @@ local function git_files_with_fallback(all)
     no_ignore = all,
     no_ignore_parent = all,
   }
-  print(is_git_repo())
-  print(all)
   if is_git_repo() and not all then
     builtin.git_files()
   else
