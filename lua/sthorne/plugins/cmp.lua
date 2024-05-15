@@ -86,6 +86,13 @@ local function configure()
     },
   })
 
+  cmp.setup.filetype({ "sql" }, {
+    sources = {
+      { name = "vim-dadbod-completion" },
+      { name = "buffer" },
+    },
+  })
+
   cmp.setup.cmdline("/", {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {

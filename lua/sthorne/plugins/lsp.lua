@@ -14,28 +14,27 @@ local function configure()
     },
   })
 
-  local configPath = vim.fn.stdpath("config")
   local masonPackages = vim.fn.stdpath("data").."/mason/packages"
 
   local au_lsp = vim.api.nvim_create_augroup("Lsp", { clear = true })
   local au_format_on_save = vim.api.nvim_create_augroup("LspFormatting", {})
 
-  local format_on_save = function(client, bufnr, use_lsp)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = au_format_on_save, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = au_format_on_save,
-        buffer = bufnr,
-        callback = function()
-          if use_lsp then
-            vim.lsp.buf.format()
-          else
-            vim.cmd("Format")
-          end
-        end
-      })
-    end
-  end
+  -- local format_on_save = function(client, bufnr, use_lsp)
+  --   if client.supports_method("textDocument/formatting") then
+  --     vim.api.nvim_clear_autocmds({ group = au_format_on_save, buffer = bufnr })
+  --     vim.api.nvim_create_autocmd("BufWritePre", {
+  --       group = au_format_on_save,
+  --       buffer = bufnr,
+  --       callback = function()
+  --         if use_lsp then
+  --           vim.lsp.buf.format()
+  --         else
+  --           vim.cmd("Format")
+  --         end
+  --       end
+  --     })
+  --   end
+  -- end
 
   local angularNodeModulesPath = masonPackages.."/angular-language-server/node_modules"
   local angularlsCmd = {
@@ -102,7 +101,7 @@ local function configure()
       "--stdio",
     },
     capabilities = default_capabilities,
-    on_attach = function(client, bufnr)
+    on_attach = function(_, bufnr)
       vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = bufnr, silent = true })
     end
   })
@@ -113,7 +112,7 @@ local function configure()
       "--stdio",
     },
     capabilities = default_capabilities,
-    on_attach = function(client, bufnr)
+    on_attach = function(_, bufnr)
       vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = bufnr, silent = true })
     end
   })
@@ -124,7 +123,7 @@ local function configure()
       "--stdio",
     },
     capabilities = default_capabilities,
-    on_attach = function(client, bufnr)
+    on_attach = function(_, bufnr)
       vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = bufnr, silent = true })
     end
   })
@@ -140,11 +139,14 @@ local function configure()
         tsdk = masonPackages.."/astro-language-server/node_modules/typescript/lib",
       },
     },
-    on_attach = function(client, bufnr)
+    on_attach = function(_, bufnr)
       vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = bufnr, silent = true })
     end
   })
 
+  local csharp_filetypes = {
+    "cs",
+  }
   require("lspconfig").omnisharp.setup({
     cmd = {
       require("sthorne.utils").get_mason_cmd("omnisharp"),
@@ -181,38 +183,12 @@ local function configure()
     end
   })
 
+  require("neodev").setup({})
+
   require('lspconfig').lua_ls.setup({
     cmd = {
       require("sthorne.utils").get_mason_cmd("lua-language-server"),
     },
-    on_init = function(client)
-      local path = client.workspace_folders[1].name
-      if not vim.loop.fs_stat(path..'/.luarc.json') and not vim.loop.fs_stat(path..'/.luarc.jsonc') then
-        client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
-          Lua = {
-            runtime = {
-              -- Tell the language server which version of Lua you're using
-              -- (most likely LuaJIT in the case of Neovim)
-              version = 'LuaJIT'
-            },
-            -- Make the server aware of Neovim runtime files
-            workspace = {
-              checkThirdParty = false,
-              library = {
-                vim.env.VIMRUNTIME
-                -- Depending on the usage, you might want to add additional paths here.
-                -- E.g.: For using `vim.*` functions, add vim.env.VIMRUNTIME/lua.
-                -- "${3rd}/luv/library"
-                -- "${3rd}/busted/library",
-              }
-              -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-              -- library = vim.api.nvim_get_runtime_file("", true)
-            }
-          }
-        })
-      end
-      return true
-    end
   })
 
   require("lspconfig").gopls.setup({

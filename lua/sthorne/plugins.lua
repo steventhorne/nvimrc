@@ -45,6 +45,22 @@ return require("packer").startup(function(use)
   use("github/copilot.vim")
 
   use({
+    "tpope/vim-dadbod",
+    requires = {
+      { "kristijanhusak/vim-dadbod-completion" },
+      { "kristijanhusak/vim-dadbod-ui" },
+    },
+    opt = true,
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBufer",
+    },
+    config = getConfig("dadbod")
+  })
+
+  use({
     "mfussenegger/nvim-dap",
     requires = {
       { "theHamsta/nvim-dap-virtual-text", },
@@ -90,6 +106,7 @@ return require("packer").startup(function(use)
     "neovim/nvim-lspconfig",
     requires = {
       { "simrat39/rust-tools.nvim" },
+      { "folke/neodev.nvim" },
     },
     config = getConfig("lsp")
   })
