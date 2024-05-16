@@ -15,6 +15,7 @@ return {
       highlights = {
         -- general
         ["Title"] = { fg = "$red", fmt = "bold" },
+        ["CursorLineNr"] = { fg = "#a0a8b7", fmt = "bold" },
         -- modes
         ["NormalMode"] = { fg = "$green", fmt = "bold" },
         ["InsertMode"] = { fg = "$blue", fmt = "bold" },

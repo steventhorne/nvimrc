@@ -23,11 +23,6 @@ return require("packer").startup(function(use)
   })
 
   use({
-    "kevinhwang91/nvim-bqf",
-    ft = "qf"
-  })
-
-  use({
     "laytan/cloak.nvim",
     config = getConfig("cloak")
   })
@@ -70,7 +65,13 @@ return require("packer").startup(function(use)
     config = getConfig("dap")
   })
 
-  use({ "elihunter173/dirbuf.nvim" })
+  use({
+    "stevearc/oil.nvim",
+    requires = {
+      { "nvim-tree/nvim-web-devicons" },
+    },
+    config = getConfig("oil")
+  })
 
   use({
     "akinsho/flutter-tools.nvim",
@@ -78,11 +79,6 @@ return require("packer").startup(function(use)
       { "nvim-lua/plenary.nvim" },
     },
     config = getConfig("flutter")
-  })
-
-  use({
-    "mhartington/formatter.nvim",
-    config = getConfig("formatter")
   })
 
   use({
@@ -95,11 +91,6 @@ return require("packer").startup(function(use)
     config = getConfig("gitsigns")
   })
 
-  use({
-    "mfussenegger/nvim-lint",
-    config = getConfig("lint")
-  })
-
   use("ggandor/lightspeed.nvim")
 
   use({
@@ -110,11 +101,6 @@ return require("packer").startup(function(use)
     },
     config = getConfig("lsp")
   })
-
-  -- use({
-  --   "j-hui/fidget.nvim",
-  --   config = function() require("fidget").setup() end
-  -- })
 
   use({
     "hrsh7th/nvim-cmp",
@@ -154,12 +140,6 @@ return require("packer").startup(function(use)
     config = getConfig("sessions"),
   })
 
-  use({
-    "mawkler/modicator.nvim",
-    after = "onedark.nvim",
-    config = getConfig("modicator")
-  })
-
   use("matze/vim-move")
 
   use({ "Hoffs/omnisharp-extended-lsp.nvim" })
@@ -177,11 +157,6 @@ return require("packer").startup(function(use)
 
   use({ "tpope/vim-sleuth" })
 
-  use({
-    "kylechui/nvim-surround",
-    config = getConfig("surround")
-  })
-
   require("sthorne.plugins.tabline").setup()
 
   use({
@@ -193,11 +168,6 @@ return require("packer").startup(function(use)
       { "nvim-telescope/telescope-dap.nvim" },
     },
     config = getConfig("telescope")
-  })
-
-  use({
-    "nvim-tree/nvim-tree.lua",
-    config = getConfig("tree")
   })
 
   use({
