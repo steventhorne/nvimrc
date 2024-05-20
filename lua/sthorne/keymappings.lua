@@ -126,3 +126,9 @@ vim.keymap.set("t", "<C-J>", "<C-\\><C-N><C-W>j", { silent = true })
 vim.keymap.set("t", "<C-K>", "<C-\\><C-N><C-W>k", { silent = true })
 vim.keymap.set("t", "<C-H>", "<C-\\><C-N><C-W>h", { silent = true })
 vim.keymap.set("t", "<C-L>", "<C-\\><C-N><C-W>l", { silent = true })
+
+-- change split sizes
+vim.keymap.set("n", "<M-LEFT>", "<C-w>5<")
+vim.keymap.set("n", "<M-RIGHT>", "<C-w>5>")
+vim.keymap.set("n", "<M-UP>", "<C-w>+")
+vim.keymap.set("n", "<M-DOWN>", "<C-w>-")
