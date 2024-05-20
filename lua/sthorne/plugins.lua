@@ -144,8 +144,6 @@ return require("packer").startup(function(use)
     config = getConfig("sessions"),
   })
 
-  use("matze/vim-move")
-
   use({ "Hoffs/omnisharp-extended-lsp.nvim" })
 
   require("sthorne.plugins.qf")

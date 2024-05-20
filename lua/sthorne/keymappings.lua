@@ -132,3 +132,20 @@ vim.keymap.set("n", "<M-LEFT>", "<C-w>5<")
 vim.keymap.set("n", "<M-RIGHT>", "<C-w>5>")
 vim.keymap.set("n", "<M-UP>", "<C-w>+")
 vim.keymap.set("n", "<M-DOWN>", "<C-w>-")
+
+-- move lines up and down with alt-j/k
+vim.keymap.set("n", "<M-j>", function()
+  if vim.opt.diff:get() then
+    vim.cmd([[normal! ]c]])
+  else
+    vim.cmd([[m .+1<CR>==]])
+  end
+end)
+
+vim.keymap.set("n", "<M-k>", function()
+  if vim.opt.diff:get() then
+    vim.cmd([[normal! [c]])
+  else
+    vim.cmd([[m .-2<CR>==]])
+  end
+end)
