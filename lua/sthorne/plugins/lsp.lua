@@ -236,7 +236,6 @@ local function configure()
 
   vim.keymap.set("n", "<LEADER>ld", ":Telescope lsp_definitions<CR>", { silent = true })
   vim.keymap.set("n", "<LEADER>lr", ":Telescope lsp_references<CR>", { silent = true })
-  vim.keymap.set("n", "<LEADER>lh", vim.lsp.buf.hover, { silent = true })
   vim.keymap.set("n", "<LEADER>li", ":Telescope lsp_implementations<CR>", { silent = true })
   vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { silent = true })
   vim.keymap.set("n", "<LEADER>ls", vim.lsp.buf.signature_help, { silent = true })
@@ -244,10 +243,8 @@ local function configure()
   vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { silent = true })
 
   vim.keymap.set("n", "<LEADER>dh", vim.diagnostic.open_float, { silent = true })
-  vim.keymap.set("n", "<LEADER>dj", vim.diagnostic.goto_next, { silent = true })
-  vim.keymap.set("n", "<LEADER>dk", vim.diagnostic.goto_prev, { silent = true })
-  vim.keymap.set("n", "<LEADER>dJ", function() vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
-  vim.keymap.set("n", "<LEADER>dK", function() vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
+  vim.keymap.set("n", "]D", function() vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
+  vim.keymap.set("n", "[D", function() vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
 end
 
 return {
