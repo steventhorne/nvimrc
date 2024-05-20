@@ -113,15 +113,15 @@ return require("packer").startup(function(use)
     config = getConfig("cmp")
   })
 
-  use({
-    "epwalsh/obsidian.nvim",
-    tag = "*", -- Use the latest release
-    requires = {
-      { "nvim-lua/plenary.nvim" },
-    },
-    config = getConfig("obsidian")
-  })
-
+  -- use({
+  --   "epwalsh/obsidian.nvim",
+  --   tag = "*", -- Use the latest release
+  --   requires = {
+  --     { "nvim-lua/plenary.nvim" },
+  --   },
+  --   config = getConfig("obsidian")
+  -- })
+  --
   use({
     "nvim-lualine/lualine.nvim",
     config = getConfig("lualine")
