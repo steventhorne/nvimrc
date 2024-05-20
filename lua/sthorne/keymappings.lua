@@ -35,6 +35,11 @@ vim.keymap.set("v", "p", '"_dP', { noremap = true, silent = true })
 -- delete to OS
 vim.keymap.set({"n", "v"}, "d", '"+d', { noremap = true, silent = true })
 vim.keymap.set({"n", "v"}, "D", '"+D', { noremap = true, silent = true })
+-- change to OS
+vim.keymap.set({"n", "v"}, "c", '"+c', { noremap = true, silent = true })
+vim.keymap.set({"n", "v"}, "C", '"+C', { noremap = true, silent = true })
+-- cut to OS
+vim.keymap.set({"n", "v"}, "x", '"+x', { noremap = true, silent = true })
 
 -- escape mappings
 vim.keymap.set("!", "jk", "<ESC>", { silent = true })
