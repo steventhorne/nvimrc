@@ -32,11 +32,6 @@ return require("packer").startup(function(use)
     config = getConfig("colorizer")
   })
 
-  use({
-    "numToStr/Comment.nvim",
-    config = getConfig("comment")
-  })
-
   use("github/copilot.vim")
 
   use({
