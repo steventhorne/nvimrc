@@ -266,6 +266,8 @@ local function configure()
   vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { silent = true })
 
   vim.keymap.set("n", "<LEADER>dh", vim.diagnostic.open_float, { silent = true })
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { silent = true })
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { silent = true })
   vim.keymap.set("n", "]D", function() vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
   vim.keymap.set("n", "[D", function() vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
 end
