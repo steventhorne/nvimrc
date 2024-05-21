@@ -1,5 +1,6 @@
 -- disable mouse
 vim.opt.mouse = ""
+vim.opt.clipboard = "unnamedplus"
 
 vim.opt.number = true
 vim.opt.relativenumber = true
