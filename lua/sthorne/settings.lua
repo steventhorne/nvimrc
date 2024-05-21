@@ -1,4 +1,3 @@
--- disable mouse
 vim.opt.mouse = ""
 vim.opt.clipboard = "unnamedplus"
 
@@ -40,6 +39,9 @@ vim.opt.showmode = false
 
 vim.opt.signcolumn = "yes"
 vim.opt.startofline = true
+
+-- Don't have `o` add a comment
+vim.opt.formatoptions:remove("o")
 
 vim.cmd([[ set diffopt=filler,iwhite,vertical,internal,algorithm:patience,indent-heuristic,algorithm:histogram ]])
 
