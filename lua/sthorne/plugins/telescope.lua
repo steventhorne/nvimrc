@@ -1,7 +1,7 @@
 local is_inside_work_tree = {}
 
 local function is_git_repo()
-  local cwd = vim.loop.cwd()
+  local cwd = vim.uv.cwd()
   if is_inside_work_tree[cwd] == nil then
     local ok, err = vim.loop.fs_stat(cwd.."/.git")
     is_inside_work_tree[cwd] = ok
