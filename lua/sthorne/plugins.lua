@@ -113,15 +113,18 @@ return require("packer").startup(function(use)
     config = getConfig("cmp")
   })
 
-  -- use({
-  --   "epwalsh/obsidian.nvim",
-  --   tag = "*", -- Use the latest release
-  --   requires = {
-  --     { "nvim-lua/plenary.nvim" },
-  --   },
-  --   config = getConfig("obsidian")
-  -- })
-  --
+  use({
+    "m4xshen/hardtime.nvim",
+    requires = {
+      { "MunifTanjim/nui.nvim" },
+      { "nvim-lua/plenary.nvim" },
+    },
+    config = function()
+      require("hardtime").setup()
+      vim.api.nvim_set_keymap("n", "<leader>ht", "<cmd>lua require('hardtime').toggle()<cr>", { noremap = true, silent = true })
+    end,
+  })
+
   use({
     "nvim-lualine/lualine.nvim",
     config = getConfig("lualine")
