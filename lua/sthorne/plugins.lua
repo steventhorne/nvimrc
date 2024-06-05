@@ -81,11 +81,11 @@ return require("packer").startup(function(use)
     config = getConfig("fugitive")
   })
 
-  use({
-    "lewis6991/gitsigns.nvim",
-    config = getConfig("gitsigns")
-  })
-
+  -- use({
+  --   "lewis6991/gitsigns.nvim",
+  --   config = getConfig("gitsigns")
+  -- })
+  --
   use("ggandor/lightspeed.nvim")
 
   use({
