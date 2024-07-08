@@ -2,6 +2,9 @@
 vim.keymap.set("", "<SPACE>", "<NOP>", { silent = true })
 vim.g.mapleader = " "
 
+-- disable man keymapping
+-- vim.keymap.set("n", "K", "<NOP>", { silent = true })
+
 -- disable Q EX mode
 vim.keymap.set("n", "Q", "<NOP>", { silent = true })
 

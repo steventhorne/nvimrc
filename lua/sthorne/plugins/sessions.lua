@@ -1,9 +1,11 @@
-local function configure()
-  require("mini.sessions").setup({
-
-  })
-end
-
 return {
-  config = configure
+  {
+    "echasnovski/mini.sessions",
+    branch = "stable",
+    config = function()
+      require("mini.sessions").setup({
+
+      })
+    end,
+  },
 }
