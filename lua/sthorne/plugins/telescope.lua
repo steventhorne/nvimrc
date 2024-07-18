@@ -16,10 +16,10 @@ return {
       { "nvim-lua/plenary.nvim" },
       { "nvim-telescope/telescope-ui-select.nvim" },
       { "nvim-telescope/telescope-dap.nvim" },
+      { "mfussenegger/nvim-dap" },
     },
     config = function()
       local actions = require("telescope.actions")
-      local actions_set = require("telescope.actions.set")
 
       require("telescope").setup({
         defaults = {
@@ -106,7 +106,6 @@ return {
       })
 
       require("telescope").load_extension("ui-select")
-      require("telescope").load_extension("dap")
       require("telescope").load_extension("fzf")
       require("telescope").load_extension("flutter")
 
