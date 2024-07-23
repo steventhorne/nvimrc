@@ -86,6 +86,7 @@ return {
           },
         },
         sources = cmp.config.sources({
+          { name = "cody" },
           { name = "nvim_lsp" },
           { name = "vsnip" },
           { name = "nvim_lsp_signature_help" },

@@ -53,6 +53,9 @@ vim.cmd([[ au! BufRead,BufNewFile *.tt set filetype=tintin ]])
 
 if vim.fn.has("win32") > 0 then
   vim.opt.shell = "powershell.exe"
+  vim.opt.shellcmdflag = "-command"
+  vim.opt.shellquote = "\""
+  vim.opt.shellxquote = ""
 end
 
 local delete_hidden_buffers = function()
