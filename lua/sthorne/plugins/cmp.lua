@@ -49,7 +49,7 @@ return {
           ["<TAB>"] = function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            elseif check_copilot() then
+            -- elseif check_copilot() then
             elseif vim.fn["vsnip#available"](1) > 0 then
               if vim.fn["vsnip#jumpable"](1) > 0 then
                 vim.fn.feedkeys(string.format("%c%c%c(vsnip-jump-next)", 0x80, 253, 83))
