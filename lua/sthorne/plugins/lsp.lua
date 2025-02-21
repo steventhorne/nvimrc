@@ -90,7 +90,7 @@ return {
         end,
       })
 
-      require("lspconfig").tsserver.setup({
+      require("lspconfig").ts_ls.setup({
         cmd = {
           require("sthorne.utils").get_mason_cmd("typescript-language-server"),
           "--stdio"
