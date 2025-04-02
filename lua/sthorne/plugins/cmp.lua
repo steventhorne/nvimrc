@@ -89,8 +89,8 @@ return {
           { name = "cody" },
           { name = "nvim_lsp" },
           { name = "vsnip" },
-          { name = "nvim_lsp_signature_help" },
           { name = "path" },
+          { name = "nvim_lsp_signature_help" },
         }, {
           { name = "buffer" },
         }),

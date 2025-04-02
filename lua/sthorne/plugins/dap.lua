@@ -23,6 +23,9 @@ return {
         type = "executable",
         command = "node",
         args = { masonPackages.."/node-debug2-adapter/out/src/nodeDebug.js" },
+        options = {
+          detached = vim.fn.has("win32") == 0,
+        }
       }
 
       local js_config = {
@@ -57,6 +60,9 @@ return {
         type = "executable",
         command = utils.get_mason_cmd("netcoredbg"),
         args = { "--interpreter=vscode" },
+        options = {
+          detached = vim.fn.has("win32") == 0,
+        }
       }
 
       local cs_config = {
@@ -84,6 +90,9 @@ return {
           command = utils.get_mason_cmd("dlv"),
           args = {"dap", "-l", "127.0.0.1:${port}"},
         },
+        options = {
+          detached = vim.fn.has("win32") == 0,
+        }
       }
 
       local go_config = {

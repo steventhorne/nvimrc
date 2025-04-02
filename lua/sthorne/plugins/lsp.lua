@@ -234,6 +234,7 @@ return {
       })
 
       vim.diagnostic.config({
+        virtual_lines=true,
         severity_sort=true,
         signs = {
           text = {

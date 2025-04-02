@@ -3,7 +3,7 @@ return {
   config = function()
     require("zen-mode").setup({
       window = {
-        width = .6,
+        width = .7,
       }
     })
     vim.keymap.set("n", "<LEADER>ff", ":ZenMode<CR>", { silent = true })
