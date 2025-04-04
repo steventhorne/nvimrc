@@ -234,7 +234,15 @@ return {
       })
 
       vim.diagnostic.config({
-        virtual_lines=true,
+        virtual_lines= {
+          current_line = false,
+          format = function (diagnostic)
+            if diagnostic.severity ~= vim.diagnostic.severity.ERROR then
+              return nil
+            end
+            return diagnostic.message
+          end,
+        },
         severity_sort=true,
         signs = {
           text = {
