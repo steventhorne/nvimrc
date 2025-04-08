@@ -86,7 +86,7 @@ return {
           },
         },
         sources = cmp.config.sources({
-          { name = "cody" },
+          -- { name = "cody" },
           { name = "nvim_lsp" },
           { name = "vsnip" },
           { name = "path" },
