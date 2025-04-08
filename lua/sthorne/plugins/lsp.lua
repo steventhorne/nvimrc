@@ -191,11 +191,7 @@ return {
 
       require("neodev").setup({})
 
-      require('lspconfig').lua_ls.setup({
-        cmd = {
-          require("sthorne.utils").get_mason_cmd("lua-language-server"),
-        },
-      })
+      require('lspconfig').lua_ls.setup({})
 
       require("lspconfig").gopls.setup({
         cmd = {
