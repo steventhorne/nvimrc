@@ -27,17 +27,17 @@ return {
 
       vim.keymap.set("i", "<C-E>", "<NOP>", { silent = true })
 
-      local function check_copilot()
-        local suggestion = vim.fn["copilot#GetDisplayedSuggestion"]()
-        if suggestion.text ~= "" then
-          local copilot_keys = vim.fn["copilot#Accept"]()
-          if copilot_keys ~= "" then
-            vim.api.nvim_feedkeys(copilot_keys, "i", true)
-            return true
-          end
-        end
-        return false
-      end
+      -- local function check_copilot()
+      --   local suggestion = vim.fn["copilot#GetDisplayedSuggestion"]()
+      --   if suggestion.text ~= "" then
+      --     local copilot_keys = vim.fn["copilot#Accept"]()
+      --     if copilot_keys ~= "" then
+      --       vim.api.nvim_feedkeys(copilot_keys, "i", true)
+      --       return true
+      --     end
+      --   end
+      --   return false
+      -- end
 
       local win_highlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None"
 

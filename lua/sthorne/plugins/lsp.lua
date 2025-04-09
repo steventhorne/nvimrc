@@ -211,7 +211,7 @@ return {
               group = au_format_on_save,
               buffer = bufnr,
               callback = function()
-                local params = vim.lsp.util.make_range_params()
+                local params = vim.lsp.util.make_range_params(0, 'utf-8')
                 params.context = {only = {"source.organizeImports"}}
                 local result = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params, 3000)
                 for cid, res in pairs(result or {}) do
@@ -277,10 +277,10 @@ return {
       vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { silent = true })
 
       vim.keymap.set("n", "<LEADER>dh", vim.diagnostic.open_float, { silent = true })
-      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { silent = true })
-      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { silent = true })
-      vim.keymap.set("n", "]D", function() vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
-      vim.keymap.set("n", "[D", function() vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
+      vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count=1, float=true }) end, { silent = true })
+      vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count=-1, float=true }) end, { silent = true })
+      vim.keymap.set("n", "]D", function() vim.diagnostic.jump({ count=1, float=true, severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
+      vim.keymap.set("n", "[D", function() vim.diagnostic.jump({ count=-1, float=true, severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
     end,
   },
 }

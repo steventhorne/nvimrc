@@ -11,7 +11,7 @@ local function draw()
   local tab_pages = vim.api.nvim_list_tabpages()
   local selected_tabnr = vim.api.nvim_get_current_tabpage()
   -- loop through tab_pages
-  for tabi, tabnr in ipairs(tab_pages) do
+  for _, tabnr in ipairs(tab_pages) do
     if tabnr == selected_tabnr then
       s = s .. "%#TabLineSelAccent# %#TabLineSel#"
     else

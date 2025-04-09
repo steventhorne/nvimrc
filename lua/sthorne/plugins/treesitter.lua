@@ -28,14 +28,6 @@ return {
         },
       })
 
-      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      parser_config.tintin = {
-        install_info = {
-          url = "https://github.com/steventhorne/tree-sitter-tintin.git",
-          files = { "src/parser.c" },
-        },
-      }
-
       vim.opt.foldmethod = "expr"
       vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
       vim.opt.foldenable = false

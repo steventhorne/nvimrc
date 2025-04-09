@@ -14,7 +14,6 @@ return {
       require("dapui").setup({})
 
       local masonPackages = vim.fn.stdpath("data").."/mason/packages"
-      local masonBin = vim.fn.stdpath("data").."/mason/bin"
       local dap = require("dap")
       local utils = require("sthorne.utils")
 

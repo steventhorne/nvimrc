@@ -61,14 +61,14 @@ end
 local delete_hidden_buffers = function()
   local bufs = vim.api.nvim_list_bufs()
   local closed = 0
-  for i,v in ipairs(bufs) do
+  for _,v in ipairs(bufs) do
     local info = vim.fn.getbufinfo(v)
     if info ~= nil then
       info = info[1]
     end
     if vim.fn.bufexists(v) and next(vim.fn.win_findbuf(v)) == nil and (info == nil or info.changed == 0) then
       vim.cmd.bwipeout({ count = v })
-      if info.listed == 1 then
+      if info ~= nil and info.listed == 1 then
         closed = closed + 1
       end
     end
