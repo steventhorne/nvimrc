@@ -36,66 +36,6 @@ vim.keymap.set("!", "JK", "<ESC>", { silent = true })
 vim.keymap.set("!", "KJ", "<ESC>", { silent = true })
 
 vim.cmd([[
-  function! ToggleTerminal()
-    let termname = "terminal_bottom"
-    let pane = bufwinnr(termname)
-    let curpane = winnr()
-    let buf = bufexists(termname)
-    if pane > 0
-      if pane == curpane
-        :exe pane . "wincmd c"
-      else
-        :exe pane . "wincmd w"
-      endif
-    elseif buf > 0
-      :exe "bot sp"
-      :exe "buffer " . termname
-      call feedkeys("10\<C-W>_")
-    else
-      :exe "bot split"
-      :terminal
-      :exe "f " termname
-      set nobuflisted
-      call feedkeys("10\<C-W>_")
-    endif
-  endfunction
-]])
-
-vim.cmd([[
-  function! ToggleTerminalSize()
-    let termname = "terminal_bottom"
-    let pane = bufwinnr(termname)
-    let curpane = winnr()
-    if pane > 0
-      if pane != curpane
-        :exe pane . "wincmd w"
-      endif
-      let termsize = "normal"
-      if exists("w:term_size")
-        let termsize = w:term_size
-      endif
-      if termsize == "normal"
-        call feedkeys("\<C-W>_")
-        let termsize = "full"
-      else
-        call feedkeys("10\<C-W>_")
-        let termsize = "normal"
-      endif
-      let w:term_size = termsize
-    endif
-  endfunction
-]])
-
-vim.api.nvim_create_autocmd("TermOpen", {
-  group = vim.api.nvim_create_augroup("custom-term-open", {}),
-  callback = function()
-    vim.opt_local.number = false
-    vim.opt_local.relativenumber = false
-    vim.opt_local.scrolloff = 0
-  end,
-})
-
-vim.cmd([[
   function! RemoveQFItem()
     let curqfidx = line('.') - 1
     let qfall = getqflist()
@@ -109,8 +49,6 @@ vim.cmd([[
 ]])
 
 -- terminal mappings
-vim.keymap.set("", "<LEADER>;", ":call ToggleTerminal()<CR>", { silent = true })
-vim.keymap.set("", "<LEADER>:", ":call ToggleTerminalSize()<CR>", { silent = true })
 vim.keymap.set("t", "<ESC>", "<C-\\><C-N>", { silent = true })
 vim.keymap.set("t", "jj", "<C-\\><C-N>", { silent = true })
 vim.keymap.set("t", "JJ", "<C-\\><C-N>", { silent = true })

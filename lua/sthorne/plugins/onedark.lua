@@ -37,6 +37,8 @@ return {
           ["TabLineSelAccent"] = { fg = "$bg1", bg = "$blue" },
           ["TabLineFill"] = { bg = "$bg0" },
           ["TabLineSel"] = { fg = "$fg", bg = "$bg3", fmt = "bold" },
+          ["NormalFloat"] = { fg = "$fg", bg = "$bg0" },
+          ["FloatBorder"] = { fg = "$cyan", bg = "$bg0" },
         },
 
         code_style = {
