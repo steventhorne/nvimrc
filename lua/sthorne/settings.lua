@@ -66,7 +66,7 @@ local delete_hidden_buffers = function()
     if info ~= nil then
       info = info[1]
     end
-    if vim.fn.bufexists(v) and next(vim.fn.win_findbuf(v)) == nil and (info == nil or info.changed == 0) then
+    if vim.fn.bufexists(v) and next(vim.fn.win_findbuf(v)) == nil and (info == nil or (info.changed == 0 and info.listed == 1)) then
       vim.cmd.bwipeout({ count = v })
       if info ~= nil and info.listed == 1 then
         closed = closed + 1
@@ -78,6 +78,3 @@ end
 
 -- delete all but visible buffers
 vim.api.nvim_create_user_command("Fresh", delete_hidden_buffers, {})
-
--- delete all but current buffer
--- vim.api.nvim_create_user_command("Fresh", "%bd|e#|bd#|'\"", {})
