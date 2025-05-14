@@ -7,11 +7,11 @@ local state = {
 
 local function create_floating_window(opts)
   opts = opts or {}
-  local width = opts.width or math.floor(vim.o.columns * 0.8)
-  local height = opts.height or math.floor(vim.o.lines * 0.8)
+  local width = opts.width or vim.o.columns - 6;
+  local height = opts.height or vim.o.lines - 6;
 
-  local col = math.floor((vim.o.columns - width) / 2)
-  local row = math.floor((vim.o.lines - height) / 2)
+  local col = 2;
+  local row = 2;
 
   local buf = nil
   if vim.api.nvim_buf_is_valid(opts.buf) then
@@ -28,6 +28,7 @@ local function create_floating_window(opts)
     row = row,
     style = "minimal",
     border = "rounded",
+    title = vim.opt.shell._value
   }
 
   local win = vim.api.nvim_open_win(buf, true, win_config)
@@ -42,6 +43,7 @@ local toggleTerminal = function(opts)
     if vim.bo[state.floating.buf].buftype ~= "terminal" then
       vim.cmd.term()
       vim.api.nvim_command("set nobuflisted")
+      vim.api.nvim_buf_set_keymap(state.floating.buf, "n", "q", ":q<CR>", {})
     end
   else
     vim.api.nvim_win_hide(state.floating.win)
