@@ -20,6 +20,7 @@ return {
     },
     config = function()
       local actions = require("telescope.actions")
+      local add_to_trouble = require("trouble.sources.telescope").add
 
       require("telescope").setup({
         defaults = {
@@ -40,9 +41,11 @@ return {
           mappings = {
             n = {
               ["q"] = require("telescope.actions").close,
+              ["<c-t>"] = add_to_trouble,
             },
             i = {
               ["<esc>"] = require("telescope.actions").close,
+              ["<c-t>"] = add_to_trouble,
             }
           },
         },
