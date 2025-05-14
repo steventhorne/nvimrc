@@ -53,9 +53,8 @@ return {
       vim.api.nvim_create_autocmd("FileType", {
         group = au_lsp,
         pattern = angularls_filetypes,
-        callback = function(au_args)
+        callback = function()
           local utils = require("sthorne.utils")
-          vim.keymap.set("n", "<LEADER>lf", ":Format", { buffer = au_args.buf, silent = true })
 
           if vim.fn.expand("%:e") == ".cshtml" then
             return
