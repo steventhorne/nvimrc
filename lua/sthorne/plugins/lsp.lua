@@ -6,7 +6,7 @@ return {
       { "folke/neodev.nvim" },
     },
     config = function()
-      -- vim.lsp.set_log_level("debug")
+      vim.lsp.set_log_level("debug")
 
       local default_capabilities = require("cmp_nvim_lsp").default_capabilities({
         textDocument = {
@@ -78,17 +78,17 @@ return {
 
       ---@diagnostic disable-next-line: missing-fields
       require("neodev").setup({})
+      require("lspconfig").lua_ls.setup({})
 
       vim.lsp.enable("ts_ls")
       vim.lsp.enable("html")
       vim.lsp.enable("cssls")
       vim.lsp.enable("svelte")
-      vim.lsp.enable("astro")
+      -- disabled due to conflicts with other project types
+      -- enable manually in an astro project
+      -- vim.lsp.enable("astro")
       vim.lsp.enable("omnisharp")
       vim.lsp.enable("gopls")
-      vim.lsp.enable("basedpyright")
-      vim.lsp.enable("ruff")
-      vim.lsp.enable("lua_ls")
 
       vim.diagnostic.config({
         virtual_lines= {

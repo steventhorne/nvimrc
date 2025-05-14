@@ -28,11 +28,20 @@ if is_windows then
   table.insert(disabled_plugins, "man")
 end
 
+local dev_path = "~/documents"
+if is_windows then
+  dev_path = "C:\\Users\\Steven\\Documents\\Projects"
+end
+
 require("lazy").setup({
   ui = { border = "rounded" },
   change_detection = { notify = false },
   rocks = { enabled = false },
   spec = { { import = "sthorne/plugins" }, },
   install = { colorscheme = { "onedark" } },
-  performance = { rtp = { disabled_plugins = disabled_plugins } }
+  performance = { rtp = { disabled_plugins = disabled_plugins } },
+  dev = {
+    path = dev_path,
+    patterns = { "steventhorne" },
+  }
 })
