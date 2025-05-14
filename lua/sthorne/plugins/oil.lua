@@ -12,6 +12,9 @@ return {
           ["<C-x>"] = "actions.select_split",
           ["<C-s>"] = false,
           ["<C-v>"] = "actions.select_vsplit",
+          ["q"] = { "actions.close", mode = "n" },
+          ["<C-c>"] = false,
+          ["<C-l>"] = false,
         },
         skip_confirm_for_simple_edits = true,
         view_options = {
