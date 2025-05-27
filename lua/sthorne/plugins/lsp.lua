@@ -129,20 +129,20 @@ return {
         },
       })
 
-      vim.keymap.set("n", "K", function() vim.lsp.buf.hover({border="rounded"}) end, { silent = true })
-      vim.keymap.set("n", "<LEADER>ld", ":Telescope lsp_definitions<CR>", { silent = true })
-      vim.keymap.set("n", "<LEADER>lr", ":Telescope lsp_references<CR>", { silent = true })
-      vim.keymap.set("n", "<LEADER>li", ":Telescope lsp_implementations<CR>", { silent = true })
-      vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { silent = true })
-      vim.keymap.set("n", "<LEADER>ls", vim.lsp.buf.signature_help, { silent = true })
-      vim.keymap.set("n", "<LEADER>lf", vim.lsp.buf.format, { silent = true })
-      vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { silent = true })
+      vim.keymap.set("n", "K", function() vim.lsp.buf.hover({border="rounded"}) end, { desc = "LSP hover", silent = true })
+      vim.keymap.set("n", "<LEADER>ld", ":Telescope lsp_definitions<CR>", { desc = "LSP definitions", silent = true })
+      vim.keymap.set("n", "<LEADER>lr", ":Telescope lsp_references<CR>", { desc = "LSP references", silent = true })
+      vim.keymap.set("n", "<LEADER>li", ":Telescope lsp_implementations<CR>", { desc = "LSP implementations", silent = true })
+      vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { desc = "LSP rename", silent = true })
+      vim.keymap.set("n", "<LEADER>ls", vim.lsp.buf.signature_help, { desc = "LSP signature help", silent = true })
+      vim.keymap.set("n", "<LEADER>lf", vim.lsp.buf.format, { desc = "LSP format", silent = true })
+      vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { desc = "LSP code actions", silent = true })
 
-      vim.keymap.set("n", "<LEADER>dh", vim.diagnostic.open_float, { silent = true })
-      vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count=1, float=true }) end, { silent = true })
-      vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count=-1, float=true }) end, { silent = true })
-      vim.keymap.set("n", "]D", function() vim.diagnostic.jump({ count=1, float=true, severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
-      vim.keymap.set("n", "[D", function() vim.diagnostic.jump({ count=-1, float=true, severity = { min = vim.diagnostic.severity.ERROR } }) end, { silent = true })
+      vim.keymap.set("n", "<LEADER>dh", vim.diagnostic.open_float, { desc = "Diagnostic Hover", silent = true })
+      vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count=1, float=true }) end, { desc = "Next Diagnostic", silent = true })
+      vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count=-1, float=true }) end, { desc = "Prev Diagnostic", silent = true })
+      vim.keymap.set("n", "]D", function() vim.diagnostic.jump({ count=1, float=true, severity = { min = vim.diagnostic.severity.ERROR } }) end, { desc = "Next Diagnostic Error", silent = true })
+      vim.keymap.set("n", "[D", function() vim.diagnostic.jump({ count=-1, float=true, severity = { min = vim.diagnostic.severity.ERROR } }) end, { desc = "Prev Diagnostic Error", silent = true })
     end,
   },
 }

@@ -50,4 +50,4 @@ local toggleTerminal = function(opts)
   end
 end
 
-vim.keymap.set("n", "<LEADER>;", toggleTerminal)
+vim.keymap.set("n", "<LEADER>;", toggleTerminal, { desc = "Toggle Terminal" })
