@@ -23,6 +23,10 @@ vim.keymap.set("n", "<C-U>", "<C-U>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "n", "nzzzv", { noremap = true, silent = true })
 vim.keymap.set("n", "N", "Nzzzv", { noremap = true, silent = true })
 
+-- tab mappings
+vim.keymap.set("n", "<LEADER>tn", ":tabnew<CR>", { silent = true })
+vim.keymap.set("n", "<LEADER>tc", ":tabclose<CR>", { silent = true })
+
 -- clear search highlighting
 vim.keymap.set("", "<LEADER><CR>", ":noh<CR>", { silent = true })
 
