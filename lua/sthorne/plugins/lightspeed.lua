@@ -1,5 +1,0 @@
-return {
-  {
-    "ggandor/lightspeed.nvim",
-  },
-}

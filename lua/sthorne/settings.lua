@@ -56,6 +56,10 @@ if vim.fn.has("win32") > 0 then
   vim.opt.shellcmdflag = "-command"
   vim.opt.shellquote = "\""
   vim.opt.shellxquote = ""
+  vim.opt.shellslash = false
+  vim.defer_fn(function()
+    vim.opt.shellslash = false
+  end, 5000)
 end
 
 local delete_hidden_buffers = function()

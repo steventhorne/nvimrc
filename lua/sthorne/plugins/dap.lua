@@ -18,66 +18,74 @@ return {
       local utils = require("sthorne.utils")
 
       -- node
-      local node2_adapter = {
-        type = "executable",
-        command = "node",
-        args = { masonPackages.."/node-debug2-adapter/out/src/nodeDebug.js" },
-        options = {
-          detached = vim.fn.has("win32") == 0,
+      local js_adapter = {
+        type = "server",
+        host = "127.0.0.1",
+        port = "${port}",
+        executable = {
+          command = "node",
+          args = { masonPackages.."/js-debug-adapter/js-debug/src/dapDebugServer.js", "${port}", "127.0.0.1" },
         }
       }
 
       local js_config = {
         {
-          name = "Attach to 9229",
-          type = "node2",
+          type = "pwa-node",
           request = "attach",
+          name = "Attach",
+          port = function()
+            local co = coroutine.running()
+            return coroutine.create(function()
+              vim.ui.input({
+                prompt = "Attach to port: ",
+                default = 9229,
+              }, function(port)
+                if port == nil or port == 0 then
+                  return
+                else
+                  coroutine.resume(co, port)
+                end
+              end)
+            end)
+          end,
           restart = true,
-          port = 9229,
         },
         {
-          name = "Attach to 9228",
-          type = "node2",
-          request = "attach",
-          restart = true,
-          port = 9228,
-        },
-        {
-          name = "Launch",
-          type = "node2",
+          type = "pwa-node",
           request = "launch",
+          name = "Launch",
           program = "${file}",
-          cwd = vim.fn.getcwd(),
-          sourceMaps = true,
-          protocol = "inspector",
-          console = "integratedTerminal",
+          cwd = "${workspaceFolder}",
         },
       }
 
       -- .NET
-      local coreclr_adapter = {
+      local netcoredbg_adapter = {
         type = "executable",
         command = utils.get_mason_cmd("netcoredbg"),
         args = { "--interpreter=vscode" },
         options = {
-          detached = vim.fn.has("win32") == 0,
+          detached = false,
         }
       }
 
       local cs_config = {
         {
-          name = "Attach to .NET Core",
-          type = "coreclr",
+          name = "Attach to .NET",
+          type = "netcoredbg",
           request = "attach",
-          processId = require("dap.utils").pick_process,
+          processId = "${command:pickProcess}",
+          cwd = "${workspaceFolder}"
         },
         {
-          type = "coreclr",
-          name = "Launch .NET Core",
+          type = "netcoredbg",
+          name = "Launch .NET",
           request = "launch",
+          ---@diagnostic disable-next-line: redundant-parameter
           program = function()
             return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
           end,
+          cwd = "${workspaceFolder}",
         },
       }
 
@@ -103,8 +111,9 @@ return {
         },
       }
 
-      dap.adapters.node2 = node2_adapter
-      dap.adapters.coreclr = coreclr_adapter
+      dap.adapters["pwa-node"] = js_adapter
+      dap.adapters["node-terminal"] = js_adapter
+      dap.adapters.netcoredbg = netcoredbg_adapter
       dap.adapters.go = go_adapter
 
       dap.configurations.javascript = js_config

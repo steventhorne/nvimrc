@@ -6,7 +6,7 @@ return {
       { "nvim-lua/plenary.nvim" },
     },
     config = function()
-      require("hardtime").setup()
+      require("hardtime").setup({})
       vim.api.nvim_set_keymap("n", "<leader>ht", "<cmd>lua require('hardtime').toggle()<cr>", { noremap = true, silent = true })
     end,
   },

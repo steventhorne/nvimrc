@@ -1,4 +1,17 @@
 {
+  "TryCatch": {
+    "prefix": ["try"],
+    "body": [
+      "try",
+      "{",
+      "\t$0",
+      "}",
+      "catch($1)",
+      "{",
+      "}"
+    ],
+    "description": "try catch template."
+  },
   "DataMember": {
     "prefix": ["datamember", "dm"],
     "body": [
