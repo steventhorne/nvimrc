@@ -33,10 +33,10 @@ return {
           ["CmpItemKindFile"] = { fg = "$blue", fmt = "bold" },
           ["CmpItemKindFolder"] = { fg = "$blue", fmt = "bold" },
           -- tabs
-          ["TabLine"] = { fg = "$fg", bg = "$bg1" },
+          ["TabLine"] = { fg = "$fg", bg = "$bg3" },
           ["TabLineSelAccent"] = { fg = "$bg1", bg = "$blue" },
-          ["TabLineFill"] = { bg = "$bg0" },
-          ["TabLineSel"] = { fg = "$fg", bg = "$bg3", fmt = "bold" },
+          ["TabLineFill"] = { bg = "$bg3" },
+          ["TabLineSel"] = { fg = "$fg", bg = "$bg0", fmt = "bold" },
           ["NormalFloat"] = { fg = "$fg", bg = "$bg0" },
           ["FloatBorder"] = { fg = "$cyan", bg = "$bg0" },
         },
