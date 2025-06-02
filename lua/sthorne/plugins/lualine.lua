@@ -9,6 +9,7 @@ return {
       local highlight = require("lualine.highlight")
       local dap = require("dap")
       local attached = false
+      local stopped = false
 
       dap.listeners.after["event_initialized"]["me"] = function()
         attached = true
@@ -16,6 +17,20 @@ return {
 
       dap.listeners.after["event_terminated"]["me"] = function()
         attached = false
+        stopped = false
+      end
+
+      dap.listeners.after["event_exited"]["me"] = function()
+        attached = false
+        stopped = false
+      end
+
+      dap.listeners.after["event_stopped"]["me"] = function()
+        stopped = true
+      end
+
+      dap.listeners.after["event_continued"]["me"] = function()
+        stopped = false
       end
 
       function custom_fname:init(options)
@@ -41,6 +56,9 @@ return {
         end
         if attached then
           status = status .. " (Attached)"
+        end
+        if stopped then
+          status = status .. " (Stopped)"
         end
         return status
       end
