@@ -2,22 +2,40 @@ return {
   {
     "navarasu/onedark.nvim",
     config = function()
+      local au_onedark = vim.api.nvim_create_augroup("OneDark", { clear = true })
+      vim.api.nvim_create_autocmd("ModeChanged", {
+        group = au_onedark,
+        pattern = "*:*",
+        callback = function()
+          local mode = vim.api.nvim_get_mode().mode
+          local cp_hl
+
+          if mode == "i" then
+            cp_hl = vim.api.nvim_get_hl(0, { name = "InsertMode" })
+          elseif mode == "v" or mode == "V" then
+            cp_hl = vim.api.nvim_get_hl(0, { name = "VisualMode" })
+          elseif mode == "c" then
+            cp_hl = vim.api.nvim_get_hl(0, { name = "CommandMode" })
+          elseif mode == "s" then
+            cp_hl = vim.api.nvim_get_hl(0, { name = "SelectMode" })
+          elseif mode == "R" then
+            cp_hl = vim.api.nvim_get_hl(0, { name = "ReplaceMode" })
+          elseif mode == "t" then
+            cp_hl = vim.api.nvim_get_hl(0, { name = "TermMode" })
+          else
+            cp_hl = vim.api.nvim_get_hl(0, { name = "NormalMode" })
+          end
+
+          vim.api.nvim_set_hl(0, "CursorLineNr", cp_hl)
+        end
+      })
       require("onedark").setup({
         style = "darker",
-
-        -- colors = {
-        --   bg_search = "$bg_visual",
-        --   git = {
-        --     add = colors.green0,
-        --     change = colors.orange1,
-        --     delete = colors.red1,
-        --   }
-        -- },
 
         highlights = {
           -- general
           ["Title"] = { fg = "$red", fmt = "bold" },
-          ["CursorLineNr"] = { fg = "#a0a8b7", fmt = "bold" },
+          ["CursorLineNr"] = { fg = "$green", fmt = "bold" },
           -- modes
           ["NormalMode"] = { fg = "$green", fmt = "bold" },
           ["InsertMode"] = { fg = "$blue", fmt = "bold" },
