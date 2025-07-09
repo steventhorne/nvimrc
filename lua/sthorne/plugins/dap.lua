@@ -131,7 +131,7 @@ return {
       vim.keymap.set("n", "<F7>", "<CMD>lua require(\"sthorne.utils.dap\").toggle_hover()<CR>", { silent = true })
       vim.keymap.set("n", "<F9>", "<CMD>lua require(\"dap\").toggle_breakpoint()<CR>", { silent = true })
       vim.keymap.set("n", "<S-F9>", "<CMD>lua require(\"dap\").clear_breakpoints()<CR>", { silent = true })
-      vim.keymap.set("n", "<C-F9>", "<CMD>lua require(\"dap\").list_breakpoints()<CR>", { silent = true })
+      vim.keymap.set("n", "<C-F9>", "<CMD>lua vim.ui.input({prompt='Breakpoint Condition: '}, function(condition) require('dap').toggle_breakpoint(condition) end)<CR>", { silent = true })
       vim.keymap.set("n", "<F10>", "<CMD>lua require(\"dap\").step_over()<CR>", { silent = true })
       vim.keymap.set("n", "<F11>", "<CMD>lua require(\"dap\").step_into()<CR>", { silent = true })
       vim.keymap.set("n", "<F12>", "<CMD>lua require(\"dap\").step_out()<CR>", { silent = true })
