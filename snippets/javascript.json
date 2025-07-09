@@ -1,0 +1,15 @@
+{
+  "Express Route": {
+    "prefix": ["route"],
+    "body": [
+      "router.$1(\"/$2\", async function (req, res, next) {",
+      "\ttry {",
+      "\t\t$0",
+      "\t} catch (error) {",
+      "\t\treturn next(error);",
+      "\t}",
+      "});"
+    ],
+    "description": "Express route template."
+  }
+}

@@ -10,7 +10,7 @@
       "{",
       "}"
     ],
-    "description": "try catch template."
+    "description": "Try catch template."
   },
   "DataMember": {
     "prefix": ["datamember", "dm"],
