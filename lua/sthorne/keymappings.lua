@@ -22,6 +22,7 @@ vim.keymap.set("n", "<C-D>", "<C-D>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-U>", "<C-U>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "n", "nzzzv", { noremap = true, silent = true })
 vim.keymap.set("n", "N", "Nzzzv", { noremap = true, silent = true })
+vim.keymap.set("n", "<LEADER><LEADER>", "<C-^>", { silent = true })
 
 -- tab mappings
 vim.keymap.set("n", "<LEADER>tn", ":tabnew<CR>", { silent = true })
@@ -39,6 +40,9 @@ vim.keymap.set("!", "kj", "<ESC>", { silent = true })
 vim.keymap.set("!", "JK", "<ESC>", { silent = true })
 vim.keymap.set("!", "KJ", "<ESC>", { silent = true })
 
+-- save mappings
+vim.keymap.set("n", "<LEADER>w", ":w<CR>", { silent = true })
+
 vim.cmd([[
   function! RemoveQFItem()
     let curqfidx = line('.') - 1
@@ -54,8 +58,6 @@ vim.cmd([[
 
 -- terminal mappings
 vim.keymap.set("t", "<ESC>", "<C-\\><C-N>", { silent = true })
-vim.keymap.set("t", "jj", "<C-\\><C-N>", { silent = true })
-vim.keymap.set("t", "JJ", "<C-\\><C-N>", { silent = true })
 vim.keymap.set("t", "jk", "<C-\\><C-N>", { silent = true })
 vim.keymap.set("t", "kj", "<C-\\><C-N>", { silent = true })
 vim.keymap.set("t", "JK", "<C-\\><C-N>", { silent = true })

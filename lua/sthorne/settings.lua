@@ -81,4 +81,5 @@ local delete_hidden_buffers = function()
 end
 
 -- delete all but visible buffers
+vim.api.nvim_create_user_command("F", delete_hidden_buffers, {})
 vim.api.nvim_create_user_command("Fresh", delete_hidden_buffers, {})

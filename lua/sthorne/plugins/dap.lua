@@ -122,11 +122,12 @@ return {
       dap.configurations.go = go_config
 
       vim.fn.sign_define("DapBreakpoint", { text="", texthl="DiagnosticError", linehl="DiagnosticVirtualTextError", numhl="" })
-      vim.fn.sign_define("DapBreakpointCondition", { text="", texthl="DiagnosticError", linehl="DiagnosticVirtualTextError", numhl="" })
+      vim.fn.sign_define("DapBreakpointCondition", { text="", texthl="DiagnosticError", linehl="DiagnosticVirtualTextError", numhl="" })
       vim.fn.sign_define("DapBreakpointRejected", { text="", texthl="DiagnosticError", linehl="", numhl="" })
       vim.fn.sign_define("DapStopped", { text="", texthl="DiagnosticError", linehl="DiagnosticVirtualTextWarn", numhl="" })
 
       vim.keymap.set("n", "<F5>", "<CMD>lua require(\"dap\").continue()<CR>", { silent = true })
+      vim.keymap.set("n", "<S-F5>", "<CMD>lua require(\"dap\").run_to_cursor()<CR>", { silent = true })
       vim.keymap.set("n", "<F6>",  "<CMD>lua require(\"dapui\").toggle()<CR>", { silent = true })
       vim.keymap.set("n", "<F7>", "<CMD>lua require(\"sthorne.utils.dap\").toggle_hover()<CR>", { silent = true })
       vim.keymap.set("n", "<F9>", "<CMD>lua require(\"dap\").toggle_breakpoint()<CR>", { silent = true })
