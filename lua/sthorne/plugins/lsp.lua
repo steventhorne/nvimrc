@@ -6,7 +6,7 @@ return {
       { "folke/neodev.nvim" },
     },
     config = function()
-      vim.lsp.set_log_level("debug")
+      -- vim.lsp.set_log_level("debug")
 
       local default_capabilities = require("cmp_nvim_lsp").default_capabilities({
         textDocument = {
