@@ -78,7 +78,10 @@ return {
           lualine_b = {
             'branch',
             'diff',
-            'diagnostics',
+            {
+              'diagnostics',
+              sections = { 'error', 'warn' },
+            },
           },
           lualine_c = {
             {

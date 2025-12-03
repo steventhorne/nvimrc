@@ -123,7 +123,22 @@ return {
           end,
         },
         severity_sort=true,
+        virtual_text = {
+          severity = { min = vim.diagnostic.severity.ERROR },
+        },
+        underline = {
+          severity = {
+            vim.diagnostic.severity.ERROR,
+            vim.diagnostic.severity.WARN,
+            vim.diagnostic.severity.HINT,
+          },
+        },
         signs = {
+          severity = {
+            vim.diagnostic.severity.ERROR,
+            vim.diagnostic.severity.WARN,
+            vim.diagnostic.severity.HINT,
+          },
           text = {
             [vim.diagnostic.severity.ERROR] = "",
             [vim.diagnostic.severity.WARN] = "",
@@ -161,10 +176,10 @@ return {
       vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { desc = "LSP code actions", silent = true })
 
       vim.keymap.set("n", "<LEADER>dh", vim.diagnostic.open_float, { desc = "Diagnostic Hover", silent = true })
-      vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count=1, float=true }) end, { desc = "Next Diagnostic", silent = true })
-      vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count=-1, float=true }) end, { desc = "Prev Diagnostic", silent = true })
-      vim.keymap.set("n", "]D", function() vim.diagnostic.jump({ count=1, float=true, severity = { min = vim.diagnostic.severity.ERROR } }) end, { desc = "Next Diagnostic Error", silent = true })
-      vim.keymap.set("n", "[D", function() vim.diagnostic.jump({ count=-1, float=true, severity = { min = vim.diagnostic.severity.ERROR } }) end, { desc = "Prev Diagnostic Error", silent = true })
+      vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count=1, float=true, severity = { min = vim.diagnostic.severity.WARN } }) end, { desc = "Next Diagnostic", silent = true })
+      vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count=-1, float=true, severity = { min = vim.diagnostic.severity.WARN } }) end, { desc = "Prev Diagnostic", silent = true })
+      vim.keymap.set("n", "]D", function() vim.diagnostic.jump({ count=1, float=true }) end, { desc = "Next Diagnostic Error", silent = true })
+      vim.keymap.set("n", "[D", function() vim.diagnostic.jump({ count=-1, float=true }) end, { desc = "Prev Diagnostic Error", silent = true })
     end,
   },
 }
