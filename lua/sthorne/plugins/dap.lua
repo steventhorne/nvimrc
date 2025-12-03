@@ -72,13 +72,13 @@ return {
       local cs_config = {
         {
           name = "Attach to .NET",
-          type = "netcoredbg",
+          type = "coreclr",
           request = "attach",
           processId = "${command:pickProcess}",
           cwd = "${workspaceFolder}"
         },
         {
-          type = "netcoredbg",
+          type = "coreclr",
           name = "Launch .NET",
           request = "launch",
           ---@diagnostic disable-next-line: redundant-parameter
@@ -113,7 +113,7 @@ return {
 
       dap.adapters["pwa-node"] = js_adapter
       dap.adapters["node-terminal"] = js_adapter
-      dap.adapters.netcoredbg = netcoredbg_adapter
+      dap.adapters.coreclr = netcoredbg_adapter
       dap.adapters.go = go_adapter
 
       dap.configurations.javascript = js_config

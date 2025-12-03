@@ -4,6 +4,8 @@ return {
     dependencies = {
       { "simrat39/rust-tools.nvim" },
       { "folke/neodev.nvim" },
+      { "seblyng/roslyn.nvim" },
+      { "tris203/rzls.nvim" },
     },
     config = function()
       -- vim.lsp.set_log_level("debug")
@@ -76,6 +78,27 @@ return {
         end,
       })
 
+      local mason_registry = require("mason-registry")
+
+      local rzls_path = vim.fn.expand("$MASON/packages/rzls/libexec")
+      local roslynCmd = {
+          "roslyn",
+          "--stdio",
+          "--logLevel=Information",
+          "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+          "--razorSourceGenerator=" .. vim.fs.joinpath(rzls_path, "Microsoft.CodeAnalysis.Razor.Compiler.dll"),
+          "--razorDesignTimePath=" .. vim.fs.joinpath(rzls_path, "Targets", "Microsoft.NET.Sdk.Razor.DesignTime.targets"),
+          "--extension",
+          vim.fs.joinpath(rzls_path, "RazorExtension", "Microsoft.VisualStudioCode.RazorExtension.dll"),
+      }
+
+      require("roslyn").setup({
+        cmd = roslynCmd,
+        config = {
+          handlers = require("rzls.roslyn_handlers"),
+        }
+      })
+
       ---@diagnostic disable-next-line: missing-fields
       require("neodev").setup({})
       require("lspconfig").lua_ls.setup({})
@@ -87,7 +110,6 @@ return {
       -- disabled due to conflicts with other project types
       -- enable manually in an astro project
       -- vim.lsp.enable("astro")
-      vim.lsp.enable("omnisharp")
       vim.lsp.enable("gopls")
 
       vim.diagnostic.config({
