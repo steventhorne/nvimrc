@@ -101,8 +101,8 @@ return {
 
       ---@diagnostic disable-next-line: missing-fields
       require("neodev").setup({})
-      require("lspconfig").lua_ls.setup({})
 
+      vim.lsp.enable("lua_ls")
       vim.lsp.enable("ts_ls")
       vim.lsp.enable("html")
       vim.lsp.enable("cssls")
