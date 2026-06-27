@@ -1,6 +1,7 @@
 return {
   {
     "echasnovski/mini.starter",
+    priority = 999,
     branch = "stable",
     config = function()
       local starter = require("mini.starter")

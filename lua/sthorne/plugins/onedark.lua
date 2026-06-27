@@ -1,6 +1,7 @@
 return {
   {
     "navarasu/onedark.nvim",
+    lazy = false,
     priority = 1000,
     config = function()
       local au_onedark = vim.api.nvim_create_augroup("OneDark", { clear = true })

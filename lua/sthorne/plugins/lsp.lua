@@ -80,23 +80,8 @@ return {
 
       local mason_registry = require("mason-registry")
 
-      local rzls_path = vim.fn.expand("$MASON/packages/rzls/libexec")
-      local roslynCmd = {
-          "roslyn",
-          "--stdio",
-          "--logLevel=Information",
-          "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
-          "--razorSourceGenerator=" .. vim.fs.joinpath(rzls_path, "Microsoft.CodeAnalysis.Razor.Compiler.dll"),
-          "--razorDesignTimePath=" .. vim.fs.joinpath(rzls_path, "Targets", "Microsoft.NET.Sdk.Razor.DesignTime.targets"),
-          "--extension",
-          vim.fs.joinpath(rzls_path, "RazorExtension", "Microsoft.VisualStudioCode.RazorExtension.dll"),
-      }
-
       require("roslyn").setup({
-        cmd = roslynCmd,
-        config = {
-          handlers = require("rzls.roslyn_handlers"),
-        }
+        filewatching = "roslyn"
       })
 
       ---@diagnostic disable-next-line: missing-fields
@@ -111,6 +96,8 @@ return {
       -- enable manually in an astro project
       -- vim.lsp.enable("astro")
       vim.lsp.enable("gopls")
+      vim.lsp.enable("clangd")
+      vim.lsp.enable("ols")
 
       vim.diagnostic.config({
         virtual_lines= {

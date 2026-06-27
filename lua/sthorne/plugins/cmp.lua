@@ -27,17 +27,17 @@ return {
 
       vim.keymap.set("i", "<C-E>", "<NOP>", { silent = true })
 
-      -- local function check_copilot()
-      --   local suggestion = vim.fn["copilot#GetDisplayedSuggestion"]()
-      --   if suggestion.text ~= "" then
-      --     local copilot_keys = vim.fn["copilot#Accept"]()
-      --     if copilot_keys ~= "" then
-      --       vim.api.nvim_feedkeys(copilot_keys, "i", true)
-      --       return true
-      --     end
-      --   end
-      --   return false
-      -- end
+      local function check_copilot()
+        local suggestion = vim.fn["copilot#GetDisplayedSuggestion"]()
+        if suggestion.text ~= "" then
+          local copilot_keys = vim.fn["copilot#Accept"]()
+          if copilot_keys ~= "" then
+            vim.api.nvim_feedkeys(copilot_keys, "i", true)
+            return true
+          end
+        end
+        return false
+      end
 
       local win_highlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None"
 
@@ -49,7 +49,6 @@ return {
           ["<TAB>"] = function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            -- elseif check_copilot() then
             elseif vim.fn["vsnip#available"](1) > 0 then
               if vim.fn["vsnip#jumpable"](1) > 0 then
                 vim.fn.feedkeys(string.format("%c%c%c(vsnip-jump-next)", 0x80, 253, 83))
